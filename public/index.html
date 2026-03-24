@@ -6,51 +6,6 @@
     <title>Zelva</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
-
-    <style>
-        body {
-            background-color: #121212;
-            color: #E8F5E9;
-            font-family: Arial, sans-serif;
-        }
-
-        .titulo {
-            text-align: center;
-            margin: 30px;
-            color: #1A5C52;
-        }
-
-        .card {
-            background-color: #1E1E1E;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        input, select, textarea {
-            background-color: #1E1E1E !important;
-            color: #E8F5E9 !important;
-            border: 1px solid #388E3C !important;
-        }
-
-        .btn-main {
-            background-color: #2E7D32;
-            color: white;
-        }
-
-        .btn-main:hover {
-            background-color: #1A5C52;
-        }
-
-        .table {
-            background-color: #1E1E1E;
-            color: #E8F5E9;
-        }
-
-        .table th {
-            background-color: #1A5C52;
-        }
-    </style>
 </head>
 
 <body>
@@ -60,13 +15,13 @@
 <div class="container">
 
     <!-- LOGIN -->
-    <div class="card" id="loginForm">
-        <h4>Login</h4>
-        <input type="email" placeholder="Email" class="form-control mb-2">
-        <input type="password" placeholder="Password" class="form-control mb-2">
-        <button class="btn btn-main">Entrar</button>
-        <button class="btn btn-outline-light">Registrar</button>
-    </div>
+<div class="card" id="loginForm">
+    <h4>Login</h4>
+    <input type="email" id="emailInput" placeholder="Email" class="form-control mb-2">
+    <input type="password" id="passwordInput" placeholder="Password" class="form-control mb-2">
+    <button id="btnLogin" class="btn btn-main">Entrar</button>
+    <button id="btnRegistro" class="btn btn-outline-light">Registrar</button>
+</div>
 
     <!-- PERFIL -->
     <div class="card" id="profileForm">
@@ -184,6 +139,11 @@
     </div>
 
 </div>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 
+<script>
+  // Aquí irá la configuración que pegaremos en el siguiente paso
+</script>
 </body>
 </html>
