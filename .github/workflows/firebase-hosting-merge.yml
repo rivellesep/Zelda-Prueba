@@ -11,7 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npm ci && npm run build
+      
+      # Forzamos el uso de Node 24 para evitar el error de "deprecated"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      # HEMOS QUITADO la línea de "npm ci && npm run build" porque no la necesitas
+      
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
