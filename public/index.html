@@ -6,6 +6,7 @@
   <title>Zelva</title>
   <link rel="icon" type="image/png" href="./images/logo.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -259,12 +260,30 @@
         <p class="forgot" onclick="doForgot()">He oblidat la contrasenya</p>
       </div>
       <div id="form-register" class="hidden">
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Nom *</label>
+            <input type="text" id="regNom" placeholder="El teu nom">
+          </div>
+          <div class="form-group">
+            <label>Cognoms *</label>
+            <input type="text" id="regCognom" placeholder="Els teus cognoms">
+          </div>
+        </div>
         <div class="form-group">
-          <label>Correu electrònic</label>
+          <label>Localitat *</label>
+          <input type="text" id="regLocalitat" placeholder="Ex: Mataró">
+        </div>
+        <div class="form-group">
+          <label>Telèfon</label>
+          <input type="tel" id="regTelefon" placeholder="6XX XXX XXX">
+        </div>
+        <div class="form-group">
+          <label>Correu electrònic *</label>
           <input type="email" id="regEmail" placeholder="hola@exemple.com">
         </div>
         <div class="form-group">
-          <label>Contrasenya</label>
+          <label>Contrasenya *</label>
           <input type="password" id="regPass" placeholder="Mínim 6 caràcters">
         </div>
         <button class="btn btn-primary btn-block" onclick="doRegister()">Crear compte</button>
@@ -372,29 +391,35 @@
     </div>
   </div>
 
-  <!-- CONTACTE -->
-  <div id="page-contacte" class="hidden">
-    <div class="container">
-      <div class="contacte-inner">
-        <h1>Contacta'ns</h1>
-        <p>Tens alguna pregunta o suggeriment? Escriu-nos i t'ajudem.</p>
-        <div class="contact-card">
-          <div class="form-group"><label>Nom</label><input type="text" placeholder="El teu nom"></div>
-          <div class="form-group"><label>Correu electrònic</label><input type="email" placeholder="hola@exemple.com"></div>
-          <div class="form-group">
-            <label>Assumpte</label>
-            <select><option>Problema tècnic</option><option>Suggeriment</option><option>Denunciar anunci</option><option>Altres</option></select>
-          </div>
-          <div class="form-group"><label>Missatge</label><textarea rows="5" placeholder="Explica'ns el teu dubte..."></textarea></div>
-          <button class="btn btn-primary" onclick="alert('Missatge enviat! Gràcies.')">Enviar missatge</button>
-          <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06)">
-            <p style="font-size:13px;color:var(--text-muted)">O contacta'ns directament:</p>
-            <p style="font-size:14px;margin-top:6px">✉️ zelva.marketplace@gmail.com</p>
-          </div>
+<!-- CONTACTE -->
+<div id="page-contacte" class="hidden">
+  <div class="container">
+    <div class="contacte-inner">
+      <h1>Contacta'ns</h1>
+      <p>Tens alguna pregunta o suggeriment? Escriu-nos i t'ajudem.</p>
+      <div class="contact-card">
+        <div id="contacte-alert" class="hidden"></div>
+        <div class="form-group"><label>Nom</label><input type="text" id="c-nom" placeholder="El teu nom"></div>
+        <div class="form-group"><label>Correu electrònic</label><input type="email" id="c-email" placeholder="hola@exemple.com"></div>
+        <div class="form-group">
+          <label>Assumpte</label>
+          <select id="c-assumpte">
+            <option>Problema tècnic</option>
+            <option>Suggeriment</option>
+            <option>Denunciar anunci</option>
+            <option>Altres</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Missatge</label><textarea rows="5" id="c-missatge" placeholder="Explica'ns el teu dubte..."></textarea></div>
+        <button class="btn btn-primary" id="btn-contacte" onclick="enviarContacte()">Enviar missatge</button>
+        <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06)">
+          <p style="font-size:13px;color:var(--text-muted)">O contacta'ns directament:</p>
+          <p style="font-size:14px;margin-top:6px">✉️ zelva.marketplace@gmail.com</p>
         </div>
       </div>
     </div>
   </div>
+</div>
 
   <!-- FOOTER -->
   <footer id="footer" class="hidden">
@@ -496,27 +521,42 @@
     }
 
     function doRegister() {
+      // Recogemos todos los datos del formulario
+      const nom = document.getElementById('regNom').value;
+      const cognom = document.getElementById('regCognom').value;
+      const localitat = document.getElementById('regLocalitat').value;
+      const telefon = document.getElementById('regTelefon').value;
       const email = document.getElementById('regEmail').value;
       const pass  = document.getElementById('regPass').value;
-      if (!email||!pass) return showAlert('Omple tots els camps.');
-      if (pass.length<6) return showAlert('La contrasenya ha de tenir mínim 6 caràcters.');
+
+      // Validamos que los campos obligatorios estén llenos
+      if (!email || !pass || !nom || !cognom || !localitat) {
+        return showAlert('Omple tots els camps obligatoris (*).');
+      }
+      if (pass.length < 6) {
+        return showAlert('La contrasenya ha de tenir mínim 6 caràcters.');
+      }
       
-      firebase.auth().createUserWithEmailAndPassword(email,pass)
+      // Creamos el usuario en Authentication
+      firebase.auth().createUserWithEmailAndPassword(email, pass)
         .then((userCredential) => {
-          // Guardamos el usuario en la base de datos Firestore
+          // Guardamos su perfil extra en Firestore con la estructura de tu diagrama
           return db.collection('usuaris').doc(userCredential.user.uid).set({
-            nom: email.split('@')[0], // Usamos la primera parte del email como nombre temporal
-            cognom: '',
-            localitat: '',
+            nom: nom,
+            cognom: cognom,
+            localitat: localitat,
+            telefon: telefon || null, // El teléfono no es obligatorio
             punts: 0,
             intercanvis_real: 0,
-            telefon: null,
             foto: '',
             data_creacio: firebase.firestore.FieldValue.serverTimestamp(),
             valoracio_mitjana: "0"
+          }).then(() => {
+            // Actualizamos el nombre en el Authentication para que la Navbar lo detecte
+            return userCredential.user.updateProfile({ displayName: nom });
           });
         })
-        .then(() => showAlert('Compte creat!','success'))
+        .then(() => showAlert('Compte creat amb èxit!','success'))
         .catch(e => showAlert(tradError(e.code)));
     }
 
@@ -664,6 +704,48 @@
 
     // obrir primer chat per defecte
     document.querySelector('.chat-item')?.click();
+    emailjs.init('kiFREBpYUFWgQaOAz');
+
+function enviarContacte() {
+  const nom      = document.getElementById('c-nom').value.trim();
+  const email    = document.getElementById('c-email').value.trim();
+  const assumpte = document.getElementById('c-assumpte').value;
+  const missatge = document.getElementById('c-missatge').value.trim();
+  const alertEl  = document.getElementById('contacte-alert');
+  const btn      = document.getElementById('btn-contacte');
+
+  if (!nom || !email || !missatge) {
+    alertEl.className = 'alert alert-error';
+    alertEl.textContent = 'Omple tots els camps obligatoris.';
+    alertEl.classList.remove('hidden');
+    return;
+  }
+
+  btn.textContent = 'Enviant...';
+  btn.disabled = true;
+
+  emailjs.send('service_drvu5mg', 'template_qtkds4p', {
+    from_name: nom,
+    from_email: email,
+    subject: assumpte,
+    message: missatge
+  }).then(() => {
+    alertEl.className = 'alert alert-success';
+    alertEl.textContent = 'Missatge enviat correctament! Et respondrem aviat.';
+    alertEl.classList.remove('hidden');
+    document.getElementById('c-nom').value = '';
+    document.getElementById('c-email').value = '';
+    document.getElementById('c-missatge').value = '';
+    btn.textContent = 'Enviar missatge';
+    btn.disabled = false;
+  }).catch(() => {
+    alertEl.className = 'alert alert-error';
+    alertEl.textContent = 'Error en enviar. Torna-ho a intentar.';
+    alertEl.classList.remove('hidden');
+    btn.textContent = 'Enviar missatge';
+    btn.disabled = false;
+  });
+}
   </script>
 </body>
 </html>
