@@ -424,6 +424,9 @@
 
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
   <script>
     firebase.initializeApp({
       apiKey:"AIzaSyD5nxim_X1c0cVXRji8-k4CkMSDPDH7v0k",
@@ -433,6 +436,8 @@
       messagingSenderId:"876429015791",
       appId:"1:876429015791:web:02770e67c5ce81c335391a"
     });
+
+    const db = firebase.firestore();
 
     const pages = ['landing','login','explorar','perfil','chats','contacte'];
 
@@ -495,7 +500,22 @@
       const pass  = document.getElementById('regPass').value;
       if (!email||!pass) return showAlert('Omple tots els camps.');
       if (pass.length<6) return showAlert('La contrasenya ha de tenir mínim 6 caràcters.');
+      
       firebase.auth().createUserWithEmailAndPassword(email,pass)
+        .then((userCredential) => {
+          // Guardamos el usuario en la base de datos Firestore
+          return db.collection('usuaris').doc(userCredential.user.uid).set({
+            nom: email.split('@')[0], // Usamos la primera parte del email como nombre temporal
+            cognom: '',
+            localitat: '',
+            punts: 0,
+            intercanvis_real: 0,
+            telefon: null,
+            foto: '',
+            data_creacio: firebase.firestore.FieldValue.serverTimestamp(),
+            valoracio_mitjana: "0"
+          });
+        })
         .then(() => showAlert('Compte creat!','success'))
         .catch(e => showAlert(tradError(e.code)));
     }
@@ -503,6 +523,26 @@
     function doGoogleLogin() {
       const provider = new firebase.auth.GoogleAuthProvider();
       firebase.auth().signInWithPopup(provider)
+        .then((result) => {
+          const userRef = db.collection('usuaris').doc(result.user.uid);
+          // Comprobamos si el usuario ya existe en Firestore
+          userRef.get().then((doc) => {
+            if (!doc.exists) {
+              // Si no existe, lo creamos con los datos de Google
+              userRef.set({
+                nom: result.user.displayName || result.user.email.split('@')[0],
+                cognom: '',
+                localitat: '',
+                punts: 0,
+                intercanvis_real: 0,
+                telefon: null,
+                foto: result.user.photoURL || '',
+                data_creacio: firebase.firestore.FieldValue.serverTimestamp(),
+                valoracio_mitjana: "0"
+              });
+            }
+          });
+        })
         .catch(e => showAlert(tradError(e.code)));
     }
 
