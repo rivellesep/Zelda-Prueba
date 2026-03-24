@@ -190,8 +190,7 @@
   <!-- NAV logat -->
   <nav id="navbar" class="hidden">
     <div class="logo" onclick="navigate('explorar')">
-      <div class="logo-icon">Z</div>
-      <span class="logo-text">Zel<span>va</span></span>
+      <img src="./images/IMG_20260323_170426 (3).png" width="100">
     </div>
     <ul class="nav-links">
       <li><a onclick="navigate('explorar')" id="nav-explorar">Explorar</a></li>
@@ -725,7 +724,7 @@ function enviarContacte() {
   btn.disabled = true;
 
   emailjs.send('service_drvu5mg', 'template_qtkds4p', {
-     name: nom,
+   name: nom,
   email: email,
   title: assumpte,
   message: missatge
