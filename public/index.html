@@ -1,149 +1,184 @@
 <!DOCTYPE html>
 <html lang="ca">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zelva</title>
+    <link rel="icon" type="image/png" href="./images/logo.png">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background-color: #f4f7f6;
+            padding-top: 20px;
+        }
+
+        .card {
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .titulo {
+            text-align: center;
+            color: #2d5a27;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .btn-main {
+            background-color: #2d5a27;
+            color: white;
+        }
+
+        .btn-main:hover {
+            background-color: #1e3d1a;
+            color: white;
+        }
+
+        #profileForm {
+            display: none;
+        }
+
+        /* Oculto hasta que el usuario haga login */
+    </style>
 </head>
 
 <body>
 
-<h1 class="titulo">Zelva Marketplace</h1>
+    <h1 class="titulo">Zelva Marketplace</h1>
 
-<div class="container">
+    <div class="container">
 
-    <!-- LOGIN -->
-<div class="card" id="loginForm">
-    <h4>Login</h4>
-    <input type="email" id="emailInput" placeholder="Email" class="form-control mb-2">
-    <input type="password" id="passwordInput" placeholder="Password" class="form-control mb-2">
-    <button id="btnLogin" class="btn btn-main">Entrar</button>
-    <button id="btnRegistro" class="btn btn-outline-light">Registrar</button>
-</div>
+        <div class="card" id="loginForm">
+            <h4>Accés a Zelva</h4>
+            <input type="email" id="emailInput" placeholder="Email" class="form-control mb-2">
+            <input type="password" id="passwordInput" placeholder="Contrasenya (mín. 6 caràcters)"
+                class="form-control mb-2">
+            <button id="btnLogin" class="btn btn-main w-100 mb-2">Entrar</button>
+            <button id="btnRegistro" class="btn btn-outline-secondary w-100">Registrar-se</button>
+        </div>
 
-    <!-- PERFIL -->
-    <div class="card" id="profileForm">
-        <h4>Perfil</h4>
-        <input type="text" placeholder="Nom" class="form-control mb-2">
-        <input type="text" placeholder="Localització" class="form-control mb-2">
-        <input type="number" placeholder="EcoPoints" class="form-control mb-2">
+        <div class="card" id="profileForm">
+            <h4>El teu Perfil</h4>
+            <p id="userEmailDisplay" class="text-muted"></p>
+            <input type="text" placeholder="Nom" class="form-control mb-2">
+            <input type="text" placeholder="Localització" class="form-control mb-2">
+            <input type="number" placeholder="EcoPoints" class="form-control mb-2">
+            <button id="btnLogout" class="btn btn-danger btn-sm">Tancar sessió</button>
+        </div>
+
+        <div class="card">
+            <h4>Nou anunci</h4>
+            <input type="text" placeholder="Títol" class="form-control mb-2">
+            <textarea placeholder="Descripció" class="form-control mb-2"></textarea>
+            <select class="form-control mb-2">
+                <option>Categoria</option>
+                <option>Roba</option>
+                <option>Electrònica</option>
+                <option>Llar</option>
+            </select>
+            <select class="form-control mb-2">
+                <option>Estat</option>
+                <option>Nou</option>
+                <option>Bon estat</option>
+            </select>
+            <select class="form-control mb-2">
+                <option>Modalitat</option>
+                <option>Intercanvi</option>
+                <option>Donació</option>
+                <option>Punts</option>
+            </select>
+            <input type="file" multiple class="form-control mb-2">
+            <button class="btn btn-main">Guardar anunci</button>
+        </div>
+
+        <div class="card">
+            <h4>Anuncis recents</h4>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Títol</th>
+                        <th>Modalitat</th>
+                        <th>Accions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Bicicleta</td>
+                        <td>Intercanvi</td>
+                        <td><button class="btn btn-sm btn-main">Veure</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 
-    <!-- CREAR ANUNCIO -->
-    <div class="card">
-        <h4>Nou anunci</h4>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 
-        <input type="text" placeholder="Títol" class="form-control mb-2">
-        <textarea placeholder="Descripció" class="form-control mb-2"></textarea>
+    <script>
+        // CONFIGURACIÓN DE TU PROYECTO (Copia esto de tu consola de Firebase)
+        const firebaseConfig = {
+            apiKey: "AIzaSyD5nxim_X1c0cVXRji8-k4CkMSDPDH7v0k",
+            authDomain: "zelva-c6143.firebaseapp.com",
+            projectId: "zelva-c6143",
+            storageBucket: "zelva-c6143.firebasestorage.app",
+            messagingSenderId: "876429015791",
+            appId: "1:876429015791:web:02770e67c5ce81c335391a"
+        };
 
-        <select class="form-control mb-2">
-            <option>Categoria</option>
-            <option>Roba</option>
-            <option>Electrònica</option>
-            <option>Llar</option>
-        </select>
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
 
-        <select class="form-control mb-2">
-            <option>Estat</option>
-            <option>Nou</option>
-            <option>Bon estat</option>
-            <option>Acceptable</option>
-        </select>
+        // Referencias a los elementos
+        const loginForm = document.getElementById('loginForm');
+        const profileForm = document.getElementById('profileForm');
+        const userEmailDisplay = document.getElementById('userEmailDisplay');
 
-        <select class="form-control mb-2">
-            <option>Modalitat</option>
-            <option>Intercanvi</option>
-            <option>Donació</option>
-            <option>Punts</option>
-        </select>
+        // REGISTRO
+        document.getElementById('btnRegistro').addEventListener('click', () => {
+            const email = document.getElementById('emailInput').value;
+            const pass = document.getElementById('passwordInput').value;
 
-        <input type="text" placeholder="Ubicació" class="form-control mb-2">
-        <input type="file" multiple class="form-control mb-2">
+            firebase.auth().createUserWithEmailAndPassword(email, pass)
+                .then(() => alert("Compte creat amb èxit!"))
+                .catch(error => alert("Error: " + error.message));
+        });
 
-        <button class="btn btn-main">Guardar anunci</button>
-    </div>
+        // LOGIN
+        document.getElementById('btnLogin').addEventListener('click', () => {
+            const email = document.getElementById('emailInput').value;
+            const pass = document.getElementById('passwordInput').value;
 
-    <!-- FILTROS -->
-    <div class="card">
-        <h4>Cercador</h4>
+            firebase.auth().signInWithEmailAndPassword(email, pass)
+                .catch(error => alert("Error al entrar: " + error.message));
+        });
 
-        <input type="text" placeholder="Buscar..." class="form-control mb-2">
+        // LOGOUT
+        document.getElementById('btnLogout').addEventListener('click', () => {
+            firebase.auth().signOut();
+        });
 
-        <select class="form-control mb-2">
-            <option>Categoria</option>
-        </select>
+        // OBSERVADOR DE ESTADO (Detecta si el usuario entra o sale)
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                // Usuario logueado
+                loginForm.style.display = 'none';
+                profileForm.style.display = 'block';
+                userEmailDisplay.innerText = "Sessió iniciada com a: " + user.email;
+            } else {
+                // Usuario deslogueado
+                loginForm.style.display = 'block';
+                profileForm.style.display = 'none';
+            }
+        });
+    </script>
 
-        <select class="form-control mb-2">
-            <option>Modalitat</option>
-        </select>
-
-        <select class="form-control mb-2">
-            <option>Estat</option>
-        </select>
-    </div>
-
-    <!-- LISTA -->
-    <div class="card">
-        <h4>Anuncis</h4>
-
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Títol</th>
-                    <th>Descripció</th>
-                    <th>Modalitat</th>
-                    <th>Accions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Bicicleta</td>
-                    <td>En bon estat</td>
-                    <td>Intercanvi</td>
-                    <td>
-                        <button class="btn btn-sm btn-main">Editar</button>
-                        <button class="btn btn-sm btn-danger">Eliminar</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <!-- VALORACIONES -->
-    <div class="card">
-        <h4>Valoracions</h4>
-
-        <select class="form-control mb-2">
-            <option>⭐ 1</option>
-            <option>⭐ 2</option>
-            <option>⭐ 3</option>
-            <option>⭐ 4</option>
-            <option>⭐ 5</option>
-        </select>
-
-        <textarea placeholder="Comentari..." class="form-control mb-2"></textarea>
-
-        <button class="btn btn-main">Enviar valoració</button>
-    </div>
-
-    <!-- CHAT (estructura básica) -->
-    <div class="card">
-        <h4>Missatges</h4>
-
-        <div style="height:150px; background:#121212; margin-bottom:10px;"></div>
-
-        <input type="text" placeholder="Escriu un missatge..." class="form-control mb-2">
-        <button class="btn btn-main">Enviar</button>
-    </div>
-
-</div>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-
-<script>
-  // Aquí irá la configuración que pegaremos en el siguiente paso
-</script>
 </body>
+
 </html>
