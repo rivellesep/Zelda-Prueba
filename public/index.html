@@ -1447,7 +1447,16 @@
         });
       } catch(e){ console.error('Error enviant missatge:',e); }
     }
-    document.getElementById('msg-input')?.addEventListener('keydown',e=>{ if(e.key==='Enter') sendMsg(); });
+    const msgInput = document.getElementById('msg-input');
+    if(msgInput) {
+      msgInput.addEventListener('keydown', e => {
+        if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); }
+      });
+      msgInput.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+      });
+    }
 
     // ═══════════════════════════════════════════════════════
     //  VALORACIONS
