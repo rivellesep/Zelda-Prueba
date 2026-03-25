@@ -49,8 +49,12 @@ auth.onAuthStateChanged(user => {
                 const ini = (d.nom || user.email || '?').slice(0, 2).toUpperCase();
 
                 // Avatar
-                document.getElementById('nav-avatar-btn').textContent = ini;
-                document.getElementById('perfil-avatar').textContent = ini;
+                const avatarEl = document.getElementById('perfil-avatar');
+const navAvatarEl = document.getElementById('nav-avatar-btn');
+if (!avatarEl.querySelector('img')) {
+  navAvatarEl.textContent = ini;
+  avatarEl.textContent = ini;
+}
 
                 // Nom i email
                 document.getElementById('perfil-nom').textContent =
@@ -206,8 +210,10 @@ async function guardarPerfil() {
         await user.updateProfile({ displayName: nom });
         document.getElementById('perfil-nom').textContent = nom + ' ' + cognom;
         const ini = nom.slice(0, 2).toUpperCase();
-        document.getElementById('nav-avatar-btn').textContent = ini;
-        document.getElementById('perfil-avatar').textContent = ini;
+        if (!document.getElementById('perfil-avatar').querySelector('img')) {
+            document.getElementById('nav-avatar-btn').textContent = ini;
+            document.getElementById('perfil-avatar').textContent = ini;
+        }
         alertEl.className = 'alert alert-success'; alertEl.textContent = 'Perfil actualitzat!'; alertEl.classList.remove('hidden');
         setTimeout(() => alertEl.classList.add('hidden'), 3000);
     } catch (e) { alertEl.className = 'alert alert-error'; alertEl.textContent = 'Error: ' + e.message; alertEl.classList.remove('hidden'); }
@@ -222,7 +228,7 @@ async function renderAnuncis() {
     const grid = document.getElementById('anuncis-grid'); if (!grid) return;
     grid.innerHTML = '<div class="loading" style="grid-column:1/-1"><span class="spinner"></span>Carregant...</div>';
     try {
-        const snap = await db.collection('anuncis').where('estat_anunci', '==', 'disponible').orderBy('data_creacio', 'desc').get();
+        const snap = await db.collection('anuncis').where('estat_anunci', 'in', ['disponible', 'reservat']).orderBy('data_creacio', 'desc').get();
         totsAnuncis = snap.docs.map(d => ({ id: d.id, ...d.data() }));
         const uids = [...new Set(totsAnuncis.map(a => a.usuari_id).filter(Boolean))];
         await Promise.all(uids.map(async uid => {
@@ -249,9 +255,10 @@ function mostrarAnuncis() {
     const getPuntsLabel = a => a.modalitat === 'punts' ? (a.ecopoints || 0) + ' pts' : a.modalitat === 'donacio' ? 'Gratis' : 'Intercanvi';
     grid.innerHTML = llista.map(a => `
         <div class="card" onclick="veureDeta('${a.id}')">
-          <div class="card-img">
-            ${(a.imatge && a.imatge[0]) ? `<img src="${a.imatge[0]}" alt="${a.titol}" onerror="this.parentElement.innerHTML='📦'">` : '📦'}
-          </div>
+            <div class="card-img" style="position:relative">
+                ${(a.imatge && a.imatge[0]) ? `<img src="${a.imatge[0]}" alt="${a.titol}" onerror="this.parentElement.innerHTML='📦'">` : '📦'}
+                ${a.estat_anunci === 'reservat' ? `<div style="position:absolute;top:8px;right:8px;background:#E65100;color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px">⏳ Reservat</div>` : ''}
+            </div>
           <div class="card-body">
             <div style="display:flex;gap:6px;margin-bottom:8px">
               <span class="tag tag-${a.modalitat}">${modLabel[a.modalitat] || a.modalitat}</span>

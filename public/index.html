@@ -366,6 +366,11 @@
           </select>
         </div>
       </div>
+      <div class="form-group">
+        <label>Imatges (màx. 5)</label>
+        <input type="file" id="anunci-imatges-modal" accept="image/*" multiple onchange="previewImatgesModal(this)">
+        <div class="img-preview-grid" id="preview-grid-modal"></div>
+      </div>
       <div style="display:flex;gap:10px;margin-top:8px">
         <button class="btn btn-primary" id="btn-publicar" onclick="publicarAnunci()">Publicar</button>
         <button class="btn btn-outline" onclick="
