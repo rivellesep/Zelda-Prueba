@@ -1870,63 +1870,62 @@
       if (page === 'perfil') { carregarMeusAnuncis(); carregarHistorial(); }
     }
 
-    // ═══════════════════════════════════════════════════════
-    //  AUTH STATE
-    // ═══════════════════════════════════════════════════════
-    auth.onAuthStateChanged(async user => {
-      if (user) {
-        document.getElementById('navbar').classList.remove('hidden');
-        document.getElementById('navbar-guest').classList.add('hidden');
-        document.getElementById('footer').classList.remove('hidden');
-        await carregarDadesPerfil(user);
-        renderAnuncis();
-        navigate('explorar');
-      } else {
-        document.getElementById('navbar').classList.add('hidden');
-        document.getElementById('navbar-guest').classList.remove('hidden');
-        document.getElementById('footer').classList.add('hidden');
-        navigate('landing');
+ // ═══════════════════════════════════════════════════════
+//  AUTH STATE 
+// ═══════════════════════════════════════════════════════
+auth.onAuthStateChanged(user => {
+  if (user) {
+
+    // UI logat
+    document.getElementById('navbar').classList.remove('hidden');
+    document.getElementById('navbar-guest').classList.add('hidden');
+    document.getElementById('footer').classList.remove('hidden');
+
+    // 🔥 LISTENER EN TEMPS REAL (PUNTS I PERFIL)
+    db.collection('usuaris').doc(user.uid).onSnapshot(doc => {
+      if (doc.exists) {
+        const d = doc.data();
+
+        const ini = (d.nom || user.email || '?').slice(0, 2).toUpperCase();
+
+        // Avatar
+        document.getElementById('nav-avatar-btn').textContent = ini;
+        document.getElementById('perfil-avatar').textContent = ini;
+
+        // Nom i email
+        document.getElementById('perfil-nom').textContent =
+          (d.nom || '') + ' ' + (d.cognom || '');
+        document.getElementById('perfil-email').textContent = user.email;
+
+        // ✅ PUNTS (AIXÒ ÉS EL QUE VOLIES)
+        document.getElementById('nav-points').textContent = d.punts || 0;
+        document.getElementById('perfil-points').textContent = d.punts || 0;
+
+        // Altres dades
+        document.getElementById('perfil-intercanvis').textContent =
+          d.intercanvis_real || 0;
+        document.getElementById('perfil-valoracio').textContent =
+          d.valoracio_mitjana || '—';
+
+        // Inputs
+        document.getElementById('perfil-input-nom').value = d.nom || '';
+        document.getElementById('perfil-input-cognom').value = d.cognom || '';
       }
     });
 
-    async function carregarDadesPerfil(user) {
-      try {
-        const doc = await db.collection('usuaris').doc(user.uid).get();
-        if (doc.exists) {
-          const d = doc.data();
-          const ini = (d.nom || user.email || '?').slice(0, 2).toUpperCase();
-          document.getElementById('nav-avatar-btn').textContent = ini;
-          document.getElementById('perfil-avatar').textContent = ini;
-          document.getElementById('perfil-nom').textContent = (d.nom || '') + ' ' + (d.cognom || '');
-          document.getElementById('perfil-email').textContent = user.email;
-          document.getElementById('perfil-points').textContent = d.punts || 0;
-          document.getElementById('perfil-intercanvis').textContent = d.intercanvis_real || 0;
-          document.getElementById('perfil-valoracio').textContent = d.valoracio_mitjana || '—';
-          document.getElementById('nav-points').textContent = d.punts || 0;
-          document.getElementById('perfil-input-nom').value = d.nom || '';
-          document.getElementById('perfil-input-cognom').value = d.cognom || '';
-          document.getElementById('perfil-input-telefon').value = d.telefon || '';
-          document.getElementById('perfil-input-localitat').value = d.localitat || '';
-        }
-      } catch (e) { console.error('Error carregant perfil:', e); }
-    }
+    renderAnuncis();
+    navigate('explorar');
 
-    // ═══════════════════════════════════════════════════════
-    //  ESTADÍSTIQUES LANDING
-    // ═══════════════════════════════════════════════════════
-    async function carregarEstadistiques() {
-      try {
-        const [uSnap, aSnap] = await Promise.all([
-          db.collection('usuaris').get(),
-          db.collection('anuncis').where('estat_anunci', '==', 'disponible').get()
-        ]);
-        const totalIntercanvis = uSnap.docs.reduce((acc, d) => acc + (d.data().intercanvis_real || 0), 0);
-        document.getElementById('stat-usuaris').textContent = uSnap.size;
-        document.getElementById('stat-anuncis').textContent = aSnap.size;
-        document.getElementById('stat-intercanvis').textContent = totalIntercanvis;
-      } catch (e) { }
-    }
+  } else {
 
+    // UI no logat
+    document.getElementById('navbar').classList.add('hidden');
+    document.getElementById('navbar-guest').classList.remove('hidden');
+    document.getElementById('footer').classList.add('hidden');
+
+    navigate('landing');
+  }
+});
     // ═══════════════════════════════════════════════════════
     //  AUTH FUNCIONS
     // ═══════════════════════════════════════════════════════
