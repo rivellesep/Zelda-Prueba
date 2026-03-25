@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ca">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,990 +8,190 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --green-dark: #1A5C52;
-      --green-mid: #2E7D32;
-      --green-light: #C8E6C9;
-      --bg: #121212;
-      --surface: #1E1E1E;
-      --surface2: #2A2A2A;
-      --text: #E8F5E9;
-      --text-muted: #9E9E9E;
-      --error: #C62828;
-      --success: #388E3C;
-      --radius: 8px;
-      --radius-lg: 12px;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    /* NAV */
-    nav {
-      background: var(--surface);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 0 24px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .logo-icon {
-      width: 34px;
-      height: 34px;
-      background: var(--green-dark);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 17px;
-      color: #fff;
-    }
-
-    .logo-text {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .logo-text span {
-      color: #4CAF50;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 4px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: var(--text-muted);
-      font-size: 14px;
-      font-weight: 500;
-      padding: 6px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all .15s;
-    }
-
-    .nav-links a:hover {
-      color: var(--text);
-      background: var(--surface2);
-    }
-
-    .nav-links a.active {
-      color: #4CAF50;
-      background: rgba(26, 92, 82, 0.15);
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .ecopoints {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #4CAF50;
-      background: rgba(76, 175, 80, 0.1);
-      padding: 5px 10px;
-      border-radius: 20px;
-    }
-
-    .nav-avatar {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: var(--green-dark);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 600;
-      color: #fff;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: border-color .15s;
-    }
-
-    .nav-avatar:hover {
-      border-color: #4CAF50;
-    }
-
-    /* BTNS */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 9px 18px;
-      border-radius: var(--radius);
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      text-decoration: none;
-      transition: background .15s;
-    }
-
-    .btn-primary {
-      background: var(--green-dark);
-      color: #fff;
-    }
-
-    .btn-primary:hover {
-      background: var(--green-mid);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-    }
-
-    .btn-outline:hover {
-      background: var(--surface2);
-    }
-
-    .btn-danger {
-      background: var(--error);
-      color: #fff;
-    }
-
-    .btn-danger:hover {
-      background: #b71c1c;
-    }
-
-    .btn-sm {
-      padding: 6px 12px;
-      font-size: 13px;
-    }
-
-    .btn-block {
-      width: 100%;
-      justify-content: center;
-    }
-
-    /* FORMS */
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 16px;
-    }
-
-    label {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-muted);
-    }
-
-    input,
-    textarea,
-    select {
-      background: var(--surface2);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: var(--radius);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      padding: 11px 14px;
-      outline: none;
-      transition: border-color .15s;
-      width: 100%;
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: var(--green-dark);
-    }
-
-    input::placeholder,
-    textarea::placeholder {
-      color: var(--text-muted);
-    }
-
-    select option {
-      background: var(--surface2);
-    }
-
-    /* ALERTS */
-    .alert {
-      padding: 12px 16px;
-      border-radius: var(--radius);
-      font-size: 14px;
-      font-weight: 500;
-      margin-bottom: 16px;
-    }
-
-    .alert-error {
-      background: rgba(198, 40, 40, 0.15);
-      color: #EF9A9A;
-      border-left: 3px solid var(--error);
-    }
-
-    .alert-success {
-      background: rgba(56, 142, 60, 0.15);
-      color: #A5D6A7;
-      border-left: 3px solid var(--success);
-    }
-
-    /* TAGS */
-    .tag {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 500;
-      padding: 3px 8px;
-      border-radius: 4px;
-      text-transform: uppercase;
-      letter-spacing: .4px;
-    }
-
-    .tag-intercanvi {
-      background: rgba(26, 92, 82, 0.3);
-      color: #4CAF50;
-    }
-
-    .tag-donacio {
-      background: rgba(56, 142, 60, 0.3);
-      color: #81C784;
-    }
-
-    .tag-punts {
-      background: rgba(46, 125, 50, 0.25);
-      color: #A5D6A7;
-    }
-
-    .tag-estat {
-      background: rgba(255, 255, 255, 0.07);
-      color: var(--text-muted);
-    }
-
-    /* CARDS */
-    .card {
-      background: var(--surface);
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      overflow: hidden;
-      transition: transform .15s, border-color .15s;
-    }
-
-    .card:hover {
-      transform: translateY(-2px);
-      border-color: var(--green-dark);
-    }
-
-    .card-body {
-      padding: 16px;
-    }
-
-    .card-img {
-      height: 160px;
-      background: var(--surface2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 40px;
-    }
-
-    .card-title {
-      font-size: 15px;
-      font-weight: 600;
-      margin: 8px 0 4px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .card-desc {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .card-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .card-points {
-      font-size: 13px;
-      font-weight: 600;
-      color: #4CAF50;
-    }
-
-    .avatar-sm {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: var(--green-dark);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      font-weight: 600;
-      color: #fff;
-      flex-shrink: 0;
-    }
-
-    .avatar-lg {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      background: var(--green-dark);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      font-weight: 700;
-      color: #fff;
-      flex-shrink: 0;
-    }
-
-    /* FOOTER */
-    footer {
-      background: var(--surface);
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 32px 24px;
-      margin-top: 60px;
-    }
-
-    .footer-inner {
-      max-width: 900px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
-
-    .footer-brand p {
-      color: var(--text-muted);
-      font-size: 13px;
-      margin-top: 6px;
-      max-width: 220px;
-    }
-
-    .footer-links h4 {
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: .8px;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-    }
-
-    .footer-links a {
-      display: block;
-      font-size: 14px;
-      color: var(--text-muted);
-      text-decoration: none;
-      margin-bottom: 6px;
-      cursor: pointer;
-      transition: color .15s;
-    }
-
-    .footer-links a:hover {
-      color: var(--text);
-    }
-
-    .footer-bottom {
-      max-width: 900px;
-      margin: 24px auto 0;
-      padding-top: 16px;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      color: var(--text-muted);
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    /* GRID */
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-
-    /* LANDING */
-    #page-landing {
-      min-height: calc(100vh - 60px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 40px 24px;
-    }
-
-    .landing-inner {
-      max-width: 520px;
-    }
-
-    .landing-badge {
-      display: inline-block;
-      background: rgba(26, 92, 82, 0.2);
-      color: #4CAF50;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 5px 12px;
-      border-radius: 20px;
-      margin-bottom: 20px;
-      letter-spacing: .5px;
-      text-transform: uppercase;
-    }
-
-    .landing-inner h1 {
-      font-size: 42px;
-      font-weight: 700;
-      line-height: 1.15;
-      margin-bottom: 16px;
-    }
-
-    .landing-inner h1 span {
-      color: #4CAF50;
-    }
-
-    .landing-inner p {
-      font-size: 16px;
-      color: var(--text-muted);
-      line-height: 1.7;
-      margin-bottom: 32px;
-    }
-
-    .landing-actions {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .landing-stats {
-      display: flex;
-      gap: 32px;
-      justify-content: center;
-      margin-top: 48px;
-      padding-top: 32px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .stat-num {
-      font-size: 24px;
-      font-weight: 700;
-      color: #4CAF50;
-    }
-
-    .stat-label {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    /* LOGIN */
-    #page-login {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: calc(100vh - 60px);
-      padding: 40px 24px;
-    }
-
-    .auth-box {
-      background: var(--surface);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: var(--radius-lg);
-      padding: 36px;
-      width: 100%;
-      max-width: 400px;
-    }
-
-    .auth-tabs {
-      display: flex;
-      background: var(--surface2);
-      border-radius: var(--radius);
-      padding: 4px;
-      margin-bottom: 24px;
-    }
-
-    .auth-tab {
-      flex: 1;
-      text-align: center;
-      padding: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-muted);
-      cursor: pointer;
-      border-radius: 6px;
-      transition: all .15s;
-    }
-
-    .auth-tab.active {
-      background: var(--green-dark);
-      color: #fff;
-    }
-
-    .auth-divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 16px 0;
-      color: var(--text-muted);
-      font-size: 12px;
-    }
-
-    .auth-divider::before,
-    .auth-divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .btn-google {
-      background: var(--surface2);
-      color: var(--text);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      width: 100%;
-      justify-content: center;
-      margin-bottom: 4px;
-    }
-
-    .btn-google:hover {
-      background: #2e2e2e;
-    }
-
-    .forgot {
-      text-align: center;
-      margin-top: 12px;
-      font-size: 13px;
-      color: var(--text-muted);
-      cursor: pointer;
-    }
-
-    .forgot:hover {
-      color: #4CAF50;
-    }
-
-    /* EXPLORAR */
-    #page-explorar {
-      padding: 32px 0 0;
-    }
-
-    .search-bar {
-      display: flex;
-      gap: 10px;
-      background: var(--surface);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: var(--radius-lg);
-      padding: 8px 8px 8px 16px;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .search-bar input {
-      flex: 1;
-      background: transparent;
-      border: none;
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      outline: none;
-    }
-
-    .filters {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 24px;
-    }
-
-    .filter-chip {
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: var(--surface);
-      color: var(--text-muted);
-      transition: all .15s;
-    }
-
-    .filter-chip:hover,
-    .filter-chip.active {
-      background: var(--green-dark);
-      color: #fff;
-      border-color: var(--green-dark);
-    }
-
-    .section-label {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 16px;
-    }
-
-    /* PERFIL */
-    #page-perfil {
-      padding: 40px 0;
-    }
-
-    .perfil-header {
-      background: var(--surface);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: var(--radius-lg);
-      padding: 28px;
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      margin-bottom: 24px;
-    }
-
-    .perfil-info h2 {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .perfil-info p {
-      color: var(--text-muted);
-      font-size: 14px;
-    }
-
-    .perfil-stats {
-      display: flex;
-      gap: 24px;
-      margin-top: 12px;
-    }
-
-    .perfil-stat-num {
-      font-size: 20px;
-      font-weight: 700;
-      color: #4CAF50;
-    }
-
-    .perfil-stat-label {
-      font-size: 11px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: .4px;
-    }
-
-    .perfil-form-card {
-      background: var(--surface);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-    }
-
-    .perfil-form-card h3 {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
-
-    /* CHATS */
-    #page-chats {
-      padding: 32px 0;
-    }
-
-    .chats-layout {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 16px;
-      height: 560px;
-    }
-
-    .chat-list {
-      background: var(--surface);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-    }
-
-    .chat-list-header {
-      padding: 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      font-weight: 600;
-      font-size: 15px;
-    }
-
-    .chat-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 16px;
-      cursor: pointer;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      transition: background .1s;
-    }
-
-    .chat-item:hover,
-    .chat-item.active {
-      background: var(--surface2);
-    }
-
-    .chat-item-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .chat-item-name {
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .chat-item-msg {
-      font-size: 12px;
-      color: var(--text-muted);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-top: 2px;
-    }
-
-    .chat-item-time {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .chat-unread {
-      background: #4CAF50;
-      color: #fff;
-      font-size: 11px;
-      font-weight: 700;
-      border-radius: 10px;
-      padding: 2px 6px;
-    }
-
-    .chat-window {
-      background: var(--surface);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: var(--radius-lg);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .chat-header {
-      padding: 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .chat-messages {
-      flex: 1;
-      padding: 16px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .msg {
-      max-width: 70%;
-    }
-
-    .msg-text {
-      padding: 10px 14px;
-      border-radius: 12px;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .msg-recv .msg-text {
-      background: var(--surface2);
-      border-bottom-left-radius: 4px;
-    }
-
-    .msg-sent {
-      align-self: flex-end;
-    }
-
-    .msg-sent .msg-text {
-      background: var(--green-dark);
-      color: #fff;
-      border-bottom-right-radius: 4px;
-    }
-
-    .msg-time {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    .msg-sent .msg-time {
-      text-align: right;
-    }
-
-    .chat-input-area {
-      padding: 12px 16px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      display: flex;
-      gap: 10px;
-    }
-
-    .chat-input-area input {
-      flex: 1;
-      background: var(--surface2);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
-      padding: 10px 16px;
-    }
-
-    .chat-empty {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-muted);
-      font-size: 14px;
-    }
-
-    /* CONTACTE */
-    #page-contacte {
-      padding: 60px 0;
-    }
-
-    .contacte-inner {
-      max-width: 560px;
-      margin: 0 auto;
-    }
-
-    .contacte-inner h1 {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .contacte-inner>p {
-      color: var(--text-muted);
-      margin-bottom: 32px;
-    }
-
-    .contact-card {
-      background: var(--surface);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: var(--radius-lg);
-      padding: 28px;
-    }
-
-    /* FAB */
-    .fab {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      background: var(--green-dark);
-      color: #fff;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 20px rgba(26, 92, 82, 0.5);
-      transition: background .2s, transform .15s;
-      z-index: 50;
-    }
-
-    .fab:hover {
-      background: var(--green-mid);
-      transform: scale(1.05);
-    }
+      --green-dark: #1A5C52; --green-mid: #2E7D32; --green-light: #C8E6C9;
+      --bg: #121212; --surface: #1E1E1E; --surface2: #2A2A2A;
+      --text: #E8F5E9; --text-muted: #9E9E9E;
+      --error: #C62828; --success: #388E3C;
+      --radius: 8px; --radius-lg: 12px;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    .hidden { display: none !important; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    nav { background: var(--surface); border-bottom: 1px solid rgba(255,255,255,0.06); padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; cursor: pointer; }
+    .logo-text { font-size: 20px; font-weight: 700; color: var(--text); }
+    .logo-text span { color: #4CAF50; }
+    .nav-links { display: flex; gap: 4px; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 14px; font-weight: 500; padding: 6px 12px; border-radius: 8px; cursor: pointer; transition: all .15s; }
+    .nav-links a:hover { color: var(--text); background: var(--surface2); }
+    .nav-links a.active { color: #4CAF50; background: rgba(26,92,82,0.15); }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .ecopoints { display: flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 600; color: #4CAF50; background: rgba(76,175,80,0.1); padding: 5px 10px; border-radius: 20px; }
+    .nav-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--green-dark); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #fff; cursor: pointer; border: 2px solid transparent; transition: border-color .15s; }
+    .nav-avatar:hover { border-color: #4CAF50; }
+
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: var(--radius); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; border: none; text-decoration: none; transition: background .15s; }
+    .btn-primary { background: var(--green-dark); color: #fff; }
+    .btn-primary:hover { background: var(--green-mid); }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.12); }
+    .btn-outline:hover { background: var(--surface2); }
+    .btn-danger { background: var(--error); color: #fff; }
+    .btn-danger:hover { background: #b71c1c; }
+    .btn-sm { padding: 6px 12px; font-size: 13px; }
+    .btn-block { width: 100%; justify-content: center; }
+
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    label { font-size: 14px; font-weight: 500; color: var(--text-muted); }
+    input, textarea, select { background: var(--surface2); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius); color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; padding: 11px 14px; outline: none; transition: border-color .15s; width: 100%; }
+    input:focus, textarea:focus, select:focus { border-color: var(--green-dark); }
+    input::placeholder, textarea::placeholder { color: var(--text-muted); }
+    select option { background: var(--surface2); }
+
+    .alert { padding: 12px 16px; border-radius: var(--radius); font-size: 14px; font-weight: 500; margin-bottom: 16px; }
+    .alert-error { background: rgba(198,40,40,0.15); color: #EF9A9A; border-left: 3px solid var(--error); }
+    .alert-success { background: rgba(56,142,60,0.15); color: #A5D6A7; border-left: 3px solid var(--success); }
+
+    .tag { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: .4px; }
+    .tag-intercanvi { background: rgba(26,92,82,0.3); color: #4CAF50; }
+    .tag-donacio { background: rgba(56,142,60,0.3); color: #81C784; }
+    .tag-punts { background: rgba(46,125,50,0.25); color: #A5D6A7; }
+    .tag-estat { background: rgba(255,255,255,0.07); color: var(--text-muted); }
+
+    .card { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.06); overflow: hidden; transition: transform .15s, border-color .15s; cursor: pointer; }
+    .card:hover { transform: translateY(-2px); border-color: var(--green-dark); }
+    .card-body { padding: 16px; }
+    .card-img { height: 160px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 40px; overflow: hidden; }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; }
+    .card-title { font-size: 15px; font-weight: 600; margin: 8px 0 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .card-footer { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-muted); }
+    .card-points { font-size: 13px; font-weight: 600; color: #4CAF50; }
+    .avatar-sm { width: 22px; height: 22px; border-radius: 50%; background: var(--green-dark); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: #fff; flex-shrink: 0; }
+    .avatar-lg { width: 72px; height: 72px; border-radius: 50%; background: var(--green-dark); display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; color: #fff; flex-shrink: 0; }
+
+    footer { background: var(--surface); border-top: 1px solid rgba(255,255,255,0.06); padding: 32px 24px; margin-top: 60px; }
+    .footer-inner { max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+    .footer-brand p { color: var(--text-muted); font-size: 13px; margin-top: 6px; max-width: 220px; }
+    .footer-links h4 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .8px; color: var(--text-muted); margin-bottom: 12px; }
+    .footer-links a { display: block; font-size: 14px; color: var(--text-muted); text-decoration: none; margin-bottom: 6px; cursor: pointer; transition: color .15s; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-bottom { max-width: 900px; margin: 24px auto 0; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); flex-wrap: wrap; gap: 8px; }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+
+    #page-landing { min-height: calc(100vh - 60px); display: flex; align-items: center; justify-content: center; text-align: center; padding: 40px 24px; }
+    .landing-inner { max-width: 520px; }
+    .landing-badge { display: inline-block; background: rgba(26,92,82,0.2); color: #4CAF50; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 20px; margin-bottom: 20px; letter-spacing: .5px; text-transform: uppercase; }
+    .landing-inner h1 { font-size: 42px; font-weight: 700; line-height: 1.15; margin-bottom: 16px; }
+    .landing-inner h1 span { color: #4CAF50; }
+    .landing-inner p { font-size: 16px; color: var(--text-muted); line-height: 1.7; margin-bottom: 32px; }
+    .landing-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .landing-stats { display: flex; gap: 32px; justify-content: center; margin-top: 48px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.06); }
+    .stat-num { font-size: 24px; font-weight: 700; color: #4CAF50; }
+    .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+    #page-login { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 60px); padding: 40px 24px; }
+    .auth-box { background: var(--surface); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-lg); padding: 36px; width: 100%; max-width: 400px; }
+    .auth-tabs { display: flex; background: var(--surface2); border-radius: var(--radius); padding: 4px; margin-bottom: 24px; }
+    .auth-tab { flex: 1; text-align: center; padding: 8px; font-size: 14px; font-weight: 500; color: var(--text-muted); cursor: pointer; border-radius: 6px; transition: all .15s; }
+    .auth-tab.active { background: var(--green-dark); color: #fff; }
+    .auth-divider { display: flex; align-items: center; gap: 12px; margin: 16px 0; color: var(--text-muted); font-size: 12px; }
+    .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
+    .btn-google { background: var(--surface2); color: var(--text); border: 1px solid rgba(255,255,255,0.1); width: 100%; justify-content: center; margin-bottom: 4px; }
+    .btn-google:hover { background: #2e2e2e; }
+    .forgot { text-align: center; margin-top: 12px; font-size: 13px; color: var(--text-muted); cursor: pointer; }
+    .forgot:hover { color: #4CAF50; }
+
+    #page-explorar { padding: 32px 0 80px; }
+    .search-bar { display: flex; gap: 10px; background: var(--surface); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-lg); padding: 8px 8px 8px 16px; align-items: center; margin-bottom: 20px; }
+    .search-bar input { flex: 1; background: transparent; border: none; color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; outline: none; }
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+    .filter-chip { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); background: var(--surface); color: var(--text-muted); transition: all .15s; }
+    .filter-chip:hover, .filter-chip.active { background: var(--green-dark); color: #fff; border-color: var(--green-dark); }
+    .section-label { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
+
+    #page-perfil { padding: 40px 0; }
+    .perfil-header { background: var(--surface); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-lg); padding: 28px; display: flex; align-items: center; gap: 24px; margin-bottom: 24px; }
+    .perfil-info h2 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+    .perfil-info p { color: var(--text-muted); font-size: 14px; }
+    .perfil-stats { display: flex; gap: 24px; margin-top: 12px; }
+    .perfil-stat-num { font-size: 20px; font-weight: 700; color: #4CAF50; }
+    .perfil-stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .4px; }
+    .perfil-form-card { background: var(--surface); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 20px; }
+    .perfil-form-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 20px; }
+
+    #page-chats { padding: 32px 0; }
+    .chats-layout { display: grid; grid-template-columns: 280px 1fr; gap: 16px; height: 560px; }
+    .chat-list { background: var(--surface); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-lg); overflow-y: auto; }
+    .chat-list-header { padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.06); font-weight: 600; font-size: 15px; }
+    .chat-item { display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.04); transition: background .1s; }
+    .chat-item:hover, .chat-item.active { background: var(--surface2); }
+    .chat-item-info { flex: 1; min-width: 0; }
+    .chat-item-name { font-size: 14px; font-weight: 600; }
+    .chat-item-msg { font-size: 12px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+    .chat-unread { background: #4CAF50; color: #fff; font-size: 11px; font-weight: 700; border-radius: 10px; padding: 2px 6px; }
+    .chat-window { background: var(--surface); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-lg); display: flex; flex-direction: column; overflow: hidden; }
+    .chat-header { padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 12px; }
+    .chat-messages { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+    .msg { max-width: 70%; }
+    .msg-text { padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; }
+    .msg-recv .msg-text { background: var(--surface2); border-bottom-left-radius: 4px; }
+    .msg-sent { align-self: flex-end; }
+    .msg-sent .msg-text { background: var(--green-dark); color: #fff; border-bottom-right-radius: 4px; }
+    .msg-time { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+    .msg-sent .msg-time { text-align: right; }
+    .chat-input-area { padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; gap: 10px; }
+    .chat-input-area input { flex: 1; background: var(--surface2); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 10px 16px; }
+    .chat-empty { flex: 1; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 14px; }
+
+    #page-detall { padding: 40px 0; }
+    .detall-card { background: var(--surface); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-lg); overflow: hidden; }
+    .detall-img { height: 280px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 80px; overflow: hidden; }
+    .detall-img img { width: 100%; height: 100%; object-fit: cover; }
+    .detall-body { padding: 28px; }
+    .detall-title { font-size: 24px; font-weight: 700; margin-bottom: 12px; }
+    .detall-desc { font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 24px; }
+    .detall-info-row { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; }
+    .detall-info-item { font-size: 13px; color: var(--text-muted); }
+    .detall-info-item strong { color: var(--text); display: block; font-size: 15px; margin-bottom: 2px; }
+    .detall-user { display: flex; align-items: center; gap: 12px; padding: 16px; background: var(--surface2); border-radius: var(--radius); margin-bottom: 20px; }
+    .detall-user-name { font-weight: 600; font-size: 15px; }
+    .detall-user-loc { font-size: 13px; color: var(--text-muted); }
+    .detall-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+    .valoracio-card { background: var(--surface2); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; }
+    .stars { color: #FFB300; font-size: 16px; }
+
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .modal-box { background: var(--surface); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-lg); padding: 28px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
+    .modal-box h3 { font-size: 18px; font-weight: 700; margin-bottom: 20px; }
+
+    .loading { text-align: center; padding: 40px; color: var(--text-muted); font-size: 14px; }
+    .spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(76,175,80,0.2); border-top-color: #4CAF50; border-radius: 50%; animation: spin .7s linear infinite; margin-right: 8px; vertical-align: middle; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    #page-contacte { padding: 60px 0; }
+    .contacte-inner { max-width: 560px; margin: 0 auto; }
+    .contacte-inner h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .contacte-inner > p { color: var(--text-muted); margin-bottom: 32px; }
+    .contact-card { background: var(--surface); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-lg); padding: 28px; }
+
+    .fab { position: fixed; bottom: 24px; right: 24px; width: 52px; height: 52px; border-radius: 50%; background: var(--green-dark); color: #fff; border: none; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(26,92,82,0.5); transition: background .2s, transform .15s; z-index: 50; }
+    .fab:hover { background: var(--green-mid); transform: scale(1.05); }
 
     @media(max-width:768px) {
-      .nav-links {
-        display: none;
-      }
-
-      .grid-3 {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .chats-layout {
-        grid-template-columns: 1fr;
-        grid-template-rows: 200px 1fr;
-      }
-
-      .landing-inner h1 {
-        font-size: 30px;
-      }
-
-      .perfil-header {
-        flex-direction: column;
-        text-align: center;
-      }
+      .nav-links { display: none; }
+      .grid-3 { grid-template-columns: 1fr 1fr; }
+      .chats-layout { grid-template-columns: 1fr; grid-template-rows: 200px 1fr; }
+      .landing-inner h1 { font-size: 30px; }
+      .perfil-header { flex-direction: column; text-align: center; }
     }
-
-    @media(max-width:480px) {
-
-      .grid-3,
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
-    }
+    @media(max-width:480px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
   </style>
 </head>
-
 <body>
 
   <!-- NAV logat -->
@@ -1008,8 +207,8 @@
     <div class="nav-right">
       <div class="ecopoints">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="12" r="10" stroke="#4CAF50" stroke-width="2" />
-          <path d="M8 12h8M12 8l4 4-4 4" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" />
+          <circle cx="12" cy="12" r="10" stroke="#4CAF50" stroke-width="2"/>
+          <path d="M8 12h8M12 8l4 4-4 4" stroke="#4CAF50" stroke-width="2" stroke-linecap="round"/>
         </svg>
         <span id="nav-points">0</span> pts
       </div>
@@ -1033,27 +232,15 @@
     <div class="landing-inner">
       <div class="landing-badge">♻ Marketplace sostenible</div>
       <h1>Intercanvia el que<br>no uses. <span>Redueix.</span></h1>
-      <p>Zelva és una plataforma on pots donar, intercanviar o cedir objectes a persones properes. Sense diners, sense
-        residus.</p>
+      <p>Zelva és una plataforma on pots donar, intercanviar o cedir objectes a persones properes. Sense diners, sense residus.</p>
       <div class="landing-actions">
-        <button class="btn btn-primary" onclick="navigate('login')" style="padding:12px 28px;font-size:15px">Comença
-          ara</button>
-        <button class="btn btn-outline" onclick="navigate('login')" style="padding:12px 24px;font-size:15px">Veure
-          anuncis</button>
+        <button class="btn btn-primary" onclick="navigate('login')" style="padding:12px 28px;font-size:15px">Comença ara</button>
+        <button class="btn btn-outline" onclick="navigate('login')" style="padding:12px 24px;font-size:15px">Veure anuncis</button>
       </div>
       <div class="landing-stats">
-        <div>
-          <div class="stat-num">1.2k</div>
-          <div class="stat-label">Usuaris</div>
-        </div>
-        <div>
-          <div class="stat-num">340</div>
-          <div class="stat-label">Anuncis actius</div>
-        </div>
-        <div>
-          <div class="stat-num">820</div>
-          <div class="stat-label">Intercanvis</div>
-        </div>
+        <div><div class="stat-num" id="stat-usuaris">—</div><div class="stat-label">Usuaris</div></div>
+        <div><div class="stat-num" id="stat-anuncis">—</div><div class="stat-label">Anuncis actius</div></div>
+        <div><div class="stat-num" id="stat-intercanvis">—</div><div class="stat-label">Intercanvis</div></div>
       </div>
     </div>
   </div>
@@ -1083,44 +270,22 @@
       </div>
       <div id="form-register" class="hidden">
         <div class="grid-2">
-          <div class="form-group">
-            <label>Nom *</label>
-            <input type="text" id="regNom" placeholder="El teu nom">
-          </div>
-          <div class="form-group">
-            <label>Cognoms *</label>
-            <input type="text" id="regCognom" placeholder="Els teus cognoms">
-          </div>
+          <div class="form-group"><label>Nom *</label><input type="text" id="regNom" placeholder="El teu nom"></div>
+          <div class="form-group"><label>Cognoms *</label><input type="text" id="regCognom" placeholder="Els teus cognoms"></div>
         </div>
-        <div class="form-group">
-          <label>Localitat *</label>
-          <input type="text" id="regLocalitat" placeholder="Ex: Mataró">
-        </div>
-        <div class="form-group">
-          <label>Telèfon</label>
-          <input type="tel" id="regTelefon" placeholder="6XX XXX XXX">
-        </div>
-        <div class="form-group">
-          <label>Correu electrònic *</label>
-          <input type="email" id="regEmail" placeholder="hola@exemple.com">
-        </div>
-        <div class="form-group">
-          <label>Contrasenya *</label>
-          <input type="password" id="regPass" placeholder="Mínim 6 caràcters">
-        </div>
+        <div class="form-group"><label>Localitat *</label><input type="text" id="regLocalitat" placeholder="Ex: Mataró"></div>
+        <div class="form-group"><label>Telèfon (9 dígits)</label><input type="tel" id="regTelefon" placeholder="6XX XXX XXX" maxlength="9"></div>
+        <div class="form-group"><label>Correu electrònic *</label><input type="email" id="regEmail" placeholder="hola@exemple.com"></div>
+        <div class="form-group"><label>Contrasenya * (mínim 6 caràcters)</label><input type="password" id="regPass" placeholder="Mínim 6 caràcters"></div>
         <button class="btn btn-primary btn-block" onclick="doRegister()">Crear compte</button>
       </div>
       <div class="auth-divider">o</div>
       <button class="btn btn-google" onclick="doGoogleLogin()">
         <svg width="16" height="16" viewBox="0 0 24 24">
-          <path fill="#4285F4"
-            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-          <path fill="#34A853"
-            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-          <path fill="#FBBC05"
-            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-          <path fill="#EA4335"
-            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
         </svg>
         Continua amb Google
       </button>
@@ -1132,27 +297,36 @@
     <div class="container" style="padding-top:32px">
       <div class="search-bar">
         <svg width="16" height="16" fill="none" stroke="#9E9E9E" stroke-width="2" viewBox="0 0 24 24">
-          <circle cx="11" cy="11" r="8" />
-          <path d="M21 21l-4.35-4.35" />
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
         </svg>
-        <input type="text" placeholder="Cerca roba, electrònica, mobles...">
-        <button class="btn btn-primary btn-sm">Cercar</button>
+        <input type="text" id="search-input" placeholder="Cerca roba, electrònica, mobles...">
+        <button class="btn btn-primary btn-sm" onclick="cercarAnuncis()">Cercar</button>
       </div>
       <div class="filters">
-        <div class="filter-chip active">Tots</div>
-        <div class="filter-chip">Roba</div>
-        <div class="filter-chip">Electrònica</div>
-        <div class="filter-chip">Llar</div>
-        <div class="filter-chip">Llibres</div>
-        <div class="filter-chip">Esports</div>
-        <div class="filter-chip">Joguines</div>
-        <div class="filter-chip">Intercanvi</div>
-        <div class="filter-chip">Donació</div>
+        <div class="filter-chip active" data-filter="tots">Tots</div>
+        <div class="filter-chip" data-filter="Roba">Roba</div>
+        <div class="filter-chip" data-filter="Electrònica">Electrònica</div>
+        <div class="filter-chip" data-filter="Llar">Llar</div>
+        <div class="filter-chip" data-filter="Llibres">Llibres</div>
+        <div class="filter-chip" data-filter="Esports">Esports</div>
+        <div class="filter-chip" data-filter="Joguines">Joguines</div>
+        <div class="filter-chip" data-filter="intercanvi">Intercanvi</div>
+        <div class="filter-chip" data-filter="donacio">Donació</div>
       </div>
-      <p class="section-label" id="anuncis-count">6 anuncis disponibles</p>
-      <div class="grid-3" id="anuncis-grid"></div>
+      <p class="section-label" id="anuncis-count">Carregant anuncis...</p>
+      <div class="grid-3" id="anuncis-grid">
+        <div class="loading" style="grid-column:1/-1"><span class="spinner"></span>Carregant...</div>
+      </div>
     </div>
-    <button class="fab" onclick="alert('Proximament: publicar anunci!')">+</button>
+    <button class="fab" onclick="obrirModalAnunci()">+</button>
+  </div>
+
+  <!-- DETALL ANUNCI -->
+  <div id="page-detall" class="hidden">
+    <div class="container">
+      <button class="btn btn-outline btn-sm" onclick="navigate('explorar')" style="margin-bottom:20px">← Tornar</button>
+      <div id="detall-content"></div>
+    </div>
   </div>
 
   <!-- PERFIL -->
@@ -1164,33 +338,30 @@
           <h2 id="perfil-nom">Usuari</h2>
           <p id="perfil-email">correu@exemple.com</p>
           <div class="perfil-stats">
-            <div>
-              <div class="perfil-stat-num" id="perfil-points">0</div>
-              <div class="perfil-stat-label">EcoPoints</div>
-            </div>
-            <div>
-              <div class="perfil-stat-num">0</div>
-              <div class="perfil-stat-label">Intercanvis</div>
-            </div>
-            <div>
-              <div class="perfil-stat-num">—</div>
-              <div class="perfil-stat-label">Valoració</div>
-            </div>
+            <div><div class="perfil-stat-num" id="perfil-points">0</div><div class="perfil-stat-label">EcoPoints</div></div>
+            <div><div class="perfil-stat-num" id="perfil-intercanvis">0</div><div class="perfil-stat-label">Intercanvis</div></div>
+            <div><div class="perfil-stat-num" id="perfil-valoracio">—</div><div class="perfil-stat-label">Valoració</div></div>
           </div>
         </div>
       </div>
       <div class="perfil-form-card">
         <h3>Editar perfil</h3>
         <div class="grid-2">
-          <div class="form-group"><label>Nom</label><input type="text" id="perfil-input-nom" placeholder="El teu nom">
-          </div>
-          <div class="form-group"><label>Cognoms</label><input type="text" placeholder="Els teus cognoms"></div>
-          <div class="form-group"><label>Telèfon</label><input type="tel" placeholder="6XX XXX XXX"></div>
-          <div class="form-group"><label>Localitat</label><input type="text" placeholder="Ex: Mataró"></div>
+          <div class="form-group"><label>Nom</label><input type="text" id="perfil-input-nom" placeholder="El teu nom"></div>
+          <div class="form-group"><label>Cognoms</label><input type="text" id="perfil-input-cognom" placeholder="Els teus cognoms"></div>
+          <div class="form-group"><label>Telèfon</label><input type="tel" id="perfil-input-telefon" placeholder="6XX XXX XXX" maxlength="9"></div>
+          <div class="form-group"><label>Localitat</label><input type="text" id="perfil-input-localitat" placeholder="Ex: Mataró"></div>
         </div>
+        <div id="perfil-alert" class="hidden" style="margin-top:8px"></div>
         <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap">
-          <button class="btn btn-primary" onclick="alert('Proximament: guardar canvis!')">Guardar canvis</button>
+          <button class="btn btn-primary" onclick="guardarPerfil()">Guardar canvis</button>
           <button class="btn btn-danger" onclick="doLogout()">Tancar sessió</button>
+        </div>
+      </div>
+      <div class="perfil-form-card">
+        <h3>Els meus anuncis</h3>
+        <div class="grid-3" id="meus-anuncis-grid">
+          <div class="loading" style="grid-column:1/-1"><span class="spinner"></span>Carregant...</div>
         </div>
       </div>
     </div>
@@ -1202,44 +373,20 @@
       <div class="chats-layout">
         <div class="chat-list">
           <div class="chat-list-header">Missatges</div>
-          <div class="chat-item active" onclick="openChat(this,'Marc R.','MR','Bici de muntanya')">
-            <div class="avatar-sm">MR</div>
-            <div class="chat-item-info">
-              <div class="chat-item-name">Marc R.</div>
-              <div class="chat-item-msg">T'interessa la bici?</div>
-            </div>
-            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
-              <div class="chat-item-time">12:30</div>
-              <div class="chat-unread">2</div>
-            </div>
-          </div>
-          <div class="chat-item" onclick="openChat(this,'Anna C.','AC','Llibres ESO')">
-            <div class="avatar-sm">AC</div>
-            <div class="chat-item-info">
-              <div class="chat-item-name">Anna C.</div>
-              <div class="chat-item-msg">Gràcies pels llibres!</div>
-            </div>
-            <div class="chat-item-time">Ahir</div>
-          </div>
-          <div class="chat-item" onclick="openChat(this,'Jordi G.','JG','Patins')">
-            <div class="avatar-sm">JG</div>
-            <div class="chat-item-info">
-              <div class="chat-item-name">Jordi G.</div>
-              <div class="chat-item-msg">Podem quedar dimecres?</div>
-            </div>
-            <div class="chat-item-time">Dl</div>
+          <div id="chat-list-items">
+            <div class="loading" style="padding:20px"><span class="spinner"></span>Carregant...</div>
           </div>
         </div>
         <div class="chat-window">
           <div class="chat-header hidden" id="chat-header">
-            <div class="avatar-sm" id="chat-avatar">MR</div>
+            <div class="avatar-sm" id="chat-avatar">?</div>
             <div>
-              <div style="font-weight:600;font-size:14px" id="chat-name">Marc R.</div>
-              <div style="font-size:12px;color:var(--text-muted)" id="chat-anunci">Bici de muntanya</div>
+              <div style="font-weight:600;font-size:14px" id="chat-name">—</div>
+              <div style="font-size:12px;color:var(--text-muted)" id="chat-anunci">—</div>
             </div>
           </div>
           <div class="chat-messages" id="chat-messages">
-            <div class="chat-empty" id="chat-empty">Selecciona una conversa</div>
+            <div class="chat-empty">Selecciona una conversa</div>
           </div>
           <div class="chat-input-area hidden" id="chat-input-area">
             <input type="text" placeholder="Escriu un missatge..." id="msg-input">
@@ -1259,8 +406,7 @@
         <div class="contact-card">
           <div id="contacte-alert" class="hidden"></div>
           <div class="form-group"><label>Nom</label><input type="text" id="c-nom" placeholder="El teu nom"></div>
-          <div class="form-group"><label>Correu electrònic</label><input type="email" id="c-email"
-              placeholder="hola@exemple.com"></div>
+          <div class="form-group"><label>Correu electrònic</label><input type="email" id="c-email" placeholder="hola@exemple.com"></div>
           <div class="form-group">
             <label>Assumpte</label>
             <select id="c-assumpte">
@@ -1270,15 +416,11 @@
               <option>Altres</option>
             </select>
           </div>
-          <div class="form-group"><label>Missatge</label><textarea rows="5" id="c-missatge"
-              placeholder="Explica'ns el teu dubte..."></textarea></div>
+          <div class="form-group"><label>Missatge</label><textarea rows="5" id="c-missatge" placeholder="Explica'ns el teu dubte..."></textarea></div>
           <button class="btn btn-primary" id="btn-contacte" onclick="enviarContacte()">Enviar missatge</button>
           <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06)">
             <p style="font-size:13px;color:var(--text-muted)">O contacta'ns directament:</p>
-            <p style="font-size:14px;margin-top:6px">
-              ✉️ <a href="mailto:zelva.marketplace@gmail.com"
-                style="color:#4CAF50; text-decoration:none;">zelva.marketplace@gmail.com</a>
-            </p>
+            <p style="font-size:14px;margin-top:6px">✉️ <a href="mailto:zelva.marketplace@gmail.com" style="color:#4CAF50;text-decoration:none">zelva.marketplace@gmail.com</a></p>
           </div>
         </div>
       </div>
@@ -1307,49 +449,135 @@
     </div>
     <div class="footer-bottom">
       <span>© 2026 Zelva, S.L. Tots els drets reservats.</span>
-      <span>Fet amb ♻ per Paula, Enric, Pol i Joel</span>
+      <span>Fet per Paula , Enric, Pol i Joel</span>
     </div>
   </footer>
 
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <!-- MODAL NOU ANUNCI -->
+  <div id="modal-anunci" class="modal-overlay hidden">
+    <div class="modal-box">
+      <h3>Publicar nou anunci</h3>
+      <div id="modal-alert" class="hidden"></div>
+      <div class="form-group"><label>Títol * (màx. 50 caràcters)</label><input type="text" id="anunci-titol" placeholder="Ex: Bicicleta de muntanya" maxlength="50"></div>
+      <div class="form-group"><label>Descripció *</label><textarea rows="3" id="anunci-desc" placeholder="Descriu l'objecte..."></textarea></div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Modalitat *</label>
+          <select id="anunci-modalitat">
+            <option value="intercanvi">Intercanvi</option>
+            <option value="donacio">Donació</option>
+            <option value="punts">Punts</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Categoria *</label>
+          <select id="anunci-categoria">
+            <option>Roba</option><option>Electrònica</option><option>Llar</option>
+            <option>Llibres</option><option>Esports</option><option>Joguines</option><option>Altres</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="form-group"><label>EcoPoints (mínim 0)</label><input type="number" id="anunci-punts" min="0" value="0"></div>
+        <div class="form-group">
+          <label>Estat del producte *</label>
+          <select id="anunci-estat-prod">
+            <option value="Per estrenar">Nou</option>
+            <option value="bon-estat">Bon estat</option>
+            <option value="usat">Usat</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <button class="btn btn-primary" id="btn-publicar" onclick="publicarAnunci()">Publicar</button>
+        <button class="btn btn-outline" onclick="document.getElementById('modal-anunci').classList.add('hidden')">Cancel·lar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL VALORACIÓ -->
+  <div id="modal-valoracio" class="modal-overlay hidden">
+    <div class="modal-box">
+      <h3>Deixar valoració</h3>
+      <div id="val-alert" class="hidden"></div>
+      <div class="form-group"><label>Estrelles (0-5) *</label><input type="number" id="val-estrelles" min="0" max="5" value="5"></div>
+      <div class="form-group"><label>Comentari (opcional)</label><textarea rows="3" id="val-comentari" placeholder="Explica la teva experiència..."></textarea></div>
+      <input type="hidden" id="val-anunci-id">
+      <input type="hidden" id="val-valorat-id">
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <button class="btn btn-primary" onclick="enviarValoracio()">Enviar</button>
+        <button class="btn btn-outline" onclick="document.getElementById('modal-valoracio').classList.add('hidden')">Cancel·lar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase (un sol bloc, sense duplicats) -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
   <script>
+    // ═══════════════════════════════════════════════════════
+    //  FIREBASE INIT
+    // ═══════════════════════════════════════════════════════
     firebase.initializeApp({
-      apiKey: "AIzaSyD5nxim_X1c0cVXRji8-k4CkMSDPDH7v0k",
-      authDomain: "zelva-c6143.firebaseapp.com",
-      projectId: "zelva-c6143",
-      storageBucket: "zelva-c6143.firebasestorage.app",
+      apiKey:            "AIzaSyD5nxim_X1c0cVXRji8-k4CkMSDPDH7v0k",
+      authDomain:        "zelva-c6143.firebaseapp.com",
+      projectId:         "zelva-c6143",
+      storageBucket:     "zelva-c6143.firebasestorage.app",
       messagingSenderId: "876429015791",
-      appId: "1:876429015791:web:02770e67c5ce81c335391a"
+      appId:             "1:876429015791:web:02770e67c5ce81c335391a"
     });
+    const auth = firebase.auth();
+    const db   = firebase.firestore();
+    const TS   = () => firebase.firestore.FieldValue.serverTimestamp();
 
-    const db = firebase.firestore();
-
-    const pages = ['landing', 'login', 'explorar', 'perfil', 'chats', 'contacte'];
+    // ═══════════════════════════════════════════════════════
+    //  NAVEGACIÓ
+    // ═══════════════════════════════════════════════════════
+    const PAGES = ['landing','login','explorar','perfil','chats','contacte','detall'];
 
     function navigate(page) {
-      pages.forEach(p => document.getElementById('page-' + p)?.classList.add('hidden'));
+      PAGES.forEach(p => document.getElementById('page-' + p)?.classList.add('hidden'));
       document.getElementById('page-' + page)?.classList.remove('hidden');
-      ['explorar', 'chats', 'contacte'].forEach(p => {
-        document.getElementById('nav-' + p)?.classList.toggle('active', p === page);
-      });
+      ['explorar','chats','contacte'].forEach(p =>
+        document.getElementById('nav-' + p)?.classList.toggle('active', p === page)
+      );
       window.scrollTo(0, 0);
+      if (page === 'chats')  carregarChats();
+      if (page === 'perfil') carregarMeusAnuncis();
     }
 
-    firebase.auth().onAuthStateChanged(user => {
+    // ═══════════════════════════════════════════════════════
+    //  AUTH STATE
+    // ═══════════════════════════════════════════════════════
+    auth.onAuthStateChanged(async user => {
       if (user) {
         document.getElementById('navbar').classList.remove('hidden');
         document.getElementById('navbar-guest').classList.add('hidden');
         document.getElementById('footer').classList.remove('hidden');
-        const ini = (user.displayName || user.email || '?').slice(0, 2).toUpperCase();
-        document.getElementById('nav-avatar-btn').textContent = ini;
-        document.getElementById('perfil-avatar').textContent = ini;
-        document.getElementById('perfil-nom').textContent = user.displayName || 'Usuari';
-        document.getElementById('perfil-email').textContent = user.email;
-        document.getElementById('perfil-input-nom').value = user.displayName || '';
+
+        try {
+          const doc = await db.collection('usuaris').doc(user.uid).get();
+          if (doc.exists) {
+            const d = doc.data();
+            const ini = (d.nom || user.email || '?').slice(0,2).toUpperCase();
+            document.getElementById('nav-avatar-btn').textContent     = ini;
+            document.getElementById('perfil-avatar').textContent      = ini;
+            document.getElementById('perfil-nom').textContent         = (d.nom||'') + ' ' + (d.cognom||'');
+            document.getElementById('perfil-email').textContent       = user.email;
+            document.getElementById('perfil-points').textContent      = d.punts || 0;
+            document.getElementById('perfil-intercanvis').textContent = d.intercanvis_real || 0;
+            document.getElementById('perfil-valoracio').textContent   = d.valoracio_mitjana || '—';
+            document.getElementById('nav-points').textContent         = d.punts || 0;
+            document.getElementById('perfil-input-nom').value         = d.nom || '';
+            document.getElementById('perfil-input-cognom').value      = d.cognom || '';
+            document.getElementById('perfil-input-telefon').value     = d.telefon || '';
+            document.getElementById('perfil-input-localitat').value   = d.localitat || '';
+          }
+        } catch(e) { console.error('Error carregant perfil:', e); }
+
+        carregarEstadistiques();
         renderAnuncis();
         navigate('explorar');
       } else {
@@ -1360,6 +588,25 @@
       }
     });
 
+    // ═══════════════════════════════════════════════════════
+    //  ESTADÍSTIQUES LANDING
+    // ═══════════════════════════════════════════════════════
+    async function carregarEstadistiques() {
+      try {
+        const [uSnap, aSnap] = await Promise.all([
+          db.collection('usuaris').get(),
+          db.collection('anuncis').where('estat_anunci','==','disponible').get()
+        ]);
+        const totalIntercanvis = uSnap.docs.reduce((acc,d) => acc + (d.data().intercanvis_real||0), 0);
+        document.getElementById('stat-usuaris').textContent     = uSnap.size;
+        document.getElementById('stat-anuncis').textContent     = aSnap.size;
+        document.getElementById('stat-intercanvis').textContent = totalIntercanvis;
+      } catch(e) {}
+    }
+
+    // ═══════════════════════════════════════════════════════
+    //  AUTH FUNCIONS
+    // ═══════════════════════════════════════════════════════
     function switchTab(tab) {
       document.getElementById('tab-login').classList.toggle('active', tab === 'login');
       document.getElementById('tab-register').classList.toggle('active', tab === 'register');
@@ -1367,7 +614,6 @@
       document.getElementById('form-register').classList.toggle('hidden', tab !== 'register');
       hideAlert();
     }
-
     function showAlert(msg, type = 'error') {
       const el = document.getElementById('auth-alert');
       el.className = 'alert alert-' + type;
@@ -1377,113 +623,58 @@
     function hideAlert() { document.getElementById('auth-alert').classList.add('hidden'); }
 
     function doLogin() {
-      const email = document.getElementById('loginEmail').value;
-      const pass = document.getElementById('loginPass').value;
+      const email = document.getElementById('loginEmail').value.trim();
+      const pass  = document.getElementById('loginPass').value;
       if (!email || !pass) return showAlert('Omple tots els camps.');
-      firebase.auth().signInWithEmailAndPassword(email, pass)
+      auth.signInWithEmailAndPassword(email, pass)
         .catch(e => showAlert(tradError(e.code)));
     }
 
-    function enviarContacte() {
-      const nom = document.getElementById('c-nom').value.trim();
-      const email = document.getElementById('c-email').value.trim();
-      const assumpte = document.getElementById('c-assumpte').value;
-      const missatge = document.getElementById('c-missatge').value.trim();
-      const alertBox = document.getElementById('contacte-alert');
-
-
-      if (!nom || !email || !missatge) {
-        alertBox.className = 'alert alert-error';
-        alertBox.textContent = 'Omple els camps obligatoris: Nom, Correu i Missatge.';
-        alertBox.classList.remove('hidden');
-        return;
-      }
-
-
-      emailjs.init('YOUR_EMAILJS_USER_ID'); // Posa aquí el teu ID d'EmailJS
-      emailjs.send('service_id', 'template_id', {
-        from_name: nom,
-        from_email: email,
-        subject: assumpte,
-        message: missatge
-      })
-        .then(() => {
-          alertBox.className = 'alert alert-success';
-          alertBox.textContent = 'Missatge enviat correctament!';
-          alertBox.classList.remove('hidden');
-
-          // Netejar formulari
-          document.getElementById('c-nom').value = '';
-          document.getElementById('c-email').value = '';
-          document.getElementById('c-missatge').value = '';
-        })
-        .catch((err) => {
-          alertBox.className = 'alert alert-error';
-          alertBox.textContent = 'Hi ha hagut un error enviant el missatge. Torna-ho a intentar.';
-          alertBox.classList.remove('hidden');
-          console.error(err);
-        });
-    }
-
     function doRegister() {
-      // Recogemos todos los datos del formulario
-      const nom = document.getElementById('regNom').value;
-      const cognom = document.getElementById('regCognom').value;
-      const localitat = document.getElementById('regLocalitat').value;
-      const telefon = document.getElementById('regTelefon').value;
-      const email = document.getElementById('regEmail').value;
-      const pass = document.getElementById('regPass').value;
+      const nom      = document.getElementById('regNom').value.trim();
+      const cognom   = document.getElementById('regCognom').value.trim();
+      const localitat= document.getElementById('regLocalitat').value.trim();
+      const telefon  = document.getElementById('regTelefon').value.trim();
+      const email    = document.getElementById('regEmail').value.trim();
+      const pass     = document.getElementById('regPass').value;
 
-      // Validamos que los campos obligatorios estén llenos
-      if (!email || !pass || !nom || !cognom || !localitat) {
+      if (!email || !pass || !nom || !cognom || !localitat)
         return showAlert('Omple tots els camps obligatoris (*).');
-      }
-      if (pass.length < 6) {
+      if (pass.length < 6)
         return showAlert('La contrasenya ha de tenir mínim 6 caràcters.');
-      }
+      if (telefon && !/^\d{9}$/.test(telefon))
+        return showAlert('El telèfon ha de tenir exactament 9 dígits.');
 
-      // Creamos el usuario en Authentication
-      firebase.auth().createUserWithEmailAndPassword(email, pass)
-        .then((userCredential) => {
-          // Guardamos su perfil extra en Firestore con la estructura de tu diagrama
-          return db.collection('usuaris').doc(userCredential.user.uid).set({
-            nom: nom,
-            cognom: cognom,
-            localitat: localitat,
-            telefon: telefon || null, // El teléfono no es obligatorio
+      auth.createUserWithEmailAndPassword(email, pass)
+        .then(cred => Promise.all([
+          db.collection('usuaris').doc(cred.user.uid).set({
+            nom, cognom, localitat,
+            telefon: telefon || null,
+            foto: '',
+            data_creacio: TS(),
             punts: 0,
             intercanvis_real: 0,
-            foto: '',
-            data_creacio: firebase.firestore.FieldValue.serverTimestamp(),
-            valoracio_mitjana: "0"
-          }).then(() => {
-            // Actualizamos el nombre en el Authentication para que la Navbar lo detecte
-            return userCredential.user.updateProfile({ displayName: nom });
-          });
-        })
+            valoracio_mitjana: null
+          }),
+          cred.user.updateProfile({ displayName: nom })
+        ]))
         .then(() => showAlert('Compte creat amb èxit!', 'success'))
         .catch(e => showAlert(tradError(e.code)));
     }
 
     function doGoogleLogin() {
       const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider)
-        .then((result) => {
-          const userRef = db.collection('usuaris').doc(result.user.uid);
-          // Comprobamos si el usuario ya existe en Firestore
-          userRef.get().then((doc) => {
+      auth.signInWithPopup(provider)
+        .then(result => {
+          const uRef = db.collection('usuaris').doc(result.user.uid);
+          uRef.get().then(doc => {
             if (!doc.exists) {
-              // Si no existe, lo creamos con los datos de Google
-              userRef.set({
+              uRef.set({
                 nom: result.user.displayName || result.user.email.split('@')[0],
-                cognom: '',
-                localitat: '',
-                punts: 0,
-                intercanvis_real: 0,
-                telefon: null,
+                cognom: '', localitat: '', telefon: null,
                 foto: result.user.photoURL || '',
-                data_creacio: firebase.firestore.FieldValue.serverTimestamp(),
-                valoracio_mitjana: "0"
+                data_creacio: TS(),
+                punts: 0, intercanvis_real: 0, valoracio_mitjana: null
               });
             }
           });
@@ -1492,174 +683,584 @@
     }
 
     function doForgot() {
-      const email = document.getElementById('loginEmail').value;
+      const email = document.getElementById('loginEmail').value.trim();
       if (!email) return showAlert('Introdueix el teu correu primer.');
-      firebase.auth().sendPasswordResetEmail(email)
+      auth.sendPasswordResetEmail(email)
         .then(() => showAlert('Correu de recuperació enviat!', 'success'))
         .catch(e => showAlert(tradError(e.code)));
     }
 
-    function doLogout() { firebase.auth().signOut(); }
+    function doLogout() { auth.signOut(); }
 
     function tradError(code) {
-      const e = {
-        'auth/user-not-found': 'Usuari no trobat.',
-        'auth/wrong-password': 'Contrasenya incorrecta.',
-        'auth/invalid-credential': 'Credencials incorrectes.',
+      const msgs = {
+        'auth/user-not-found':       'Usuari no trobat.',
+        'auth/wrong-password':       'Contrasenya incorrecta.',
+        'auth/invalid-credential':   'Credencials incorrectes.',
         'auth/email-already-in-use': 'Aquest correu ja està registrat.',
-        'auth/invalid-email': 'Correu no vàlid.',
-        'auth/weak-password': 'Contrasenya massa feble.',
+        'auth/invalid-email':        'Correu no vàlid.',
+        'auth/weak-password':        'Contrasenya massa feble.',
         'auth/popup-closed-by-user': 'Popup tancat.',
       };
-      return e[code] || 'Error inesperat.';
+      return msgs[code] || 'Error inesperat.';
     }
 
-    // Filtres
+    // ═══════════════════════════════════════════════════════
+    //  GUARDAR PERFIL
+    // ═══════════════════════════════════════════════════════
+    async function guardarPerfil() {
+      const user     = auth.currentUser;
+      if (!user) return;
+      const nom      = document.getElementById('perfil-input-nom').value.trim();
+      const cognom   = document.getElementById('perfil-input-cognom').value.trim();
+      const telefon  = document.getElementById('perfil-input-telefon').value.trim();
+      const localitat= document.getElementById('perfil-input-localitat').value.trim();
+      const alertEl  = document.getElementById('perfil-alert');
+
+      if (!nom || !localitat) {
+        alertEl.className = 'alert alert-error';
+        alertEl.textContent = 'Nom i localitat són obligatoris.';
+        alertEl.classList.remove('hidden');
+        return;
+      }
+      try {
+        await db.collection('usuaris').doc(user.uid).update({ nom, cognom, localitat, telefon: telefon||null });
+        await user.updateProfile({ displayName: nom });
+        document.getElementById('perfil-nom').textContent = nom + ' ' + cognom;
+        const ini = nom.slice(0,2).toUpperCase();
+        document.getElementById('nav-avatar-btn').textContent = ini;
+        document.getElementById('perfil-avatar').textContent  = ini;
+        alertEl.className = 'alert alert-success';
+        alertEl.textContent = 'Perfil actualitzat!';
+        alertEl.classList.remove('hidden');
+        setTimeout(() => alertEl.classList.add('hidden'), 3000);
+      } catch(e) {
+        alertEl.className = 'alert alert-error';
+        alertEl.textContent = 'Error: ' + e.message;
+        alertEl.classList.remove('hidden');
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════
+    //  ANUNCIS — llegir de Firestore
+    // ═══════════════════════════════════════════════════════
+    let filtreActiu = 'tots';
+    let cercaActiva = '';
+    let totsAnuncis = [];
+
+    async function renderAnuncis() {
+      const grid = document.getElementById('anuncis-grid');
+      if (!grid) return;
+      grid.innerHTML = '<div class="loading" style="grid-column:1/-1"><span class="spinner"></span>Carregant...</div>';
+      try {
+        const snap = await db.collection('anuncis')
+          .where('estat_anunci','==','disponible')
+          .orderBy('data_creacio','desc')
+          .get();
+        totsAnuncis = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+        // Carregar noms d'usuari
+        const uids = [...new Set(totsAnuncis.map(a => a.usuari_id).filter(Boolean))];
+        await Promise.all(uids.map(async uid => {
+          try {
+            const uDoc = await db.collection('usuaris').doc(uid).get();
+            if (uDoc.exists) {
+              const ud = uDoc.data();
+              totsAnuncis = totsAnuncis.map(a =>
+                a.usuari_id === uid
+                  ? { ...a, _nom: ud.nom, _loc: ud.localitat, _ini: (ud.nom||'?').slice(0,2).toUpperCase() }
+                  : a
+              );
+            }
+          } catch(e) {}
+        }));
+        mostrarAnuncis();
+      } catch(e) {
+        grid.innerHTML = '<p style="color:var(--text-muted);padding:20px;grid-column:1/-1">Error carregant anuncis. Comprova les regles de Firestore.</p>';
+        console.error(e);
+      }
+    }
+
+    function mostrarAnuncis() {
+      const grid = document.getElementById('anuncis-grid');
+      if (!grid) return;
+      const modLabel = { intercanvi:'Intercanvi', donacio:'Donació', punts:'Punts' };
+
+      let llista = [...totsAnuncis];
+      if (filtreActiu !== 'tots')
+        llista = llista.filter(a => a.categoria === filtreActiu || a.modalitat === filtreActiu);
+      if (cercaActiva) {
+        const q = cercaActiva.toLowerCase();
+        llista = llista.filter(a =>
+          (a.titol||'').toLowerCase().includes(q) || (a.descripcio||'').toLowerCase().includes(q)
+        );
+      }
+
+      document.getElementById('anuncis-count').textContent =
+        llista.length + ' anunci' + (llista.length !== 1 ? 's' : '') + ' disponible' + (llista.length !== 1 ? 's' : '');
+
+      if (!llista.length) {
+        grid.innerHTML = '<p style="color:var(--text-muted);padding:20px;grid-column:1/-1">No s\'han trobat anuncis.</p>';
+        return;
+      }
+
+      const getPuntsLabel = a => a.modalitat === 'punts' ? (a.ecopoints||0)+' pts'
+                                : a.modalitat === 'donacio' ? 'Gratis' : 'Intercanvi';
+
+      grid.innerHTML = llista.map(a => `
+        <div class="card" onclick="veureDeta('${a.id}')">
+          <div class="card-img">${(a.imatge && a.imatge[0]) ? `<img src="${a.imatge[0]}" alt="${a.titol}" onerror="this.parentElement.innerHTML='📦'">` : '📦'}</div>
+          <div class="card-body">
+            <div style="display:flex;gap:6px;margin-bottom:8px">
+              <span class="tag tag-${a.modalitat}">${modLabel[a.modalitat]||a.modalitat}</span>
+              ${a.estat_producte ? `<span class="tag tag-estat">${a.estat_producte === 'nou' ? 'Nou' : 'Bon estat'}</span>` : ''}
+            </div>
+            <div class="card-title">${a.titol||'Sense títol'}</div>
+            <div class="card-desc">${a.descripcio||''}</div>
+            <div class="card-footer">
+              <div style="display:flex;align-items:center;gap:6px">
+                <div class="avatar-sm">${a._ini||'?'}</div>
+                <span style="font-size:12px;color:var(--text-muted)">${a._nom||'Usuari'}</span>
+              </div>
+              <span class="card-points">${getPuntsLabel(a)}</span>
+            </div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:6px">📍 ${a._loc||''}</div>
+          </div>
+        </div>`).join('');
+    }
+
+    function cercarAnuncis() {
+      cercaActiva = document.getElementById('search-input').value.trim();
+      mostrarAnuncis();
+    }
+    document.getElementById('search-input')?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') cercarAnuncis();
+    });
+
     document.querySelectorAll('.filter-chip').forEach(chip => {
       chip.addEventListener('click', () => {
         document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
         chip.classList.add('active');
+        filtreActiu = chip.dataset.filter || 'tots';
+        mostrarAnuncis();
       });
     });
 
-    // Anuncis demo
-    const anuncisDemo = [
-      { emoji: '👟', titol: 'Sabates Nike talla 42', desc: 'Quasi noves, portades 3 vegades.', mod: 'intercanvi', estat: 'bon-estat', user: 'MR', nom: 'Marc R.', loc: 'Mataró', punts: 'Intercanvi' },
-      { emoji: '📱', titol: 'iPhone 11 (esquerda mín.)', desc: 'Funciona perfectament, bateria 87%.', mod: 'punts', estat: 'bon-estat', user: 'LP', nom: 'Laura P.', loc: 'Argentona', punts: '120 pts' },
-      { emoji: '📚', titol: 'Lot de llibres ESO', desc: 'Matemàtiques, Física i Història 2022.', mod: 'donacio', estat: 'nou', user: 'AC', nom: 'Anna C.', loc: 'Premià de Mar', punts: 'Gratis' },
-      { emoji: '🚲', titol: 'Bicicleta de muntanya 26"', desc: 'BTT en bon estat, Shimano 21v.', mod: 'intercanvi', estat: 'bon-estat', user: 'JG', nom: 'Jordi G.', loc: 'Mataró', punts: 'Intercanvi' },
-      { emoji: '🪴', titol: 'Plantes d\'interior variades', desc: 'Pothos, sansevieria i planta de la pau.', mod: 'donacio', estat: '', user: 'MV', nom: 'Mireia V.', loc: 'Vilassar de Mar', punts: 'Gratis' },
-      { emoji: '🎮', titol: 'Jocs PS4 (3 unitats)', desc: 'FIFA 23, Spider-Man, GTA V. Precintats.', mod: 'punts', estat: 'nou', user: 'PH', nom: 'Pol H.', loc: 'Arenys de Munt', punts: '80 pts' },
-    ];
+    // ═══════════════════════════════════════════════════════
+    //  DETALL ANUNCI
+    // ═══════════════════════════════════════════════════════
+    async function veureDeta(anunciId) {
+      navigate('detall');
+      const content = document.getElementById('detall-content');
+      content.innerHTML = '<div class="loading"><span class="spinner"></span>Carregant...</div>';
+      try {
+        const [anunciDoc, valsSnap] = await Promise.all([
+          db.collection('anuncis').doc(anunciId).get(),
+          db.collection('valoracions').where('id_anunci','==',anunciId).get()
+        ]);
+        if (!anunciDoc.exists) { content.innerHTML = '<p>Anunci no trobat.</p>'; return; }
 
-    function renderAnuncis() {
-      const grid = document.getElementById('anuncis-grid');
-      if (!grid) return;
-      const modLabel = { intercanvi: 'Intercanvi', donacio: 'Donació', punts: 'Punts' };
-      grid.innerHTML = anuncisDemo.map(a => `
-        <div class="card">
-          <div class="card-img">${a.emoji}</div>
-          <div class="card-body">
-            <div style="display:flex;gap:6px;margin-bottom:8px">
-              <span class="tag tag-${a.mod}">${modLabel[a.mod]}</span>
-              ${a.estat ? `<span class="tag tag-estat">${a.estat === 'nou' ? 'Nou' : 'Bon estat'}</span>` : ''}
-            </div>
-            <div class="card-title">${a.titol}</div>
-            <div class="card-desc">${a.desc}</div>
-            <div class="card-footer">
-              <div style="display:flex;align-items:center;gap:6px">
-                <div class="avatar-sm">${a.user}</div>
-                <span style="font-size:12px;color:var(--text-muted)">${a.nom}</span>
+        const a = { id: anunciDoc.id, ...anunciDoc.data() };
+        const modLabel = { intercanvi:'Intercanvi', donacio:'Donació', punts:'Punts' };
+        const user = auth.currentUser;
+
+        let nomProp='Usuari', locProp='', iniProp='?';
+        try {
+          const uDoc = await db.collection('usuaris').doc(a.usuari_id).get();
+          if (uDoc.exists) {
+            const ud = uDoc.data();
+            nomProp = (ud.nom||'') + ' ' + (ud.cognom||'');
+            locProp = ud.localitat || '';
+            iniProp = (ud.nom||'?').slice(0,2).toUpperCase();
+          }
+        } catch(e) {}
+
+        const valsHtml = valsSnap.empty
+          ? '<p style="color:var(--text-muted);font-size:14px">Encara no hi ha valoracions.</p>'
+          : valsSnap.docs.map(v => {
+              const vd = v.data();
+              return `<div class="valoracio-card">
+                <div class="stars">${'★'.repeat(vd.estrelles||0)}${'☆'.repeat(5-(vd.estrelles||0))}</div>
+                <p style="font-size:14px;margin-top:6px">${vd.comentari||''}</p>
+              </div>`;
+            }).join('');
+
+        const esProp  = user && user.uid === a.usuari_id;
+        const esLogat = !!user;
+        const puntsLabel = a.modalitat === 'punts' ? (a.ecopoints||0)+' pts'
+                         : a.modalitat === 'donacio' ? 'Gratis' : 'Intercanvi';
+
+        content.innerHTML = `
+          <div class="detall-card">
+            <div class="detall-img">${(a.imatge && a.imatge[0]) ? `<img src="${a.imatge[0]}" alt="${a.titol}">` : '📦'}</div>
+            <div class="detall-body">
+              <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+                <span class="tag tag-${a.modalitat}">${modLabel[a.modalitat]||a.modalitat}</span>
+                ${a.estat_producte ? `<span class="tag tag-estat">${a.estat_producte}</span>` : ''}
+                <span class="tag tag-estat">${a.estat_anunci||'disponible'}</span>
               </div>
-              <span class="card-points">${a.punts}</span>
+              <h1 class="detall-title">${a.titol||''}</h1>
+              <p class="detall-desc">${a.descripcio||''}</p>
+              <div class="detall-info-row">
+                <div class="detall-info-item"><strong>${puntsLabel}</strong>Preu / Modalitat</div>
+                <div class="detall-info-item"><strong>${a.categoria||'—'}</strong>Categoria</div>
+              </div>
+              <div class="detall-user">
+                <div class="avatar-lg" style="width:44px;height:44px;font-size:16px">${iniProp}</div>
+                <div>
+                  <div class="detall-user-name">${nomProp}</div>
+                  <div class="detall-user-loc">📍 ${locProp}</div>
+                </div>
+              </div>
+              <div class="detall-actions">
+                ${esLogat && !esProp ? `
+                  <button class="btn btn-primary" onclick="iniciarXat('${a.id}','${a.usuari_id}')">✉ Enviar missatge</button>
+                  <button class="btn btn-outline" onclick="obrirModalValoracio('${a.id}','${a.usuari_id}')">⭐ Valorar</button>
+                ` : ''}
+                ${esProp ? `<button class="btn btn-danger btn-sm" onclick="eliminarAnunci('${a.id}')">Eliminar anunci</button>` : ''}
+              </div>
+              <h3 style="font-size:16px;font-weight:600;margin-bottom:16px">Valoracions (${valsSnap.size})</h3>
+              ${valsHtml}
             </div>
-            <div style="font-size:12px;color:var(--text-muted);margin-top:6px">📍 ${a.loc}</div>
-          </div>
-        </div>
-      `).join('');
+          </div>`;
+      } catch(e) {
+        content.innerHTML = '<p style="color:var(--text-muted)">Error carregant l\'anunci.</p>';
+        console.error(e);
+      }
     }
 
-    // Chat demo
-    const chatMsgs = {
-      'Marc R.': [
-        { text: "Hola! T'interessa la bici?", sent: false, time: '12:20' },
-        { text: 'Sí! Quant val en punts?', sent: true, time: '12:25' },
-        { text: "Uns 200 punts o intercanvi per electrònica", sent: false, time: '12:28' },
-        { text: "T'interessa un iPhone 11?", sent: true, time: '12:30' },
-      ],
-      'Anna C.': [
-        { text: 'Gràcies pels llibres! Han estat molt útils', sent: false, time: 'Ahir' },
-        { text: 'De res! Me n\'alegro 😊', sent: true, time: 'Ahir' },
-      ],
-      'Jordi G.': [
-        { text: 'Podem quedar dimecres a les 17h?', sent: false, time: 'Dl' },
-      ],
-    };
+    async function eliminarAnunci(id) {
+      if (!confirm('Segur que vols eliminar aquest anunci?')) return;
+      try {
+        await db.collection('anuncis').doc(id).update({ estat_anunci: 'completat' });
+        navigate('explorar');
+        renderAnuncis();
+      } catch(e) { alert('Error: ' + e.message); }
+    }
 
-    function openChat(el, name, initials, anunci) {
-      document.querySelectorAll('.chat-item').forEach(i => i.classList.remove('active'));
-      el.classList.add('active');
+    // ═══════════════════════════════════════════════════════
+    //  PUBLICAR ANUNCI
+    // ═══════════════════════════════════════════════════════
+    function obrirModalAnunci() {
+      if (!auth.currentUser) return navigate('login');
+      document.getElementById('modal-alert').classList.add('hidden');
+      document.getElementById('modal-anunci').classList.remove('hidden');
+    }
+
+    async function publicarAnunci() {
+      const user     = auth.currentUser;
+      if (!user) return navigate('login');
+      const titol    = document.getElementById('anunci-titol').value.trim();
+      const desc     = document.getElementById('anunci-desc').value.trim();
+      const modalitat= document.getElementById('anunci-modalitat').value;
+      const categoria= document.getElementById('anunci-categoria').value;
+      const punts    = parseInt(document.getElementById('anunci-punts').value) || 0;
+      const estatProd= document.getElementById('anunci-estat-prod').value;
+      const alertEl  = document.getElementById('modal-alert');
+      const btn      = document.getElementById('btn-publicar');
+
+      if (!titol || !desc) {
+        alertEl.className = 'alert alert-error';
+        alertEl.textContent = 'El títol i la descripció són obligatoris.';
+        alertEl.classList.remove('hidden');
+        return;
+      }
+      if (punts < 0) {
+        alertEl.className = 'alert alert-error';
+        alertEl.textContent = 'Els ecopoints no poden ser negatius.';
+        alertEl.classList.remove('hidden');
+        return;
+      }
+      btn.textContent = 'Publicant...';
+      btn.disabled = true;
+      try {
+        await db.collection('anuncis').add({
+          usuari_id: user.uid,
+          titol, descripcio: desc,
+          imatge: [], ecopoints: punts,
+          estat_anunci: 'disponible',
+          estat_producte: estatProd,
+          data_creacio: TS(),
+          categoria, modalitat
+        });
+        document.getElementById('modal-anunci').classList.add('hidden');
+        document.getElementById('anunci-titol').value = '';
+        document.getElementById('anunci-desc').value  = '';
+        document.getElementById('anunci-punts').value = '0';
+        alertEl.classList.add('hidden');
+        renderAnuncis();
+      } catch(e) {
+        alertEl.className = 'alert alert-error';
+        alertEl.textContent = 'Error: ' + e.message;
+        alertEl.classList.remove('hidden');
+      }
+      btn.textContent = 'Publicar';
+      btn.disabled = false;
+    }
+
+    // ═══════════════════════════════════════════════════════
+    //  ELS MEUS ANUNCIS (perfil)
+    // ═══════════════════════════════════════════════════════
+    async function carregarMeusAnuncis() {
+      const user = auth.currentUser;
+      if (!user) return;
+      const grid = document.getElementById('meus-anuncis-grid');
+      grid.innerHTML = '<div class="loading" style="grid-column:1/-1"><span class="spinner"></span>Carregant...</div>';
+      try {
+        const snap = await db.collection('anuncis')
+          .where('usuari_id','==',user.uid)
+          .orderBy('data_creacio','desc')
+          .get();
+        if (snap.empty) {
+          grid.innerHTML = '<p style="color:var(--text-muted);font-size:14px;grid-column:1/-1">Encara no has publicat cap anunci.</p>';
+          return;
+        }
+        const modLabel = { intercanvi:'Intercanvi', donacio:'Donació', punts:'Punts' };
+        grid.innerHTML = snap.docs.map(d => {
+          const a = d.data();
+          return `<div class="card" onclick="veureDeta('${d.id}')">
+            <div class="card-img">📦</div>
+            <div class="card-body">
+              <div style="display:flex;gap:6px;margin-bottom:8px">
+                <span class="tag tag-${a.modalitat}">${modLabel[a.modalitat]||a.modalitat}</span>
+                <span class="tag tag-estat">${a.estat_anunci}</span>
+              </div>
+              <div class="card-title">${a.titol}</div>
+              <div class="card-desc">${a.descripcio}</div>
+            </div>
+          </div>`;
+        }).join('');
+      } catch(e) {
+        grid.innerHTML = '<p style="color:var(--text-muted);font-size:14px">Error carregant.</p>';
+        console.error(e);
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════
+    //  MISSATGERIA
+    // ═══════════════════════════════════════════════════════
+    let chatActual = null;
+    let unsubChat  = null;
+
+    async function carregarChats() {
+      const user = auth.currentUser;
+      if (!user) return;
+      const listEl = document.getElementById('chat-list-items');
+      listEl.innerHTML = '<div class="loading" style="padding:20px"><span class="spinner"></span>Carregant...</div>';
+      try {
+        const [emisSnap, recSnap] = await Promise.all([
+          db.collection('missatges').where('id_emissor','==',user.uid).orderBy('data_enviament','desc').get(),
+          db.collection('missatges').where('id_receptor','==',user.uid).orderBy('data_enviament','desc').get()
+        ]);
+        const convMap = {};
+        [...emisSnap.docs, ...recSnap.docs].forEach(doc => {
+          const d = doc.data();
+          const altreUid = d.id_emissor === user.uid ? d.id_receptor : d.id_emissor;
+          const key = altreUid + '_' + d.anunci_referencia;
+          const ts  = d.data_enviament?.toMillis?.() || 0;
+          if (!convMap[key] || ts > convMap[key].ts) {
+            convMap[key] = { altreUid, anunciId: d.anunci_referencia, lastMsg: d.contingut, ts,
+              noLlegit: (!d.llegit && d.id_receptor === user.uid) ? 1 : 0 };
+          }
+        });
+        const convList = Object.values(convMap).sort((a,b) => b.ts - a.ts);
+        if (!convList.length) {
+          listEl.innerHTML = '<p style="padding:16px;font-size:13px;color:var(--text-muted)">No tens missatges encara.</p>';
+          return;
+        }
+        listEl.innerHTML = '';
+        for (const conv of convList) {
+          let nom='Usuari', ini='?';
+          try {
+            const uDoc = await db.collection('usuaris').doc(conv.altreUid).get();
+            if (uDoc.exists) { const ud=uDoc.data(); nom=(ud.nom||'')+' '+(ud.cognom||''); ini=(ud.nom||'?').slice(0,2).toUpperCase(); }
+          } catch(e) {}
+          const item = document.createElement('div');
+          item.className = 'chat-item';
+          item.innerHTML = `
+            <div class="avatar-sm">${ini}</div>
+            <div class="chat-item-info">
+              <div class="chat-item-name">${nom}</div>
+              <div class="chat-item-msg">${conv.lastMsg||''}</div>
+            </div>
+            ${conv.noLlegit ? `<div class="chat-unread">${conv.noLlegit}</div>` : ''}`;
+          item.onclick = () => {
+            document.querySelectorAll('.chat-item').forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            obrirConversacio(conv.altreUid, nom, ini, conv.anunciId);
+          };
+          listEl.appendChild(item);
+        }
+      } catch(e) {
+        listEl.innerHTML = '<p style="padding:16px;font-size:13px;color:var(--text-muted)">Error carregant missatges.</p>';
+        console.error(e);
+      }
+    }
+
+    function obrirConversacio(altreUid, nom, ini, anunciId) {
+      const user = auth.currentUser;
+      if (!user) return;
       document.getElementById('chat-header').classList.remove('hidden');
       document.getElementById('chat-input-area').classList.remove('hidden');
-      document.getElementById('chat-name').textContent = name;
-      document.getElementById('chat-avatar').textContent = initials;
-      document.getElementById('chat-anunci').textContent = anunci;
-      const msgs = chatMsgs[name] || [];
-      document.getElementById('chat-messages').innerHTML = msgs.map(m => `
-        <div class="msg ${m.sent ? 'msg-sent' : 'msg-recv'}">
-          <div class="msg-text">${m.text}</div>
-          <div class="msg-time">${m.time}</div>
-        </div>
-      `).join('');
+      document.getElementById('chat-name').textContent   = nom;
+      document.getElementById('chat-avatar').textContent = ini;
+      document.getElementById('chat-anunci').textContent = anunciId || '';
+      chatActual = { altreUid, anunciId };
+      if (unsubChat) unsubChat();
+
+      const msgsEl = document.getElementById('chat-messages');
+      msgsEl.innerHTML = '<div class="loading"><span class="spinner"></span></div>';
+
+      unsubChat = db.collection('missatges')
+        .where('anunci_referencia','==',anunciId)
+        .orderBy('data_enviament','asc')
+        .onSnapshot(snap => {
+          const el = document.getElementById('chat-messages');
+          const msgs = snap.docs.map(d => d.data()).filter(d =>
+            (d.id_emissor===user.uid && d.id_receptor===altreUid) ||
+            (d.id_emissor===altreUid && d.id_receptor===user.uid)
+          );
+          if (!msgs.length) { el.innerHTML = '<div class="chat-empty">Comença la conversa!</div>'; return; }
+          el.innerHTML = msgs.map(m => {
+            const sent = m.id_emissor === user.uid;
+            const hora = m.data_enviament?.toDate?.()
+              ? m.data_enviament.toDate().toLocaleTimeString('ca',{hour:'2-digit',minute:'2-digit'}) : '';
+            return `<div class="msg ${sent?'msg-sent':'msg-recv'}">
+              <div class="msg-text">${m.contingut}</div>
+              <div class="msg-time">${hora}${sent?(m.llegit?' ✓✓':' ✓'):''}</div>
+            </div>`;
+          }).join('');
+          el.scrollTop = el.scrollHeight;
+          snap.docs.forEach(async doc => {
+            const d = doc.data();
+            if (d.id_receptor === user.uid && !d.llegit) await doc.ref.update({ llegit: true });
+          });
+        });
     }
 
-    function sendMsg() {
+    async function iniciarXat(anunciId, propietariUid) {
+      const user = auth.currentUser;
+      if (!user) return navigate('login');
+      if (user.uid === propietariUid) return alert('No et pots enviar missatges a tu mateix.');
+      navigate('chats');
+      await carregarChats();
+      let nom='Usuari', ini='?';
+      try {
+        const uDoc = await db.collection('usuaris').doc(propietariUid).get();
+        if (uDoc.exists) { const ud=uDoc.data(); nom=(ud.nom||'')+' '+(ud.cognom||''); ini=(ud.nom||'?').slice(0,2).toUpperCase(); }
+      } catch(e) {}
+      obrirConversacio(propietariUid, nom, ini, anunciId);
+    }
+
+    async function sendMsg() {
+      const user  = auth.currentUser;
       const input = document.getElementById('msg-input');
-      const text = input.value.trim();
-      if (!text) return;
-      const msgs = document.getElementById('chat-messages');
-      msgs.innerHTML += `<div class="msg msg-sent"><div class="msg-text">${text}</div><div class="msg-time">Ara</div></div>`;
+      const text  = input.value.trim();
+      if (!text || !user || !chatActual) return;
       input.value = '';
-      msgs.scrollTop = msgs.scrollHeight;
+      try {
+        await db.collection('missatges').add({
+          contingut: text,
+          anunci_referencia: chatActual.anunciId,
+          id_emissor: user.uid,
+          id_receptor: chatActual.altreUid,
+          entregat: true, llegit: false,
+          data_enviament: TS()
+        });
+      } catch(e) { console.error('Error enviant missatge:', e); }
     }
 
     document.getElementById('msg-input')?.addEventListener('keydown', e => {
       if (e.key === 'Enter') sendMsg();
     });
 
-    // obrir primer chat per defecte
-    document.querySelector('.chat-item')?.click();
+    // ═══════════════════════════════════════════════════════
+    //  VALORACIONS
+    // ═══════════════════════════════════════════════════════
+    function obrirModalValoracio(anunciId, valoratUid) {
+      if (!auth.currentUser) return navigate('login');
+      document.getElementById('val-anunci-id').value  = anunciId;
+      document.getElementById('val-valorat-id').value = valoratUid;
+      document.getElementById('val-alert').classList.add('hidden');
+      document.getElementById('modal-valoracio').classList.remove('hidden');
+    }
+
+    async function enviarValoracio() {
+      const user      = auth.currentUser;
+      const estrelles = parseInt(document.getElementById('val-estrelles').value) || 0;
+      const comentari = document.getElementById('val-comentari').value.trim();
+      const anunciId  = document.getElementById('val-anunci-id').value;
+      const valoratId = document.getElementById('val-valorat-id').value;
+      const alertEl   = document.getElementById('val-alert');
+
+      if (estrelles < 0 || estrelles > 5) {
+        alertEl.className = 'alert alert-error';
+        alertEl.textContent = 'Les estrelles han de ser entre 0 i 5.';
+        alertEl.classList.remove('hidden');
+        return;
+      }
+      try {
+        await db.collection('valoracions').add({
+          id_valorat: valoratId, id_redactor: user.uid,
+          comentari: comentari||null, estrelles, id_anunci: anunciId
+        });
+        const vSnap = await db.collection('valoracions').where('id_valorat','==',valoratId).get();
+        const mitja = (vSnap.docs.reduce((acc,d) => acc+(d.data().estrelles||0),0) / vSnap.size).toFixed(1);
+        await db.collection('usuaris').doc(valoratId).update({ valoracio_mitjana: mitja });
+        document.getElementById('modal-valoracio').classList.add('hidden');
+        alert('Valoració enviada!');
+        veureDeta(anunciId);
+      } catch(e) {
+        alertEl.className = 'alert alert-error';
+        alertEl.textContent = 'Error: ' + e.message;
+        alertEl.classList.remove('hidden');
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════
+    //  EMAILJS — CONTACTE
+    // ═══════════════════════════════════════════════════════
     emailjs.init('kiFREBpYUFWgQaOAz');
 
     function enviarContacte() {
-      const nom = document.getElementById('c-nom').value.trim();
-      const email = document.getElementById('c-email').value.trim();
-      const assumpte = document.getElementById('c-assumpte').value;
-      const missatge = document.getElementById('c-missatge').value.trim();
+      const nom     = document.getElementById('c-nom').value.trim();
+      const email   = document.getElementById('c-email').value.trim();
+      const assumpte= document.getElementById('c-assumpte').value;
+      const missatge= document.getElementById('c-missatge').value.trim();
       const alertEl = document.getElementById('contacte-alert');
-      const btn = document.getElementById('btn-contacte');
+      const btn     = document.getElementById('btn-contacte');
 
-      // VALIDACIÓ
       if (!nom || !email || !missatge) {
         alertEl.className = 'alert alert-error';
         alertEl.textContent = 'Omple tots els camps.';
         alertEl.classList.remove('hidden');
         return;
       }
-
       btn.textContent = 'Enviant...';
       btn.disabled = true;
 
       emailjs.send('service_drvu5mg', 'template_qtkds4p', {
-        name: nom,
-        email: email,
-        title: assumpte,
-        message: missatge
+        name: nom, email, title: assumpte, message: missatge
       })
-        .then(() => {
-          alertEl.className = 'alert alert-success';
-          alertEl.textContent = 'Missatge enviat correctament! ✅';
-          alertEl.classList.remove('hidden');
-
-          // netejar camps
-          document.getElementById('c-nom').value = '';
-          document.getElementById('c-email').value = '';
-          document.getElementById('c-missatge').value = '';
-
-          btn.textContent = 'Enviar missatge';
-          btn.disabled = false;
-        })
-        .catch((error) => {
-          console.error(error);
-          alertEl.className = 'alert alert-error';
-          alertEl.textContent = 'Error enviant. Torna-ho a intentar.';
-          alertEl.classList.remove('hidden');
-
-          btn.textContent = 'Enviar missatge';
-          btn.disabled = false;
-        });
+      .then(() => {
+        alertEl.className = 'alert alert-success';
+        alertEl.textContent = 'Missatge enviat correctament! ✅';
+        alertEl.classList.remove('hidden');
+        document.getElementById('c-nom').value = '';
+        document.getElementById('c-email').value = '';
+        document.getElementById('c-missatge').value = '';
+        btn.textContent = 'Enviar missatge';
+        btn.disabled = false;
+      })
+      .catch(err => {
+        console.error(err);
+        alertEl.className = 'alert alert-error';
+        alertEl.textContent = 'Error enviant. Torna-ho a intentar.';
+        alertEl.classList.remove('hidden');
+        btn.textContent = 'Enviar missatge';
+        btn.disabled = false;
+      });
     }
   </script>
 </body>
-
 </html>
