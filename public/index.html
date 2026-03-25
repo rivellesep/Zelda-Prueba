@@ -575,8 +575,9 @@
             document.getElementById('perfil-input-telefon').value     = d.telefon || '';
             document.getElementById('perfil-input-localitat').value   = d.localitat || '';
           }
-        } catch(e) { console.error('Error carregant perfil:', e); 
+        } catch(e) { console.error('Error carregant perfil:', e); }
 
+        carregarEstadistiques();
         renderAnuncis();
         navigate('explorar');
       } else {
@@ -1260,7 +1261,6 @@
         btn.disabled = false;
       });
     }
-    carregarEstadistiques();
   </script>
 </body>
 </html>
