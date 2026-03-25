@@ -1870,62 +1870,62 @@
       if (page === 'perfil') { carregarMeusAnuncis(); carregarHistorial(); }
     }
 
- // ═══════════════════════════════════════════════════════
-//  AUTH STATE 
-// ═══════════════════════════════════════════════════════
-auth.onAuthStateChanged(user => {
-  if (user) {
+    // ═══════════════════════════════════════════════════════
+    //  AUTH STATE 
+    // ═══════════════════════════════════════════════════════
+    auth.onAuthStateChanged(user => {
+      if (user) {
 
-    // UI logat
-    document.getElementById('navbar').classList.remove('hidden');
-    document.getElementById('navbar-guest').classList.add('hidden');
-    document.getElementById('footer').classList.remove('hidden');
+        // UI logat
+        document.getElementById('navbar').classList.remove('hidden');
+        document.getElementById('navbar-guest').classList.add('hidden');
+        document.getElementById('footer').classList.remove('hidden');
 
-    // 🔥 LISTENER EN TEMPS REAL (PUNTS I PERFIL)
-    db.collection('usuaris').doc(user.uid).onSnapshot(doc => {
-      if (doc.exists) {
-        const d = doc.data();
+        // 🔥 LISTENER EN TEMPS REAL (PUNTS I PERFIL)
+        db.collection('usuaris').doc(user.uid).onSnapshot(doc => {
+          if (doc.exists) {
+            const d = doc.data();
 
-        const ini = (d.nom || user.email || '?').slice(0, 2).toUpperCase();
+            const ini = (d.nom || user.email || '?').slice(0, 2).toUpperCase();
 
-        // Avatar
-        document.getElementById('nav-avatar-btn').textContent = ini;
-        document.getElementById('perfil-avatar').textContent = ini;
+            // Avatar
+            document.getElementById('nav-avatar-btn').textContent = ini;
+            document.getElementById('perfil-avatar').textContent = ini;
 
-        // Nom i email
-        document.getElementById('perfil-nom').textContent =
-          (d.nom || '') + ' ' + (d.cognom || '');
-        document.getElementById('perfil-email').textContent = user.email;
+            // Nom i email
+            document.getElementById('perfil-nom').textContent =
+              (d.nom || '') + ' ' + (d.cognom || '');
+            document.getElementById('perfil-email').textContent = user.email;
 
-        // ✅ PUNTS (AIXÒ ÉS EL QUE VOLIES)
-        document.getElementById('nav-points').textContent = d.punts || 0;
-        document.getElementById('perfil-points').textContent = d.punts || 0;
+            // ✅ PUNTS (AIXÒ ÉS EL QUE VOLIES)
+            document.getElementById('nav-points').textContent = d.punts || 0;
+            document.getElementById('perfil-points').textContent = d.punts || 0;
 
-        // Altres dades
-        document.getElementById('perfil-intercanvis').textContent =
-          d.intercanvis_real || 0;
-        document.getElementById('perfil-valoracio').textContent =
-          d.valoracio_mitjana || '—';
+            // Altres dades
+            document.getElementById('perfil-intercanvis').textContent =
+              d.intercanvis_real || 0;
+            document.getElementById('perfil-valoracio').textContent =
+              d.valoracio_mitjana || '—';
 
-        // Inputs
-        document.getElementById('perfil-input-nom').value = d.nom || '';
-        document.getElementById('perfil-input-cognom').value = d.cognom || '';
+            // Inputs
+            document.getElementById('perfil-input-nom').value = d.nom || '';
+            document.getElementById('perfil-input-cognom').value = d.cognom || '';
+          }
+        });
+
+        renderAnuncis();
+        navigate('explorar');
+
+      } else {
+
+        // UI no logat
+        document.getElementById('navbar').classList.add('hidden');
+        document.getElementById('navbar-guest').classList.remove('hidden');
+        document.getElementById('footer').classList.add('hidden');
+
+        navigate('landing');
       }
     });
-
-    renderAnuncis();
-    navigate('explorar');
-
-  } else {
-
-    // UI no logat
-    document.getElementById('navbar').classList.add('hidden');
-    document.getElementById('navbar-guest').classList.remove('hidden');
-    document.getElementById('footer').classList.add('hidden');
-
-    navigate('landing');
-  }
-});
     // ═══════════════════════════════════════════════════════
     //  AUTH FUNCIONS
     // ═══════════════════════════════════════════════════════
@@ -2277,8 +2277,7 @@ ${esLogat && !esProp && a.estat_anunci === 'completat' && a.valorat ? `<button c
         // Transacció atòmica: descomptar punts, marcar anunci reservat, notificar venedor
         const batch = db.batch();
 
-        // 1. Descomptar EcoPoints al comprador
-        batch.update(db.collection('usuaris').doc(user.uid), { punts: INC(-preu) });
+
 
         // 2. Marcar anunci com a reservat + guardar qui ha comprat
         batch.update(db.collection('anuncis').doc(anunciId), {
@@ -2386,6 +2385,10 @@ ${esLogat && !esProp && a.estat_anunci === 'completat' && a.valorat ? `<button c
           batch.update(db.collection('usuaris').doc(user.uid), {
             punts: INC(a.ecopoints), intercanvis_real: INC(1)
           });
+          // Descomptar els punts al comprador ara
+          if (compradorId) {
+            batch.update(db.collection('usuaris').doc(compradorId), { punts: INC(-a.ecopoints) });
+          }
         } else {
           // Per intercanvi/donació: incrementar comptador d'intercanvis
           batch.update(db.collection('usuaris').doc(user.uid), { intercanvis_real: INC(1) });
@@ -2453,11 +2456,6 @@ ${esLogat && !esProp && a.estat_anunci === 'completat' && a.valorat ? `<button c
           comprador_id: firebase.firestore.FieldValue.delete(),
           data_reserva: firebase.firestore.FieldValue.delete()
         });
-
-        // Si havia pagat amb punts, tornar-los
-        if (a.modalitat === 'punts' && a.ecopoints > 0 && a.comprador_id) {
-          batch.update(db.collection('usuaris').doc(a.comprador_id), { punts: INC(a.ecopoints) });
-        }
 
         await batch.commit();
 
@@ -2795,4 +2793,5 @@ ${esLogat && !esProp && a.estat_anunci === 'completat' && a.valorat ? `<button c
     carregarEstadistiques();
   </script>
 </body>
+
 </html>
