@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ca">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,1415 +8,253 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --green-dark: #1A5C52;
-      --green-mid: #2E7D32;
-      --bg: #121212;
-      --surface: #1E1E1E;
-      --surface2: #2A2A2A;
-      --text: #E8F5E9;
-      --text-muted: #9E9E9E;
-      --error: #C62828;
-      --success: #388E3C;
+      --green-dark: #1A5C52; --green-mid: #2E7D32;
+      --bg: #121212; --surface: #1E1E1E; --surface2: #2A2A2A;
+      --text: #E8F5E9; --text-muted: #9E9E9E;
+      --error: #C62828; --success: #388E3C;
       --warning: #E65100;
-      --radius: 8px;
-      --radius-lg: 12px;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    nav {
-      background: var(--surface);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 0 24px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-    }
-
-    .logo-text {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .logo-text span {
-      color: #4CAF50;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 4px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: var(--text-muted);
-      font-size: 14px;
-      font-weight: 500;
-      padding: 6px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all .15s;
-    }
-
-    .nav-links a:hover {
-      color: var(--text);
-      background: var(--surface2);
-    }
-
-    .nav-links a.active {
-      color: #4CAF50;
-      background: rgba(26, 92, 82, 0.15);
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .ecopoints {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #4CAF50;
-      background: rgba(76, 175, 80, 0.1);
-      padding: 5px 10px;
-      border-radius: 20px;
-    }
-
-    .nav-avatar {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: var(--green-dark);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 600;
-      color: #fff;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: border-color .15s;
-    }
-
-    .nav-avatar:hover {
-      border-color: #4CAF50;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 9px 18px;
-      border-radius: var(--radius);
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      text-decoration: none;
-      transition: background .15s;
-    }
-
-    .btn-primary {
-      background: var(--green-dark);
-      color: #fff;
-    }
-
-    .btn-primary:hover {
-      background: var(--green-mid);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-    }
-
-    .btn-outline:hover {
-      background: var(--surface2);
-    }
-
-    .btn-danger {
-      background: var(--error);
-      color: #fff;
-    }
-
-    .btn-danger:hover {
-      background: #b71c1c;
-    }
-
-    .btn-warning {
-      background: var(--warning);
-      color: #fff;
-    }
-
-    .btn-warning:hover {
-      background: #bf360c;
-    }
-
-    .btn-sm {
-      padding: 6px 12px;
-      font-size: 13px;
-    }
-
-    .btn-block {
-      width: 100%;
-      justify-content: center;
-    }
-
-    .btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 16px;
-    }
-
-    label {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-muted);
-    }
-
-    input,
-    textarea,
-    select {
-      background: var(--surface2);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: var(--radius);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      padding: 11px 14px;
-      outline: none;
-      transition: border-color .15s;
-      width: 100%;
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: var(--green-dark);
-    }
-
-    input::placeholder,
-    textarea::placeholder {
-      color: var(--text-muted);
-    }
-
-    select option {
-      background: var(--surface2);
-    }
-
-    .alert {
-      padding: 12px 16px;
-      border-radius: var(--radius);
-      font-size: 14px;
-      font-weight: 500;
-      margin-bottom: 16px;
-    }
-
-    .alert-error {
-      background: rgba(198, 40, 40, 0.15);
-      color: #EF9A9A;
-      border-left: 3px solid var(--error);
-    }
-
-    .alert-success {
-      background: rgba(56, 142, 60, 0.15);
-      color: #A5D6A7;
-      border-left: 3px solid var(--success);
-    }
-
-    .alert-warning {
-      background: rgba(230, 81, 0, 0.15);
-      color: #FFCC80;
-      border-left: 3px solid var(--warning);
-    }
-
-    .alert-info {
-      background: rgba(26, 92, 82, 0.2);
-      color: #80CBC4;
-      border-left: 3px solid var(--green-dark);
-    }
-
-    .tag {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 500;
-      padding: 3px 8px;
-      border-radius: 4px;
-      text-transform: uppercase;
-      letter-spacing: .4px;
-    }
-
-    .tag-intercanvi {
-      background: rgba(26, 92, 82, 0.3);
-      color: #4CAF50;
-    }
-
-    .tag-donacio {
-      background: rgba(56, 142, 60, 0.3);
-      color: #81C784;
-    }
-
-    .tag-punts {
-      background: rgba(46, 125, 50, 0.25);
-      color: #A5D6A7;
-    }
-
-    .tag-estat {
-      background: rgba(255, 255, 255, 0.07);
-      color: var(--text-muted);
-    }
-
-    .tag-reservat {
-      background: rgba(230, 81, 0, 0.2);
-      color: #FFCC80;
-    }
-
-    .tag-completat {
-      background: rgba(56, 142, 60, 0.2);
-      color: #A5D6A7;
-    }
-
-    .card {
-      background: var(--surface);
-      border-radius: var(--radius-lg);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      overflow: hidden;
-      transition: transform .15s, border-color .15s;
-      cursor: pointer;
-    }
-
-    .card:hover {
-      transform: translateY(-2px);
-      border-color: var(--green-dark);
-    }
-
-    .card-body {
-      padding: 16px;
-    }
-
-    .card-img {
-      height: 160px;
-      background: var(--surface2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 40px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .card-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .card-img-badge {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      background: rgba(0, 0, 0, 0.7);
-      color: #FFCC80;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 4px;
-      text-transform: uppercase;
-    }
-
-    .card-title {
-      font-size: 15px;
-      font-weight: 600;
-      margin: 8px 0 4px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .card-desc {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .card-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .card-points {
-      font-size: 13px;
-      font-weight: 600;
-      color: #4CAF50;
-    }
-
-    .avatar-sm {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: var(--green-dark);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      font-weight: 600;
-      color: #fff;
-      flex-shrink: 0;
-    }
-
-    .avatar-lg {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      background: var(--green-dark);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      font-weight: 700;
-      color: #fff;
-      flex-shrink: 0;
-    }
-
-    footer {
-      background: var(--surface);
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 32px 24px;
-      margin-top: 60px;
-    }
-
-    .footer-inner {
-      max-width: 900px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
-
-    .footer-brand p {
-      color: var(--text-muted);
-      font-size: 13px;
-      margin-top: 6px;
-      max-width: 220px;
-    }
-
-    .footer-links h4 {
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: .8px;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-    }
-
-    .footer-links a {
-      display: block;
-      font-size: 14px;
-      color: var(--text-muted);
-      text-decoration: none;
-      margin-bottom: 6px;
-      cursor: pointer;
-      transition: color .15s;
-    }
-
-    .footer-links a:hover {
-      color: var(--text);
-    }
-
-    .footer-bottom {
-      max-width: 900px;
-      margin: 24px auto 0;
-      padding-top: 16px;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      color: var(--text-muted);
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
+      --radius: 8px; --radius-lg: 12px;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    .hidden { display: none !important; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    nav { background: var(--surface); border-bottom: 1px solid rgba(255,255,255,0.06); padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .logo { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .logo-text { font-size: 20px; font-weight: 700; color: var(--text); }
+    .logo-text span { color: #4CAF50; }
+    .nav-links { display: flex; gap: 4px; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 14px; font-weight: 500; padding: 6px 12px; border-radius: 8px; cursor: pointer; transition: all .15s; }
+    .nav-links a:hover { color: var(--text); background: var(--surface2); }
+    .nav-links a.active { color: #4CAF50; background: rgba(26,92,82,0.15); }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .ecopoints { display: flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 600; color: #4CAF50; background: rgba(76,175,80,0.1); padding: 5px 10px; border-radius: 20px; }
+    .nav-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--green-dark); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #fff; cursor: pointer; border: 2px solid transparent; transition: border-color .15s; }
+    .nav-avatar:hover { border-color: #4CAF50; }
+
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: var(--radius); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; border: none; text-decoration: none; transition: background .15s; }
+    .btn-primary { background: var(--green-dark); color: #fff; }
+    .btn-primary:hover { background: var(--green-mid); }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.12); }
+    .btn-outline:hover { background: var(--surface2); }
+    .btn-danger { background: var(--error); color: #fff; }
+    .btn-danger:hover { background: #b71c1c; }
+    .btn-warning { background: var(--warning); color: #fff; }
+    .btn-warning:hover { background: #bf360c; }
+    .btn-sm { padding: 6px 12px; font-size: 13px; }
+    .btn-block { width: 100%; justify-content: center; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    label { font-size: 14px; font-weight: 500; color: var(--text-muted); }
+    input, textarea, select { background: var(--surface2); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius); color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; padding: 11px 14px; outline: none; transition: border-color .15s; width: 100%; }
+    input:focus, textarea:focus, select:focus { border-color: var(--green-dark); }
+    input::placeholder, textarea::placeholder { color: var(--text-muted); }
+    select option { background: var(--surface2); }
+
+    .alert { padding: 12px 16px; border-radius: var(--radius); font-size: 14px; font-weight: 500; margin-bottom: 16px; }
+    .alert-error   { background: rgba(198,40,40,0.15);  color: #EF9A9A; border-left: 3px solid var(--error); }
+    .alert-success { background: rgba(56,142,60,0.15);  color: #A5D6A7; border-left: 3px solid var(--success); }
+    .alert-warning { background: rgba(230,81,0,0.15);   color: #FFCC80; border-left: 3px solid var(--warning); }
+    .alert-info    { background: rgba(26,92,82,0.2);    color: #80CBC4; border-left: 3px solid var(--green-dark); }
+
+    .tag { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: .4px; }
+    .tag-intercanvi { background: rgba(26,92,82,0.3);   color: #4CAF50; }
+    .tag-donacio    { background: rgba(56,142,60,0.3);  color: #81C784; }
+    .tag-punts      { background: rgba(46,125,50,0.25); color: #A5D6A7; }
+    .tag-estat      { background: rgba(255,255,255,0.07); color: var(--text-muted); }
+    .tag-reservat   { background: rgba(230,81,0,0.2);   color: #FFCC80; }
+    .tag-completat  { background: rgba(56,142,60,0.2);  color: #A5D6A7; }
+
+    .card { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.06); overflow: hidden; transition: transform .15s, border-color .15s; cursor: pointer; }
+    .card:hover { transform: translateY(-2px); border-color: var(--green-dark); }
+    .card-body { padding: 16px; }
+    .card-img { height: 160px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 40px; overflow: hidden; position: relative; }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; }
+    .card-img-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.7); color: #FFCC80; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+    .card-title { font-size: 15px; font-weight: 600; margin: 8px 0 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .card-footer { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-muted); }
+    .card-points { font-size: 13px; font-weight: 600; color: #4CAF50; }
+    .avatar-sm { width: 22px; height: 22px; border-radius: 50%; background: var(--green-dark); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: #fff; flex-shrink: 0; }
+    .avatar-lg { width: 72px; height: 72px; border-radius: 50%; background: var(--green-dark); display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; color: #fff; flex-shrink: 0; }
+
+    footer { background: var(--surface); border-top: 1px solid rgba(255,255,255,0.06); padding: 32px 24px; margin-top: 60px; }
+    .footer-inner { max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+    .footer-brand p { color: var(--text-muted); font-size: 13px; margin-top: 6px; max-width: 220px; }
+    .footer-links h4 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .8px; color: var(--text-muted); margin-bottom: 12px; }
+    .footer-links a { display: block; font-size: 14px; color: var(--text-muted); text-decoration: none; margin-bottom: 6px; cursor: pointer; transition: color .15s; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-bottom { max-width: 900px; margin: 24px auto 0; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); flex-wrap: wrap; gap: 8px; }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
 
     /* LANDING */
-    #page-landing {
-      min-height: calc(100vh - 60px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 40px 24px;
-    }
-
-    .landing-inner {
-      max-width: 520px;
-    }
-
-    .landing-badge {
-      display: inline-block;
-      background: rgba(26, 92, 82, 0.2);
-      color: #4CAF50;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 5px 12px;
-      border-radius: 20px;
-      margin-bottom: 20px;
-      letter-spacing: .5px;
-      text-transform: uppercase;
-    }
-
-    .landing-inner h1 {
-      font-size: 42px;
-      font-weight: 700;
-      line-height: 1.15;
-      margin-bottom: 16px;
-    }
-
-    .landing-inner h1 span {
-      color: #4CAF50;
-    }
-
-    .landing-inner p {
-      font-size: 16px;
-      color: var(--text-muted);
-      line-height: 1.7;
-      margin-bottom: 32px;
-    }
-
-    .landing-actions {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .landing-stats {
-      display: flex;
-      gap: 32px;
-      justify-content: center;
-      margin-top: 48px;
-      padding-top: 32px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .stat-num {
-      font-size: 24px;
-      font-weight: 700;
-      color: #4CAF50;
-    }
-
-    .stat-label {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
+    #page-landing { min-height: calc(100vh - 60px); display: flex; align-items: center; justify-content: center; text-align: center; padding: 40px 24px; }
+    .landing-inner { max-width: 520px; }
+    .landing-badge { display: inline-block; background: rgba(26,92,82,0.2); color: #4CAF50; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 20px; margin-bottom: 20px; letter-spacing: .5px; text-transform: uppercase; }
+    .landing-inner h1 { font-size: 42px; font-weight: 700; line-height: 1.15; margin-bottom: 16px; }
+    .landing-inner h1 span { color: #4CAF50; }
+    .landing-inner p { font-size: 16px; color: var(--text-muted); line-height: 1.7; margin-bottom: 32px; }
+    .landing-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .landing-stats { display: flex; gap: 32px; justify-content: center; margin-top: 48px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.06); }
+    .stat-num { font-size: 24px; font-weight: 700; color: #4CAF50; }
+    .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
     /* LOGIN */
-    #page-login {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: calc(100vh - 60px);
-      padding: 40px 24px;
-    }
-
-    .auth-box {
-      background: var(--surface);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: var(--radius-lg);
-      padding: 36px;
-      width: 100%;
-      max-width: 400px;
-    }
-
-    .auth-tabs {
-      display: flex;
-      background: var(--surface2);
-      border-radius: var(--radius);
-      padding: 4px;
-      margin-bottom: 24px;
-    }
-
-    .auth-tab {
-      flex: 1;
-      text-align: center;
-      padding: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-muted);
-      cursor: pointer;
-      border-radius: 6px;
-      transition: all .15s;
-    }
-
-    .auth-tab.active {
-      background: var(--green-dark);
-      color: #fff;
-    }
-
-    .auth-divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 16px 0;
-      color: var(--text-muted);
-      font-size: 12px;
-    }
-
-    .auth-divider::before,
-    .auth-divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .btn-google {
-      background: var(--surface2);
-      color: var(--text);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      width: 100%;
-      justify-content: center;
-      margin-bottom: 4px;
-    }
-
-    .btn-google:hover {
-      background: #2e2e2e;
-    }
-
-    .forgot {
-      text-align: center;
-      margin-top: 12px;
-      font-size: 13px;
-      color: var(--text-muted);
-      cursor: pointer;
-    }
-
-    .forgot:hover {
-      color: #4CAF50;
-    }
+    #page-login { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 60px); padding: 40px 24px; }
+    .auth-box { background: var(--surface); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-lg); padding: 36px; width: 100%; max-width: 400px; }
+    .auth-tabs { display: flex; background: var(--surface2); border-radius: var(--radius); padding: 4px; margin-bottom: 24px; }
+    .auth-tab { flex: 1; text-align: center; padding: 8px; font-size: 14px; font-weight: 500; color: var(--text-muted); cursor: pointer; border-radius: 6px; transition: all .15s; }
+    .auth-tab.active { background: var(--green-dark); color: #fff; }
+    .auth-divider { display: flex; align-items: center; gap: 12px; margin: 16px 0; color: var(--text-muted); font-size: 12px; }
+    .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
+    .btn-google { background: var(--surface2); color: var(--text); border: 1px solid rgba(255,255,255,0.1); width: 100%; justify-content: center; margin-bottom: 4px; }
+    .btn-google:hover { background: #2e2e2e; }
+    .forgot { text-align: center; margin-top: 12px; font-size: 13px; color: var(--text-muted); cursor: pointer; }
+    .forgot:hover { color: #4CAF50; }
 
     /* EXPLORAR */
-    #page-explorar {
-      padding: 32px 0 80px;
-    }
-
-    .search-bar {
-      display: flex;
-      gap: 10px;
-      background: var(--surface);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: var(--radius-lg);
-      padding: 8px 8px 8px 16px;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .search-bar input {
-      flex: 1;
-      background: transparent;
-      border: none;
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      outline: none;
-    }
-
-    .filters {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 24px;
-    }
-
-    .filter-chip {
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: var(--surface);
-      color: var(--text-muted);
-      transition: all .15s;
-    }
-
-    .filter-chip:hover,
-    .filter-chip.active {
-      background: var(--green-dark);
-      color: #fff;
-      border-color: var(--green-dark);
-    }
-
-    .section-label {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 16px;
-    }
+    #page-explorar { padding: 32px 0 80px; }
+    .search-bar { display: flex; gap: 10px; background: var(--surface); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-lg); padding: 8px 8px 8px 16px; align-items: center; margin-bottom: 20px; }
+    .search-bar input { flex: 1; background: transparent; border: none; color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; outline: none; }
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+    .filter-chip { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); background: var(--surface); color: var(--text-muted); transition: all .15s; }
+    .filter-chip:hover, .filter-chip.active { background: var(--green-dark); color: #fff; border-color: var(--green-dark); }
+    .section-label { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
 
     /* DETALL */
-    #page-detall {
-      padding: 40px 0;
-    }
-
-    .detall-card {
-      background: var(--surface);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-    }
-
-    .detall-img {
-      height: 280px;
-      background: var(--surface2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 80px;
-      overflow: hidden;
-    }
-
-    .detall-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .detall-body {
-      padding: 28px;
-    }
-
-    .detall-title {
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-
-    .detall-desc {
-      font-size: 15px;
-      color: var(--text-muted);
-      line-height: 1.7;
-      margin-bottom: 24px;
-    }
-
-    .detall-info-row {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-      margin-bottom: 24px;
-    }
-
-    .detall-info-item {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    .detall-info-item strong {
-      color: var(--text);
-      display: block;
-      font-size: 15px;
-      margin-bottom: 2px;
-    }
-
-    .detall-user {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 16px;
-      background: var(--surface2);
-      border-radius: var(--radius);
-      margin-bottom: 20px;
-    }
-
-    .detall-user-name {
-      font-weight: 600;
-      font-size: 15px;
-    }
-
-    .detall-user-loc {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    .detall-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 28px;
-    }
+    #page-detall { padding: 40px 0; }
+    .detall-card { background: var(--surface); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-lg); overflow: hidden; }
+    .detall-img { height: 280px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 80px; overflow: hidden; }
+    .detall-img img { width: 100%; height: 100%; object-fit: cover; }
+    .detall-body { padding: 28px; }
+    .detall-title { font-size: 24px; font-weight: 700; margin-bottom: 12px; }
+    .detall-desc { font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 24px; }
+    .detall-info-row { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; }
+    .detall-info-item { font-size: 13px; color: var(--text-muted); }
+    .detall-info-item strong { color: var(--text); display: block; font-size: 15px; margin-bottom: 2px; }
+    .detall-user { display: flex; align-items: center; gap: 12px; padding: 16px; background: var(--surface2); border-radius: var(--radius); margin-bottom: 20px; }
+    .detall-user-name { font-weight: 600; font-size: 15px; }
+    .detall-user-loc { font-size: 13px; color: var(--text-muted); }
+    .detall-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
 
     /* CAIXA DE COMPRA */
-    .compra-box {
-      background: var(--surface2);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-      margin-bottom: 24px;
-    }
-
-    .compra-box h4 {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
-
-    .compra-box .punts-info {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .compra-box .punts-preu {
-      font-size: 22px;
-      font-weight: 700;
-      color: #4CAF50;
-    }
-
-    .compra-box .punts-saldo {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    .compra-box .punts-saldo span {
-      color: var(--text);
-      font-weight: 600;
-    }
-
-    .compra-box .confirmar-actions {
-      display: flex;
-      gap: 10px;
-    }
+    .compra-box { background: var(--surface2); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 24px; }
+    .compra-box h4 { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
+    .compra-box .punts-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .compra-box .punts-preu { font-size: 22px; font-weight: 700; color: #4CAF50; }
+    .compra-box .punts-saldo { font-size: 13px; color: var(--text-muted); }
+    .compra-box .punts-saldo span { color: var(--text); font-weight: 600; }
+    .compra-box .confirmar-actions { display: flex; gap: 10px; }
 
     /* ESTAT ANUNCI BANNER */
-    .estat-banner {
-      padding: 14px 18px;
-      border-radius: var(--radius);
-      margin-bottom: 20px;
-      font-size: 14px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .estat-banner-reservat {
-      background: rgba(230, 81, 0, 0.15);
-      color: #FFCC80;
-      border: 1px solid rgba(230, 81, 0, 0.3);
-    }
-
-    .estat-banner-completat {
-      background: rgba(56, 142, 60, 0.15);
-      color: #A5D6A7;
-      border: 1px solid rgba(56, 142, 60, 0.3);
-    }
+    .estat-banner { padding: 14px 18px; border-radius: var(--radius); margin-bottom: 20px; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 10px; }
+    .estat-banner-reservat  { background: rgba(230,81,0,0.15);  color: #FFCC80; border: 1px solid rgba(230,81,0,0.3); }
+    .estat-banner-completat { background: rgba(56,142,60,0.15); color: #A5D6A7; border: 1px solid rgba(56,142,60,0.3); }
 
     /* HISTORIAL COMPRES */
-    .compra-item {
-      background: var(--surface2);
-      border-radius: var(--radius);
-      padding: 16px;
-      margin-bottom: 12px;
-      display: flex;
-      gap: 16px;
-      align-items: center;
-    }
-
-    .compra-item-info {
-      flex: 1;
-    }
-
-    .compra-item-titol {
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .compra-item-sub {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 3px;
-    }
-
-    .compra-item-punts {
-      font-size: 15px;
-      font-weight: 700;
-    }
-
-    .compra-item-punts.gastat {
-      color: #EF9A9A;
-    }
-
-    .compra-item-punts.guanyat {
-      color: #A5D6A7;
-    }
+    .compra-item { background: var(--surface2); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; display: flex; gap: 16px; align-items: center; }
+    .compra-item-info { flex: 1; }
+    .compra-item-titol { font-weight: 600; font-size: 14px; }
+    .compra-item-sub { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+    .compra-item-punts { font-size: 15px; font-weight: 700; }
+    .compra-item-punts.gastat { color: #EF9A9A; }
+    .compra-item-punts.guanyat { color: #A5D6A7; }
 
     /* VALORACIÓ */
-    .valoracio-card {
-      background: var(--surface2);
-      border-radius: var(--radius);
-      padding: 16px;
-      margin-bottom: 12px;
-    }
-
-    .stars {
-      color: #FFB300;
-      font-size: 16px;
-    }
+    .valoracio-card { background: var(--surface2); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; }
+    .stars { color: #FFB300; font-size: 16px; }
 
     /* PERFIL */
-    #page-perfil {
-      padding: 40px 0;
-    }
-
-    .perfil-header {
-      background: var(--surface);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: var(--radius-lg);
-      padding: 28px;
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      margin-bottom: 24px;
-    }
-
-    .perfil-info h2 {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .perfil-info p {
-      color: var(--text-muted);
-      font-size: 14px;
-    }
-
-    .perfil-stats {
-      display: flex;
-      gap: 24px;
-      margin-top: 12px;
-    }
-
-    .perfil-stat-num {
-      font-size: 20px;
-      font-weight: 700;
-      color: #4CAF50;
-    }
-
-    .perfil-stat-label {
-      font-size: 11px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: .4px;
-    }
-
-    .perfil-form-card {
-      background: var(--surface);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      margin-bottom: 20px;
-    }
-
-    .perfil-form-card h3 {
-      font-size: 16px;
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
+    #page-perfil { padding: 40px 0; }
+    .perfil-header { background: var(--surface); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-lg); padding: 28px; display: flex; align-items: center; gap: 24px; margin-bottom: 24px; }
+    .perfil-info h2 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+    .perfil-info p { color: var(--text-muted); font-size: 14px; }
+    .perfil-stats { display: flex; gap: 24px; margin-top: 12px; }
+    .perfil-stat-num { font-size: 20px; font-weight: 700; color: #4CAF50; }
+    .perfil-stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .4px; }
+    .perfil-form-card { background: var(--surface); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 20px; }
+    .perfil-form-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 20px; }
 
     /* CHATS */
-    #page-chats {
-      padding: 32px 0;
-    }
-
-    .chats-layout {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 16px;
-      height: 560px;
-    }
-
-    .chat-list {
-      background: var(--surface);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: var(--radius-lg);
-      overflow-y: auto;
-    }
-
-    .chat-list-header {
-      padding: 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      font-weight: 600;
-      font-size: 15px;
-    }
-
-    .chat-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 16px;
-      cursor: pointer;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      transition: background .1s;
-    }
-
-    .chat-item:hover,
-    .chat-item.active {
-      background: var(--surface2);
-    }
-
-    .chat-item-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .chat-item-name {
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .chat-item-msg {
-      font-size: 12px;
-      color: var(--text-muted);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-top: 2px;
-    }
-
-    .chat-unread {
-      background: #4CAF50;
-      color: #fff;
-      font-size: 11px;
-      font-weight: 700;
-      border-radius: 10px;
-      padding: 2px 6px;
-    }
-
-    .chat-window {
-      background: var(--surface);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: var(--radius-lg);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .chat-header {
-      padding: 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .chat-messages {
-      flex: 1;
-      padding: 16px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    /* DESPRÉS */
-    .msg {
-      max-width: 70%;
-      min-width: 0;
-    }
-
-    .msg-text {
-      padding: 10px 14px;
-      border-radius: 12px;
-      font-size: 14px;
-      line-height: 1.5;
-      word-break: break-word;
-      overflow-wrap: break-word;
-      white-space: pre-wrap;
-    }
-
-    .msg-recv .msg-text {
-      background: var(--surface2);
-      border-bottom-left-radius: 4px;
-    }
-
-    .msg-sent {
-      align-self: flex-end;
-    }
-
-    .msg-sent .msg-text {
-      background: var(--green-dark);
-      color: #fff;
-      border-bottom-right-radius: 4px;
-    }
-
-    .msg-system {
-      align-self: center;
-    }
-
-    .msg-system .msg-text {
-      background: rgba(26, 92, 82, 0.2);
-      color: #80CBC4;
-      font-size: 12px;
-      font-style: italic;
-      border-radius: 8px;
-      text-align: center;
-    }
-
-    .msg-time {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    .msg-sent .msg-time {
-      text-align: right;
-    }
-
-    .chat-input-area {
-      padding: 12px 16px;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      display: flex;
-      gap: 10px;
-    }
-
-    .chat-input-area input {
-      flex: 1;
-      background: var(--surface2);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 20px;
-      padding: 10px 16px;
-    }
-
-    .chat-empty {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-muted);
-      font-size: 14px;
-    }
+    #page-chats { padding: 32px 0; }
+    .chats-layout { display: grid; grid-template-columns: 280px 1fr; gap: 16px; height: 560px; }
+    .chat-list { background: var(--surface); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-lg); overflow-y: auto; }
+    .chat-list-header { padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.06); font-weight: 600; font-size: 15px; }
+    .chat-item { display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.04); transition: background .1s; }
+    .chat-item:hover, .chat-item.active { background: var(--surface2); }
+    .chat-item-info { flex: 1; min-width: 0; }
+    .chat-item-name { font-size: 14px; font-weight: 600; }
+    .chat-item-msg { font-size: 12px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+    .chat-unread { background: #4CAF50; color: #fff; font-size: 11px; font-weight: 700; border-radius: 10px; padding: 2px 6px; }
+    .chat-window { background: var(--surface); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-lg); display: flex; flex-direction: column; overflow: hidden; }
+    .chat-header { padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 12px; }
+    .chat-messages { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+    .msg { max-width: 70%; }
+    .msg-text { padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; }
+    .msg-recv .msg-text { background: var(--surface2); border-bottom-left-radius: 4px; }
+    .msg-sent { align-self: flex-end; }
+    .msg-sent .msg-text { background: var(--green-dark); color: #fff; border-bottom-right-radius: 4px; }
+    .msg-system { align-self: center; }
+    .msg-system .msg-text { background: rgba(26,92,82,0.2); color: #80CBC4; font-size: 12px; font-style: italic; border-radius: 8px; text-align: center; }
+    .msg-time { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+    .msg-sent .msg-time { text-align: right; }
+    .chat-input-area { padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; gap: 10px; }
+    .chat-input-area input { flex: 1; background: var(--surface2); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 10px 16px; }
+    .chat-empty { flex: 1; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 14px; }
 
     /* CONTACTE */
-    #page-contacte {
-      padding: 60px 0;
-    }
-
-    .contacte-inner {
-      max-width: 560px;
-      margin: 0 auto;
-    }
-
-    .contacte-inner h1 {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .contacte-inner>p {
-      color: var(--text-muted);
-      margin-bottom: 32px;
-    }
-
-    .contact-card {
-      background: var(--surface);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: var(--radius-lg);
-      padding: 28px;
-    }
+    #page-contacte { padding: 60px 0; }
+    .contacte-inner { max-width: 560px; margin: 0 auto; }
+    .contacte-inner h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .contacte-inner > p { color: var(--text-muted); margin-bottom: 32px; }
+    .contact-card { background: var(--surface); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-lg); padding: 28px; }
 
     /* MODAL */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      z-index: 200;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal-box {
-      background: var(--surface);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: var(--radius-lg);
-      padding: 28px;
-      width: 100%;
-      max-width: 500px;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .modal-box h3 {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 20px;
-    }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .modal-box { background: var(--surface); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius-lg); padding: 28px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
+    .modal-box h3 { font-size: 18px; font-weight: 700; margin-bottom: 20px; }
 
     /* MODAL COMPRA - especial */
-    .modal-compra-icon {
-      font-size: 48px;
-      text-align: center;
-      margin-bottom: 12px;
-    }
+    .modal-compra-icon { font-size: 48px; text-align: center; margin-bottom: 12px; }
+    .modal-compra-info { background: var(--surface2); border-radius: var(--radius); padding: 16px; margin-bottom: 20px; }
+    .modal-compra-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 14px; }
+    .modal-compra-row:not(:last-child) { border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .modal-compra-row .label { color: var(--text-muted); }
+    .modal-compra-row .valor { font-weight: 600; }
+    .modal-compra-row .valor.positiu { color: #A5D6A7; }
+    .modal-compra-row .valor.negatiu { color: #EF9A9A; }
+    .modal-compra-row .valor.final  { color: #4CAF50; font-size: 16px; }
+    .modal-compra-divider { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 4px 0; }
 
-    .modal-compra-info {
-      background: var(--surface2);
-      border-radius: var(--radius);
-      padding: 16px;
-      margin-bottom: 20px;
-    }
+    .loading { text-align: center; padding: 40px; color: var(--text-muted); font-size: 14px; }
+    .spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(76,175,80,0.2); border-top-color: #4CAF50; border-radius: 50%; animation: spin .7s linear infinite; margin-right: 8px; vertical-align: middle; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    .modal-compra-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 6px 0;
-      font-size: 14px;
-    }
-
-    .modal-compra-row:not(:last-child) {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .modal-compra-row .label {
-      color: var(--text-muted);
-    }
-
-    .modal-compra-row .valor {
-      font-weight: 600;
-    }
-
-    .modal-compra-row .valor.positiu {
-      color: #A5D6A7;
-    }
-
-    .modal-compra-row .valor.negatiu {
-      color: #EF9A9A;
-    }
-
-    .modal-compra-row .valor.final {
-      color: #4CAF50;
-      font-size: 16px;
-    }
-
-    .modal-compra-divider {
-      border: none;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      margin: 4px 0;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 40px;
-      color: var(--text-muted);
-      font-size: 14px;
-    }
-
-    .spinner {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(76, 175, 80, 0.2);
-      border-top-color: #4CAF50;
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
-      margin-right: 8px;
-      vertical-align: middle;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .fab {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      background: var(--green-dark);
-      color: #fff;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 20px rgba(26, 92, 82, 0.5);
-      transition: background .2s, transform .15s;
-      z-index: 50;
-    }
-
-    .fab:hover {
-      background: var(--green-mid);
-      transform: scale(1.05);
-    }
+    .fab { position: fixed; bottom: 24px; right: 24px; width: 52px; height: 52px; border-radius: 50%; background: var(--green-dark); color: #fff; border: none; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(26,92,82,0.5); transition: background .2s, transform .15s; z-index: 50; }
+    .fab:hover { background: var(--green-mid); transform: scale(1.05); }
 
     @media(max-width:768px) {
-      .nav-links {
-        display: none;
-      }
-
-      .grid-3 {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .chats-layout {
-        grid-template-columns: 1fr;
-        grid-template-rows: 200px 1fr;
-      }
-
-      .landing-inner h1 {
-        font-size: 30px;
-      }
-
-      .perfil-header {
-        flex-direction: column;
-        text-align: center;
-      }
+      .nav-links { display: none; }
+      .grid-3 { grid-template-columns: 1fr 1fr; }
+      .chats-layout { grid-template-columns: 1fr; grid-template-rows: 200px 1fr; }
+      .landing-inner h1 { font-size: 30px; }
+      .perfil-header { flex-direction: column; text-align: center; }
     }
-
-    @media(max-width:480px) {
-
-      .grid-3,
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .avatar-lg {
-      overflow: hidden;
-      position: relative;
-      cursor: pointer;
-    }
-
-    .avatar-lg img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-
-    .avatar-lg:hover::after {
-      content: '📷';
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      border-radius: 50%;
-    }
-
-    .img-preview-grid {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 8px;
-    }
-
-    .img-preview-item {
-      position: relative;
-    }
-
-    .img-preview-item img {
-      width: 72px;
-      height: 72px;
-      object-fit: cover;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      display: block;
-    }
-
-    .img-preview-item .remove-img {
-      position: absolute;
-      top: -6px;
-      right: -6px;
-      background: var(--error);
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      width: 18px;
-      height: 18px;
-      font-size: 11px;
-      cursor: pointer;
-    }
+    @media(max-width:480px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
+    .avatar-lg { overflow: hidden; position: relative; cursor: pointer; }
+    .avatar-lg img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .avatar-lg:hover::after { content: '📷'; position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; font-size: 22px; border-radius: 50%; }
+    .img-preview-grid { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .img-preview-item { position: relative; }
+    .img-preview-item img { width: 72px; height: 72px; object-fit: cover; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); display: block; }
+    .img-preview-item .remove-img { position: absolute; top: -6px; right: -6px; background: var(--error); color: #fff; border: none; border-radius: 50%; width: 18px; height: 18px; font-size: 11px; cursor: pointer; }
   </style>
 </head>
-
 <body>
 
   <!-- NAV logat -->
@@ -1433,8 +270,8 @@
     <div class="nav-right">
       <div class="ecopoints">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="12" r="10" stroke="#4CAF50" stroke-width="2" />
-          <path d="M8 12h8M12 8l4 4-4 4" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" />
+          <circle cx="12" cy="12" r="10" stroke="#4CAF50" stroke-width="2"/>
+          <path d="M8 12h8M12 8l4 4-4 4" stroke="#4CAF50" stroke-width="2" stroke-linecap="round"/>
         </svg>
         <span id="nav-points">0</span> pts
       </div>
@@ -1458,27 +295,15 @@
     <div class="landing-inner">
       <div class="landing-badge">♻ Marketplace sostenible</div>
       <h1>Intercanvia el que<br>no uses. <span>Redueix.</span></h1>
-      <p>Zelva és una plataforma on pots donar, intercanviar o cedir objectes a persones properes. Sense diners, sense
-        residus.</p>
+      <p>Zelva és una plataforma on pots donar, intercanviar o cedir objectes a persones properes. Sense diners, sense residus.</p>
       <div class="landing-actions">
-        <button class="btn btn-primary" onclick="navigate('login')" style="padding:12px 28px;font-size:15px">Comença
-          ara</button>
-        <button class="btn btn-outline" onclick="navigate('login')" style="padding:12px 24px;font-size:15px">Veure
-          anuncis</button>
+        <button class="btn btn-primary" onclick="navigate('login')" style="padding:12px 28px;font-size:15px">Comença ara</button>
+        <button class="btn btn-outline" onclick="navigate('login')" style="padding:12px 24px;font-size:15px">Veure anuncis</button>
       </div>
       <div class="landing-stats">
-        <div>
-          <div class="stat-num" id="stat-usuaris">—</div>
-          <div class="stat-label">Usuaris</div>
-        </div>
-        <div>
-          <div class="stat-num" id="stat-anuncis">—</div>
-          <div class="stat-label">Anuncis actius</div>
-        </div>
-        <div>
-          <div class="stat-num" id="stat-intercanvis">—</div>
-          <div class="stat-label">Intercanvis</div>
-        </div>
+        <div><div class="stat-num" id="stat-usuaris">—</div><div class="stat-label">Usuaris</div></div>
+        <div><div class="stat-num" id="stat-anuncis">—</div><div class="stat-label">Anuncis actius</div></div>
+        <div><div class="stat-num" id="stat-intercanvis">—</div><div class="stat-label">Intercanvis</div></div>
       </div>
     </div>
   </div>
@@ -1495,40 +320,29 @@
       </div>
       <div id="auth-alert" class="hidden"></div>
       <div id="form-login">
-        <div class="form-group"><label>Correu electrònic</label><input type="email" id="loginEmail"
-            placeholder="hola@exemple.com"></div>
-        <div class="form-group"><label>Contrasenya</label><input type="password" id="loginPass"
-            placeholder="Mínim 6 caràcters"></div>
+        <div class="form-group"><label>Correu electrònic</label><input type="email" id="loginEmail" placeholder="hola@exemple.com"></div>
+        <div class="form-group"><label>Contrasenya</label><input type="password" id="loginPass" placeholder="Mínim 6 caràcters"></div>
         <button class="btn btn-primary btn-block" onclick="doLogin()">Entrar</button>
         <p class="forgot" onclick="doForgot()">He oblidat la contrasenya</p>
       </div>
       <div id="form-register" class="hidden">
         <div class="grid-2">
           <div class="form-group"><label>Nom *</label><input type="text" id="regNom" placeholder="El teu nom"></div>
-          <div class="form-group"><label>Cognoms *</label><input type="text" id="regCognom"
-              placeholder="Els teus cognoms"></div>
+          <div class="form-group"><label>Cognoms *</label><input type="text" id="regCognom" placeholder="Els teus cognoms"></div>
         </div>
-        <div class="form-group"><label>Localitat *</label><input type="text" id="regLocalitat" placeholder="Ex: Mataró">
-        </div>
-        <div class="form-group"><label>Telèfon (9 dígits)</label><input type="tel" id="regTelefon"
-            placeholder="6XX XXX XXX" maxlength="9"></div>
-        <div class="form-group"><label>Correu electrònic *</label><input type="email" id="regEmail"
-            placeholder="hola@exemple.com"></div>
-        <div class="form-group"><label>Contrasenya * (mínim 6 caràcters)</label><input type="password" id="regPass"
-            placeholder="Mínim 6 caràcters"></div>
+        <div class="form-group"><label>Localitat *</label><input type="text" id="regLocalitat" placeholder="Ex: Mataró"></div>
+        <div class="form-group"><label>Telèfon (9 dígits)</label><input type="tel" id="regTelefon" placeholder="6XX XXX XXX" maxlength="9"></div>
+        <div class="form-group"><label>Correu electrònic *</label><input type="email" id="regEmail" placeholder="hola@exemple.com"></div>
+        <div class="form-group"><label>Contrasenya * (mínim 6 caràcters)</label><input type="password" id="regPass" placeholder="Mínim 6 caràcters"></div>
         <button class="btn btn-primary btn-block" onclick="doRegister()">Crear compte</button>
       </div>
       <div class="auth-divider">o</div>
       <button class="btn btn-google" onclick="doGoogleLogin()">
         <svg width="16" height="16" viewBox="0 0 24 24">
-          <path fill="#4285F4"
-            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-          <path fill="#34A853"
-            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-          <path fill="#FBBC05"
-            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-          <path fill="#EA4335"
-            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
         </svg>
         Continua amb Google
       </button>
@@ -1540,8 +354,7 @@
     <div class="container" style="padding-top:32px">
       <div class="search-bar">
         <svg width="16" height="16" fill="none" stroke="#9E9E9E" stroke-width="2" viewBox="0 0 24 24">
-          <circle cx="11" cy="11" r="8" />
-          <path d="M21 21l-4.35-4.35" />
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
         </svg>
         <input type="text" id="search-input" placeholder="Cerca roba, electrònica, mobles...">
         <button class="btn btn-primary btn-sm" onclick="cercarAnuncis()">Cercar</button>
@@ -1577,42 +390,33 @@
   <div id="page-perfil" class="hidden">
     <div class="container">
       <div class="perfil-header">
-        <input type="file" id="foto-perfil-input" accept="image/*" style="display:none"
-          onchange="pujarFotoPerfil(this)">
+        <input type="file" id="foto-perfil-input" accept="image/*" style="display:none" onchange="pujarFotoPerfil(this)">
         <div class="avatar-lg" id="perfil-avatar" onclick="document.getElementById('foto-perfil-input').click()">?</div>
         <div class="perfil-info">
           <h2 id="perfil-nom">Usuari</h2>
           <p id="perfil-email">correu@exemple.com</p>
           <div class="perfil-stats">
-            <div>
-              <div class="perfil-stat-num" id="perfil-points">0</div>
-              <div class="perfil-stat-label">EcoPoints</div>
-            </div>
-            <div>
-              <div class="perfil-stat-num" id="perfil-intercanvis">0</div>
-              <div class="perfil-stat-label">Intercanvis</div>
-            </div>
-            <div>
-              <div class="perfil-stat-num" id="perfil-valoracio">—</div>
-              <div class="perfil-stat-label">Valoració</div>
-            </div>
+            <div><div class="perfil-stat-num" id="perfil-points">0</div><div class="perfil-stat-label">EcoPoints</div></div>
+            <div><div class="perfil-stat-num" id="perfil-intercanvis">0</div><div class="perfil-stat-label">Intercanvis</div></div>
+            <div><div class="perfil-stat-num" id="perfil-valoracio">—</div><div class="perfil-stat-label">Valoració</div></div>
           </div>
         </div>
       </div>
       <div class="perfil-form-card">
         <h3>Editar perfil</h3>
         <div class="grid-2">
-          <div class="form-group"><label>Nom</label><input type="text" id="perfil-input-nom" placeholder="El teu nom">
-          </div>
-          <div class="form-group"><label>Cognoms</label><input type="text" id="perfil-input-cognom"
-              placeholder="Els teus cognoms"></div>
-          <div class="form-group"><label>Telèfon</label><input type="tel" id="perfil-input-telefon"
-              placeholder="6XX XXX XXX" maxlength="9"></div>
-          <div class="form-group"><label>Localitat</label><input type="text" id="perfil-input-localitat"
-              placeholder="Ex: Mataró"></div>
+          <div class="form-group"><label>Nom</label><input type="text" id="perfil-input-nom" placeholder="El teu nom"></div>
+          <div class="form-group"><label>Cognoms</label><input type="text" id="perfil-input-cognom" placeholder="Els teus cognoms"></div>
+          <div class="form-group"><label>Telèfon</label><input type="tel" id="perfil-input-telefon" placeholder="6XX XXX XXX" maxlength="9"></div>
+          <div class="form-group"><label>Localitat</label><input type="text" id="perfil-input-localitat" placeholder="Ex: Mataró"></div>
         </div>
         <div id="perfil-alert" class="hidden" style="margin-top:8px"></div>
         <div style="display:flex;gap:10px;margin-top:8px;flex-wrap:wrap">
+          <div class="form-group">
+            <label>Imatges (màx. 5)</label>
+            <input type="file" id="anunci-imatges" accept="image/*" multiple onchange="previewImatges(this)">
+            <div class="img-preview-grid" id="preview-grid"></div>
+          </div>
           <button class="btn btn-primary" onclick="guardarPerfil()">Guardar canvis</button>
           <button class="btn btn-danger" onclick="doLogout()">Tancar sessió</button>
         </div>
@@ -1654,7 +458,8 @@
             <div class="chat-empty">Selecciona una conversa</div>
           </div>
           <div class="chat-input-area hidden" id="chat-input-area">
-            <input type="text" placeholder="Escriu un missatge..." id="msg-input">
+            <!-- DESPRÉS -->
+            <textarea placeholder="Escriu un missatge..." id="msg-input" rows="1" style="resize:none;overflow:hidden;max-height:120px;"></textarea>
             <button class="btn btn-primary btn-sm" onclick="sendMsg()">Enviar</button>
           </div>
         </div>
@@ -1671,24 +476,19 @@
         <div class="contact-card">
           <div id="contacte-alert" class="hidden"></div>
           <div class="form-group"><label>Nom</label><input type="text" id="c-nom" placeholder="El teu nom"></div>
-          <div class="form-group"><label>Correu electrònic</label><input type="email" id="c-email"
-              placeholder="hola@exemple.com"></div>
+          <div class="form-group"><label>Correu electrònic</label><input type="email" id="c-email" placeholder="hola@exemple.com"></div>
           <div class="form-group">
             <label>Assumpte</label>
             <select id="c-assumpte">
-              <option>Problema tècnic</option>
-              <option>Suggeriment</option>
-              <option>Denunciar anunci</option>
-              <option>Altres</option>
+              <option>Problema tècnic</option><option>Suggeriment</option>
+              <option>Denunciar anunci</option><option>Altres</option>
             </select>
           </div>
-          <div class="form-group"><label>Missatge</label><textarea rows="5" id="c-missatge"
-              placeholder="Explica'ns el teu dubte..."></textarea></div>
+          <div class="form-group"><label>Missatge</label><textarea rows="5" id="c-missatge" placeholder="Explica'ns el teu dubte..."></textarea></div>
           <button class="btn btn-primary" id="btn-contacte" onclick="enviarContacte()">Enviar missatge</button>
           <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06)">
             <p style="font-size:13px;color:var(--text-muted)">O contacta'ns directament:</p>
-            <p style="font-size:14px;margin-top:6px">✉️ <a href="mailto:zelva.marketplace@gmail.com"
-                style="color:#4CAF50;text-decoration:none">zelva.marketplace@gmail.com</a></p>
+            <p style="font-size:14px;margin-top:6px">✉️ <a href="mailto:zelva.marketplace@gmail.com" style="color:#4CAF50;text-decoration:none">zelva.marketplace@gmail.com</a></p>
           </div>
         </div>
       </div>
@@ -1721,19 +521,12 @@
   </footer>
 
   <!-- ═══════════ MODAL NOU ANUNCI ═══════════ -->
-   <div class="form-group">
-  <label>Imatges (màx. 5)</label>
-  <input type="file" id="anunci-imatges" accept="image/*" multiple onchange="previewImatges(this)">
-  <div class="img-preview-grid" id="preview-grid"></div>
-</div>
   <div id="modal-anunci" class="modal-overlay hidden">
     <div class="modal-box">
       <h3>Publicar nou anunci</h3>
       <div id="modal-alert" class="hidden"></div>
-      <div class="form-group"><label>Títol * (màx. 50 caràcters)</label><input type="text" id="anunci-titol"
-          placeholder="Ex: Bicicleta de muntanya" maxlength="50"></div>
-      <div class="form-group"><label>Descripció *</label><textarea rows="3" id="anunci-desc"
-          placeholder="Descriu l'objecte..."></textarea></div>
+      <div class="form-group"><label>Títol * (màx. 50 caràcters)</label><input type="text" id="anunci-titol" placeholder="Ex: Bicicleta de muntanya" maxlength="50"></div>
+      <div class="form-group"><label>Descripció *</label><textarea rows="3" id="anunci-desc" placeholder="Descriu l'objecte..."></textarea></div>
       <div class="grid-2">
         <div class="form-group">
           <label>Modalitat *</label>
@@ -1746,19 +539,13 @@
         <div class="form-group">
           <label>Categoria *</label>
           <select id="anunci-categoria">
-            <option>Roba</option>
-            <option>Electrònica</option>
-            <option>Llar</option>
-            <option>Llibres</option>
-            <option>Esports</option>
-            <option>Joguines</option>
-            <option>Altres</option>
+            <option>Roba</option><option>Electrònica</option><option>Llar</option>
+            <option>Llibres</option><option>Esports</option><option>Joguines</option><option>Altres</option>
           </select>
         </div>
       </div>
       <div class="grid-2">
-        <div class="form-group"><label>EcoPoints (mínim 0)</label><input type="number" id="anunci-punts" min="0"
-            value="0"></div>
+        <div class="form-group"><label>EcoPoints (mínim 0)</label><input type="number" id="anunci-punts" min="0" value="0"></div>
         <div class="form-group">
           <label>Estat del producte *</label>
           <select id="anunci-estat-prod">
@@ -1770,8 +557,7 @@
       </div>
       <div style="display:flex;gap:10px;margin-top:8px">
         <button class="btn btn-primary" id="btn-publicar" onclick="publicarAnunci()">Publicar</button>
-        <button class="btn btn-outline"
-          onclick="document.getElementById('modal-anunci').classList.add('hidden')">Cancel·lar</button>
+        <button class="btn btn-outline" onclick="document.getElementById('modal-anunci').classList.add('hidden')">Cancel·lar</button>
       </div>
     </div>
   </div>
@@ -1784,10 +570,8 @@
       <div id="compra-alert" class="hidden"></div>
       <div class="modal-compra-info" id="compra-resum"></div>
       <div style="display:flex;gap:10px;margin-top:8px">
-        <button class="btn btn-primary" id="btn-confirmar-compra" onclick="confirmarCompra()">✓ Confirmar
-          compra</button>
-        <button class="btn btn-outline"
-          onclick="document.getElementById('modal-compra').classList.add('hidden')">Cancel·lar</button>
+        <button class="btn btn-primary" id="btn-confirmar-compra" onclick="confirmarCompra()">✓ Confirmar compra</button>
+        <button class="btn btn-outline" onclick="document.getElementById('modal-compra').classList.add('hidden')">Cancel·lar</button>
       </div>
     </div>
   </div>
@@ -1804,10 +588,8 @@
       <input type="hidden" id="entrega-anunci-id">
       <input type="hidden" id="entrega-comprador-id">
       <div style="display:flex;gap:10px">
-        <button class="btn btn-primary" id="btn-confirmar-entrega" onclick="confirmarEntrega()">✓ Sí, he
-          entregat</button>
-        <button class="btn btn-outline"
-          onclick="document.getElementById('modal-entrega').classList.add('hidden')">Cancel·lar</button>
+        <button class="btn btn-primary" id="btn-confirmar-entrega" onclick="confirmarEntrega()">✓ Sí, he entregat</button>
+        <button class="btn btn-outline" onclick="document.getElementById('modal-entrega').classList.add('hidden')">Cancel·lar</button>
       </div>
     </div>
   </div>
@@ -1817,16 +599,13 @@
     <div class="modal-box">
       <h3>Deixar valoració</h3>
       <div id="val-alert" class="hidden"></div>
-      <div class="form-group"><label>Estrelles (0-5) *</label><input type="number" id="val-estrelles" min="0" max="5"
-          value="5"></div>
-      <div class="form-group"><label>Comentari (opcional)</label><textarea rows="3" id="val-comentari"
-          placeholder="Explica la teva experiència..."></textarea></div>
+      <div class="form-group"><label>Estrelles (0-5) *</label><input type="number" id="val-estrelles" min="0" max="5" value="5"></div>
+      <div class="form-group"><label>Comentari (opcional)</label><textarea rows="3" id="val-comentari" placeholder="Explica la teva experiència..."></textarea></div>
       <input type="hidden" id="val-anunci-id">
       <input type="hidden" id="val-valorat-id">
       <div style="display:flex;gap:10px;margin-top:8px">
         <button class="btn btn-primary" onclick="enviarValoracio()">Enviar</button>
-        <button class="btn btn-outline"
-          onclick="document.getElementById('modal-valoracio').classList.add('hidden')">Cancel·lar</button>
+        <button class="btn btn-outline" onclick="document.getElementById('modal-valoracio').classList.add('hidden')">Cancel·lar</button>
       </div>
     </div>
   </div>
@@ -1841,31 +620,31 @@
     //  FIREBASE INIT
     // ═══════════════════════════════════════════════════════
     firebase.initializeApp({
-      apiKey: "AIzaSyD5nxim_X1c0cVXRji8-k4CkMSDPDH7v0k",
-      authDomain: "zelva-c6143.firebaseapp.com",
-      projectId: "zelva-c6143",
-      storageBucket: "zelva-c6143.firebasestorage.app",
+      apiKey:            "AIzaSyD5nxim_X1c0cVXRji8-k4CkMSDPDH7v0k",
+      authDomain:        "zelva-c6143.firebaseapp.com",
+      projectId:         "zelva-c6143",
+      storageBucket:     "zelva-c6143.firebasestorage.app",
       messagingSenderId: "876429015791",
-      appId: "1:876429015791:web:02770e67c5ce81c335391a"
+      appId:             "1:876429015791:web:02770e67c5ce81c335391a"
     });
     const auth = firebase.auth();
-    const db = firebase.firestore();
-    const TS = () => firebase.firestore.FieldValue.serverTimestamp();
-    const INC = n => firebase.firestore.FieldValue.increment(n);
+    const db   = firebase.firestore();
+    const TS   = () => firebase.firestore.FieldValue.serverTimestamp();
+    const INC  = n  => firebase.firestore.FieldValue.increment(n);
 
     // ═══════════════════════════════════════════════════════
     //  NAVEGACIÓ
     // ═══════════════════════════════════════════════════════
-    const PAGES = ['landing', 'login', 'explorar', 'perfil', 'chats', 'contacte', 'detall'];
+    const PAGES = ['landing','login','explorar','perfil','chats','contacte','detall'];
 
     function navigate(page) {
       PAGES.forEach(p => document.getElementById('page-' + p)?.classList.add('hidden'));
       document.getElementById('page-' + page)?.classList.remove('hidden');
-      ['explorar', 'chats', 'contacte'].forEach(p =>
+      ['explorar','chats','contacte'].forEach(p =>
         document.getElementById('nav-' + p)?.classList.toggle('active', p === page)
       );
       window.scrollTo(0, 0);
-      if (page === 'chats') carregarChats();
+      if (page === 'chats')  carregarChats();
       if (page === 'perfil') { carregarMeusAnuncis(); carregarHistorial(); }
     }
 
@@ -1893,102 +672,37 @@
         const doc = await db.collection('usuaris').doc(user.uid).get();
         if (doc.exists) {
           const d = doc.data();
-          const ini = (d.nom || user.email || '?').slice(0, 2).toUpperCase();
-          document.getElementById('nav-avatar-btn').textContent = ini;
-          document.getElementById('perfil-avatar').textContent = ini;
-          document.getElementById('perfil-nom').textContent = (d.nom || '') + ' ' + (d.cognom || '');
-          document.getElementById('perfil-email').textContent = user.email;
-          document.getElementById('perfil-points').textContent = d.punts || 0;
+          const ini = (d.nom || user.email || '?').slice(0,2).toUpperCase();
+          document.getElementById('nav-avatar-btn').textContent     = ini;
+          document.getElementById('perfil-avatar').textContent      = ini;
+          document.getElementById('perfil-nom').textContent         = (d.nom||'') + ' ' + (d.cognom||'');
+          document.getElementById('perfil-email').textContent       = user.email;
+          document.getElementById('perfil-points').textContent      = d.punts || 0;
           document.getElementById('perfil-intercanvis').textContent = d.intercanvis_real || 0;
-          document.getElementById('perfil-valoracio').textContent = d.valoracio_mitjana || '—';
-          document.getElementById('nav-points').textContent = d.punts || 0;
-          document.getElementById('perfil-input-nom').value = d.nom || '';
-          document.getElementById('perfil-input-cognom').value = d.cognom || '';
-          document.getElementById('perfil-input-telefon').value = d.telefon || '';
-          document.getElementById('perfil-input-localitat').value = d.localitat || '';
+          document.getElementById('perfil-valoracio').textContent   = d.valoracio_mitjana || '—';
+          document.getElementById('nav-points').textContent         = d.punts || 0;
+          document.getElementById('perfil-input-nom').value         = d.nom || '';
+          document.getElementById('perfil-input-cognom').value      = d.cognom || '';
+          document.getElementById('perfil-input-telefon').value     = d.telefon || '';
+          document.getElementById('perfil-input-localitat').value   = d.localitat || '';
         }
-      } catch (e) { console.error('Error carregant perfil:', e); }
+      } catch(e) { console.error('Error carregant perfil:', e); }
     }
 
     // ═══════════════════════════════════════════════════════
     //  ESTADÍSTIQUES LANDING
     // ═══════════════════════════════════════════════════════
-    // ═══ IMGBB ═══
-const IMGBB_KEY = '944935afc5f7c9c0edc61c6eb5782e12';
-
-async function pujarImgBB(file) {
-  if (file.size > 5 * 1024 * 1024) throw new Error('La imatge no pot superar 5MB.');
-  const fd = new FormData();
-  fd.append('image', file);
-  const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, { method: 'POST', body: fd });
-  const data = await res.json();
-  if (!data.success) throw new Error('Error pujant imatge: ' + (data.error?.message || 'desconegut'));
-  return data.data.url;
-}
-
-async function pujarFotoPerfil(input) {
-  const user = auth.currentUser;
-  const file = input.files[0];
-  if (!file || !user) return;
-  const alertEl = document.getElementById('perfil-alert');
-  alertEl.className = 'alert alert-info';
-  alertEl.textContent = 'Pujant foto...';
-  alertEl.classList.remove('hidden');
-  try {
-    const url = await pujarImgBB(file);
-    await db.collection('usuaris').doc(user.uid).update({ foto: url });
-    const avatar = document.getElementById('perfil-avatar');
-    avatar.innerHTML = `<img src="${url}" alt="foto perfil">`;
-    const navAvatar = document.getElementById('nav-avatar-btn');
-    navAvatar.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
-    alertEl.className = 'alert alert-success';
-    alertEl.textContent = 'Foto actualitzada!';
-    setTimeout(() => alertEl.classList.add('hidden'), 3000);
-  } catch(e) {
-    alertEl.className = 'alert alert-error';
-    alertEl.textContent = 'Error: ' + e.message;
-  }
-}
-
-let imatgesSeleccionades = [];
-
-function previewImatges(input) {
-  imatgesSeleccionades = [...input.files].slice(0, 5);
-  const grid = document.getElementById('preview-grid');
-  grid.innerHTML = '';
-  imatgesSeleccionades.forEach((file, i) => {
-    const url = URL.createObjectURL(file);
-    grid.innerHTML += `
-      <div class="img-preview-item" id="preview-${i}">
-        <img src="${url}" alt="preview">
-        <button class="remove-img" onclick="eliminarPreview(${i})">✕</button>
-      </div>`;
-  });
-}
-
-function eliminarPreview(i) {
-  imatgesSeleccionades.splice(i, 1);
-  document.getElementById('preview-grid').innerHTML = '';
-  imatgesSeleccionades.forEach((file, j) => {
-    const url = URL.createObjectURL(file);
-    document.getElementById('preview-grid').innerHTML += `
-      <div class="img-preview-item" id="preview-${j}">
-        <img src="${url}" alt="preview">
-        <button class="remove-img" onclick="eliminarPreview(${j})">✕</button>
-      </div>`;
-  });
-}
     async function carregarEstadistiques() {
       try {
         const [uSnap, aSnap] = await Promise.all([
           db.collection('usuaris').get(),
-          db.collection('anuncis').where('estat_anunci', '==', 'disponible').get()
+          db.collection('anuncis').where('estat_anunci','==','disponible').get()
         ]);
-        const totalIntercanvis = uSnap.docs.reduce((acc, d) => acc + (d.data().intercanvis_real || 0), 0);
-        document.getElementById('stat-usuaris').textContent = uSnap.size;
-        document.getElementById('stat-anuncis').textContent = aSnap.size;
+        const totalIntercanvis = uSnap.docs.reduce((acc,d) => acc + (d.data().intercanvis_real||0), 0);
+        document.getElementById('stat-usuaris').textContent     = uSnap.size;
+        document.getElementById('stat-anuncis').textContent     = aSnap.size;
         document.getElementById('stat-intercanvis').textContent = totalIntercanvis;
-      } catch (e) { }
+      } catch(e) {}
     }
 
     // ═══════════════════════════════════════════════════════
@@ -2011,25 +725,25 @@ function eliminarPreview(i) {
 
     function doLogin() {
       const email = document.getElementById('loginEmail').value.trim();
-      const pass = document.getElementById('loginPass').value;
+      const pass  = document.getElementById('loginPass').value;
       if (!email || !pass) return showAlert('Omple tots els camps.');
       auth.signInWithEmailAndPassword(email, pass).catch(e => showAlert(tradError(e.code)));
     }
 
     function doRegister() {
-      const nom = document.getElementById('regNom').value.trim();
-      const cognom = document.getElementById('regCognom').value.trim();
-      const localitat = document.getElementById('regLocalitat').value.trim();
-      const telefon = document.getElementById('regTelefon').value.trim();
-      const email = document.getElementById('regEmail').value.trim();
-      const pass = document.getElementById('regPass').value;
-      if (!email || !pass || !nom || !cognom || !localitat) return showAlert('Omple tots els camps obligatoris (*).');
+      const nom      = document.getElementById('regNom').value.trim();
+      const cognom   = document.getElementById('regCognom').value.trim();
+      const localitat= document.getElementById('regLocalitat').value.trim();
+      const telefon  = document.getElementById('regTelefon').value.trim();
+      const email    = document.getElementById('regEmail').value.trim();
+      const pass     = document.getElementById('regPass').value;
+      if (!email||!pass||!nom||!cognom||!localitat) return showAlert('Omple tots els camps obligatoris (*).');
       if (pass.length < 6) return showAlert('La contrasenya ha de tenir mínim 6 caràcters.');
       if (telefon && !/^\d{9}$/.test(telefon)) return showAlert('El telèfon ha de tenir exactament 9 dígits.');
       auth.createUserWithEmailAndPassword(email, pass)
         .then(cred => Promise.all([
           db.collection('usuaris').doc(cred.user.uid).set({
-            nom, cognom, localitat, telefon: telefon || null, foto: '',
+            nom, cognom, localitat, telefon: telefon||null, foto: '',
             data_creacio: TS(), punts: 100, // 100 pts de benvinguda!
             intercanvis_real: 0, valoracio_mitjana: null
           }),
@@ -2048,8 +762,8 @@ function eliminarPreview(i) {
             if (!doc.exists) {
               uRef.set({
                 nom: result.user.displayName || result.user.email.split('@')[0],
-                cognom: '', localitat: '', telefon: null,
-                foto: result.user.photoURL || '', data_creacio: TS(),
+                cognom:'', localitat:'', telefon:null,
+                foto: result.user.photoURL||'', data_creacio: TS(),
                 punts: 100, intercanvis_real: 0, valoracio_mitjana: null
               });
             }
@@ -2062,108 +776,108 @@ function eliminarPreview(i) {
       const email = document.getElementById('loginEmail').value.trim();
       if (!email) return showAlert('Introdueix el teu correu primer.');
       auth.sendPasswordResetEmail(email)
-        .then(() => showAlert('Correu de recuperació enviat!', 'success'))
+        .then(() => showAlert('Correu de recuperació enviat!','success'))
         .catch(e => showAlert(tradError(e.code)));
     }
     function doLogout() { auth.signOut(); }
 
     function tradError(code) {
       const msgs = {
-        'auth/user-not-found': 'Usuari no trobat.', 'auth/wrong-password': 'Contrasenya incorrecta.',
-        'auth/invalid-credential': 'Credencials incorrectes.', 'auth/email-already-in-use': 'Aquest correu ja està registrat.',
-        'auth/invalid-email': 'Correu no vàlid.', 'auth/weak-password': 'Contrasenya massa feble.',
-        'auth/popup-closed-by-user': 'Popup tancat.'
+        'auth/user-not-found':'Usuari no trobat.','auth/wrong-password':'Contrasenya incorrecta.',
+        'auth/invalid-credential':'Credencials incorrectes.','auth/email-already-in-use':'Aquest correu ja està registrat.',
+        'auth/invalid-email':'Correu no vàlid.','auth/weak-password':'Contrasenya massa feble.',
+        'auth/popup-closed-by-user':'Popup tancat.'
       };
-      return msgs[code] || 'Error inesperat.';
+      return msgs[code]||'Error inesperat.';
     }
 
     // ═══════════════════════════════════════════════════════
     //  GUARDAR PERFIL
     // ═══════════════════════════════════════════════════════
     async function guardarPerfil() {
-      const user = auth.currentUser; if (!user) return;
-      const nom = document.getElementById('perfil-input-nom').value.trim();
-      const cognom = document.getElementById('perfil-input-cognom').value.trim();
-      const telefon = document.getElementById('perfil-input-telefon').value.trim();
-      const localitat = document.getElementById('perfil-input-localitat').value.trim();
-      const alertEl = document.getElementById('perfil-alert');
-      if (!nom || !localitat) { alertEl.className = 'alert alert-error'; alertEl.textContent = 'Nom i localitat són obligatoris.'; alertEl.classList.remove('hidden'); return; }
+      const user=auth.currentUser; if(!user) return;
+      const nom=document.getElementById('perfil-input-nom').value.trim();
+      const cognom=document.getElementById('perfil-input-cognom').value.trim();
+      const telefon=document.getElementById('perfil-input-telefon').value.trim();
+      const localitat=document.getElementById('perfil-input-localitat').value.trim();
+      const alertEl=document.getElementById('perfil-alert');
+      if(!nom||!localitat){ alertEl.className='alert alert-error'; alertEl.textContent='Nom i localitat són obligatoris.'; alertEl.classList.remove('hidden'); return; }
       try {
-        await db.collection('usuaris').doc(user.uid).update({ nom, cognom, localitat, telefon: telefon || null });
-        await user.updateProfile({ displayName: nom });
-        document.getElementById('perfil-nom').textContent = nom + ' ' + cognom;
-        const ini = nom.slice(0, 2).toUpperCase();
-        document.getElementById('nav-avatar-btn').textContent = ini;
-        document.getElementById('perfil-avatar').textContent = ini;
-        alertEl.className = 'alert alert-success'; alertEl.textContent = 'Perfil actualitzat!'; alertEl.classList.remove('hidden');
-        setTimeout(() => alertEl.classList.add('hidden'), 3000);
-      } catch (e) { alertEl.className = 'alert alert-error'; alertEl.textContent = 'Error: ' + e.message; alertEl.classList.remove('hidden'); }
+        await db.collection('usuaris').doc(user.uid).update({nom,cognom,localitat,telefon:telefon||null});
+        await user.updateProfile({displayName:nom});
+        document.getElementById('perfil-nom').textContent=nom+' '+cognom;
+        const ini=nom.slice(0,2).toUpperCase();
+        document.getElementById('nav-avatar-btn').textContent=ini;
+        document.getElementById('perfil-avatar').textContent=ini;
+        alertEl.className='alert alert-success'; alertEl.textContent='Perfil actualitzat!'; alertEl.classList.remove('hidden');
+        setTimeout(()=>alertEl.classList.add('hidden'),3000);
+      } catch(e){ alertEl.className='alert alert-error'; alertEl.textContent='Error: '+e.message; alertEl.classList.remove('hidden'); }
     }
 
     // ═══════════════════════════════════════════════════════
     //  ANUNCIS
     // ═══════════════════════════════════════════════════════
-    let filtreActiu = 'tots', cercaActiva = '', totsAnuncis = [];
+    let filtreActiu='tots', cercaActiva='', totsAnuncis=[];
 
     async function renderAnuncis() {
-      const grid = document.getElementById('anuncis-grid'); if (!grid) return;
-      grid.innerHTML = '<div class="loading" style="grid-column:1/-1"><span class="spinner"></span>Carregant...</div>';
+      const grid=document.getElementById('anuncis-grid'); if(!grid) return;
+      grid.innerHTML='<div class="loading" style="grid-column:1/-1"><span class="spinner"></span>Carregant...</div>';
       try {
-        const snap = await db.collection('anuncis').where('estat_anunci', '==', 'disponible').orderBy('data_creacio', 'desc').get();
-        totsAnuncis = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        const uids = [...new Set(totsAnuncis.map(a => a.usuari_id).filter(Boolean))];
-        await Promise.all(uids.map(async uid => {
+        const snap=await db.collection('anuncis').where('estat_anunci','==','disponible').orderBy('data_creacio','desc').get();
+        totsAnuncis=snap.docs.map(d=>({id:d.id,...d.data()}));
+        const uids=[...new Set(totsAnuncis.map(a=>a.usuari_id).filter(Boolean))];
+        await Promise.all(uids.map(async uid=>{
           try {
-            const uDoc = await db.collection('usuaris').doc(uid).get();
-            if (uDoc.exists) { const ud = uDoc.data(); totsAnuncis = totsAnuncis.map(a => a.usuari_id === uid ? { ...a, _nom: ud.nom, _loc: ud.localitat, _ini: (ud.nom || '?').slice(0, 2).toUpperCase() } : a); }
-          } catch (e) { }
+            const uDoc=await db.collection('usuaris').doc(uid).get();
+            if(uDoc.exists){ const ud=uDoc.data(); totsAnuncis=totsAnuncis.map(a=>a.usuari_id===uid?{...a,_nom:ud.nom,_loc:ud.localitat,_ini:(ud.nom||'?').slice(0,2).toUpperCase()}:a); }
+          } catch(e){}
         }));
         mostrarAnuncis();
-      } catch (e) {
-        grid.innerHTML = '<p style="color:var(--text-muted);padding:20px;grid-column:1/-1">Error carregant anuncis. Comprova les regles de Firestore.</p>';
+      } catch(e){
+        grid.innerHTML='<p style="color:var(--text-muted);padding:20px;grid-column:1/-1">Error carregant anuncis. Comprova les regles de Firestore.</p>';
         console.error(e);
       }
     }
 
     function mostrarAnuncis() {
-      const grid = document.getElementById('anuncis-grid'); if (!grid) return;
-      const modLabel = { intercanvi: 'Intercanvi', donacio: 'Donació', punts: 'Punts' };
-      let llista = [...totsAnuncis];
-      if (filtreActiu !== 'tots') llista = llista.filter(a => a.categoria === filtreActiu || a.modalitat === filtreActiu);
-      if (cercaActiva) { const q = cercaActiva.toLowerCase(); llista = llista.filter(a => (a.titol || '').toLowerCase().includes(q) || (a.descripcio || '').toLowerCase().includes(q)); }
-      document.getElementById('anuncis-count').textContent = llista.length + ' anunci' + (llista.length !== 1 ? 's' : '') + ' disponible' + (llista.length !== 1 ? 's' : '');
-      if (!llista.length) { grid.innerHTML = '<p style="color:var(--text-muted);padding:20px;grid-column:1/-1">No s\'han trobat anuncis.</p>'; return; }
-      const getPuntsLabel = a => a.modalitat === 'punts' ? (a.ecopoints || 0) + ' pts' : a.modalitat === 'donacio' ? 'Gratis' : 'Intercanvi';
-      grid.innerHTML = llista.map(a => `
+      const grid=document.getElementById('anuncis-grid'); if(!grid) return;
+      const modLabel={intercanvi:'Intercanvi',donacio:'Donació',punts:'Punts'};
+      let llista=[...totsAnuncis];
+      if(filtreActiu!=='tots') llista=llista.filter(a=>a.categoria===filtreActiu||a.modalitat===filtreActiu);
+      if(cercaActiva){ const q=cercaActiva.toLowerCase(); llista=llista.filter(a=>(a.titol||'').toLowerCase().includes(q)||(a.descripcio||'').toLowerCase().includes(q)); }
+      document.getElementById('anuncis-count').textContent=llista.length+' anunci'+(llista.length!==1?'s':'')+' disponible'+(llista.length!==1?'s':'');
+      if(!llista.length){ grid.innerHTML='<p style="color:var(--text-muted);padding:20px;grid-column:1/-1">No s\'han trobat anuncis.</p>'; return; }
+      const getPuntsLabel=a=>a.modalitat==='punts'?(a.ecopoints||0)+' pts':a.modalitat==='donacio'?'Gratis':'Intercanvi';
+      grid.innerHTML=llista.map(a=>`
         <div class="card" onclick="veureDeta('${a.id}')">
           <div class="card-img">
-            ${(a.imatge && a.imatge[0]) ? `<img src="${a.imatge[0]}" alt="${a.titol}" onerror="this.parentElement.innerHTML='📦'">` : '📦'}
+            ${(a.imatge&&a.imatge[0])?`<img src="${a.imatge[0]}" alt="${a.titol}" onerror="this.parentElement.innerHTML='📦'">`:'📦'}
           </div>
           <div class="card-body">
             <div style="display:flex;gap:6px;margin-bottom:8px">
-              <span class="tag tag-${a.modalitat}">${modLabel[a.modalitat] || a.modalitat}</span>
-              ${a.estat_producte ? `<span class="tag tag-estat">${a.estat_producte === 'Per estrenar' ? 'Per estrenar' : 'Bon estat'}</span>` : ''}
+              <span class="tag tag-${a.modalitat}">${modLabel[a.modalitat]||a.modalitat}</span>
+              ${a.estat_producte?`<span class="tag tag-estat">${a.estat_producte==='Per estrenar'?'Per estrenar':'Bon estat'}</span>`:''}
             </div>
-            <div class="card-title">${a.titol || 'Sense títol'}</div>
-            <div class="card-desc">${a.descripcio || ''}</div>
+            <div class="card-title">${a.titol||'Sense títol'}</div>
+            <div class="card-desc">${a.descripcio||''}</div>
             <div class="card-footer">
               <div style="display:flex;align-items:center;gap:6px">
-                <div class="avatar-sm">${a._ini || '?'}</div>
-                <span style="font-size:12px;color:var(--text-muted)">${a._nom || 'Usuari'}</span>
+                <div class="avatar-sm">${a._ini||'?'}</div>
+                <span style="font-size:12px;color:var(--text-muted)">${a._nom||'Usuari'}</span>
               </div>
               <span class="card-points">${getPuntsLabel(a)}</span>
             </div>
-            <div style="font-size:12px;color:var(--text-muted);margin-top:6px">📍 ${a._loc || ''}</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:6px">📍 ${a._loc||''}</div>
           </div>
         </div>`).join('');
     }
 
-    function cercarAnuncis() { cercaActiva = document.getElementById('search-input').value.trim(); mostrarAnuncis(); }
-    document.getElementById('search-input')?.addEventListener('keydown', e => { if (e.key === 'Enter') cercarAnuncis(); });
-    document.querySelectorAll('.filter-chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-        chip.classList.add('active'); filtreActiu = chip.dataset.filter || 'tots'; mostrarAnuncis();
+    function cercarAnuncis(){ cercaActiva=document.getElementById('search-input').value.trim(); mostrarAnuncis(); }
+    document.getElementById('search-input')?.addEventListener('keydown',e=>{ if(e.key==='Enter') cercarAnuncis(); });
+    document.querySelectorAll('.filter-chip').forEach(chip=>{
+      chip.addEventListener('click',()=>{
+        document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+        chip.classList.add('active'); filtreActiu=chip.dataset.filter||'tots'; mostrarAnuncis();
       });
     });
 
@@ -2172,50 +886,50 @@ function eliminarPreview(i) {
     // ═══════════════════════════════════════════════════════
     async function veureDeta(anunciId) {
       navigate('detall');
-      const content = document.getElementById('detall-content');
-      content.innerHTML = '<div class="loading"><span class="spinner"></span>Carregant...</div>';
+      const content=document.getElementById('detall-content');
+      content.innerHTML='<div class="loading"><span class="spinner"></span>Carregant...</div>';
       try {
-        const [anunciDoc, valsSnap] = await Promise.all([
+        const [anunciDoc,valsSnap]=await Promise.all([
           db.collection('anuncis').doc(anunciId).get(),
-          db.collection('valoracions').where('id_anunci', '==', anunciId).get()
+          db.collection('valoracions').where('id_anunci','==',anunciId).get()
         ]);
-        if (!anunciDoc.exists) { content.innerHTML = '<p>Anunci no trobat.</p>'; return; }
-        const a = { id: anunciDoc.id, ...anunciDoc.data() };
-        const modLabel = { intercanvi: 'Intercanvi', donacio: 'Donació', punts: 'Punts' };
-        const user = auth.currentUser;
+        if(!anunciDoc.exists){ content.innerHTML='<p>Anunci no trobat.</p>'; return; }
+        const a={id:anunciDoc.id,...anunciDoc.data()};
+        const modLabel={intercanvi:'Intercanvi',donacio:'Donació',punts:'Punts'};
+        const user=auth.currentUser;
 
-        let nomProp = 'Usuari', locProp = '', iniProp = '?';
+        let nomProp='Usuari',locProp='',iniProp='?';
         try {
-          const uDoc = await db.collection('usuaris').doc(a.usuari_id).get();
-          if (uDoc.exists) { const ud = uDoc.data(); nomProp = (ud.nom || '') + ' ' + (ud.cognom || ''); locProp = ud.localitat || ''; iniProp = (ud.nom || '?').slice(0, 2).toUpperCase(); }
-        } catch (e) { }
+          const uDoc=await db.collection('usuaris').doc(a.usuari_id).get();
+          if(uDoc.exists){ const ud=uDoc.data(); nomProp=(ud.nom||'')+' '+(ud.cognom||''); locProp=ud.localitat||''; iniProp=(ud.nom||'?').slice(0,2).toUpperCase(); }
+        } catch(e){}
 
         // Comprova si l'usuari actual ha comprat aquest anunci (estat reservat)
-        let yaHaComprat = false;
-        if (user && a.comprador_id === user.uid) yaHaComprat = true;
+        let yaHaComprat=false;
+        if(user && a.comprador_id===user.uid) yaHaComprat=true;
 
-        const valsHtml = valsSnap.empty
-          ? '<p style="color:var(--text-muted);font-size:14px">Encara no hi ha valoracions.</p>'
-          : valsSnap.docs.map(v => { const vd = v.data(); return `<div class="valoracio-card"><div class="stars">${'★'.repeat(vd.estrelles || 0)}${'☆'.repeat(5 - (vd.estrelles || 0))}</div><p style="font-size:14px;margin-top:6px">${vd.comentari || ''}</p></div>`; }).join('');
+        const valsHtml=valsSnap.empty
+          ?'<p style="color:var(--text-muted);font-size:14px">Encara no hi ha valoracions.</p>'
+          :valsSnap.docs.map(v=>{ const vd=v.data(); return `<div class="valoracio-card"><div class="stars">${'★'.repeat(vd.estrelles||0)}${'☆'.repeat(5-(vd.estrelles||0))}</div><p style="font-size:14px;margin-top:6px">${vd.comentari||''}</p></div>`; }).join('');
 
-        const esProp = user && user.uid === a.usuari_id;
-        const esLogat = !!user;
-        const puntsLabel = a.modalitat === 'punts' ? (a.ecopoints || 0) + ' pts' : a.modalitat === 'donacio' ? 'Gratis' : 'Intercanvi';
+        const esProp=user&&user.uid===a.usuari_id;
+        const esLogat=!!user;
+        const puntsLabel=a.modalitat==='punts'?(a.ecopoints||0)+' pts':a.modalitat==='donacio'?'Gratis':'Intercanvi';
 
         // Banner d'estat si reservat o completat
-        let estatBanner = '';
-        if (a.estat_anunci === 'reservat') estatBanner = `<div class="estat-banner estat-banner-reservat">⏳ Aquest anunci està reservat i pendent de confirmació d'entrega.</div>`;
-        if (a.estat_anunci === 'completat') estatBanner = `<div class="estat-banner estat-banner-completat">✅ Aquest intercanvi s'ha completat correctament.</div>`;
+        let estatBanner='';
+        if(a.estat_anunci==='reservat') estatBanner=`<div class="estat-banner estat-banner-reservat">⏳ Aquest anunci està reservat i pendent de confirmació d'entrega.</div>`;
+        if(a.estat_anunci==='completat') estatBanner=`<div class="estat-banner estat-banner-completat">✅ Aquest intercanvi s'ha completat correctament.</div>`;
 
         // Botó de compra amb EcoPoints (només si modalitat=punts, disponible, i no és el propietari)
-        let compraBox = '';
-        if (a.modalitat === 'punts' && a.estat_anunci === 'disponible' && esLogat && !esProp) {
-          compraBox = `
+        let compraBox='';
+        if(a.modalitat==='punts' && a.estat_anunci==='disponible' && esLogat && !esProp) {
+          compraBox=`
             <div class="compra-box">
               <h4>💳 Comprar amb EcoPoints</h4>
               <div class="punts-info">
                 <div>
-                  <div class="punts-preu">${a.ecopoints || 0} pts</div>
+                  <div class="punts-preu">${a.ecopoints||0} pts</div>
                   <div style="font-size:12px;color:var(--text-muted)">Preu del producte</div>
                 </div>
                 <div style="text-align:right">
@@ -2223,42 +937,42 @@ function eliminarPreview(i) {
                 </div>
               </div>
               <div class="compra-box confirmar-actions">
-                <button class="btn btn-primary" onclick="obrirModalCompra('${a.id}','${a.titol}',${a.ecopoints || 0},'${a.usuari_id}')">🛒 Comprar ara</button>
+                <button class="btn btn-primary" onclick="obrirModalCompra('${a.id}','${a.titol}',${a.ecopoints||0},'${a.usuari_id}')">🛒 Comprar ara</button>
               </div>
             </div>`;
         }
         // Botó reservar (per intercanvi/donació)
-        let reservarBtn = '';
-        if ((a.modalitat === 'intercanvi' || a.modalitat === 'donacio') && a.estat_anunci === 'disponible' && esLogat && !esProp) {
-          reservarBtn = `<button class="btn btn-warning" onclick="reservarAnunci('${a.id}','${a.usuari_id}')">📌 Sol·licitar reserva</button>`;
+        let reservarBtn='';
+        if((a.modalitat==='intercanvi'||a.modalitat==='donacio') && a.estat_anunci==='disponible' && esLogat && !esProp) {
+          reservarBtn=`<button class="btn btn-warning" onclick="reservarAnunci('${a.id}','${a.usuari_id}')">📌 Sol·licitar reserva</button>`;
         }
         // Botó confirmar entrega (propietari, anunci reservat)
-        let entregaBtn = '';
-        if (esProp && a.estat_anunci === 'reservat') {
-          entregaBtn = `<button class="btn btn-primary" onclick="obrirModalEntrega('${a.id}','${a.comprador_id || ''}')">📦 Confirmar entrega</button>`;
+        let entregaBtn='';
+        if(esProp && a.estat_anunci==='reservat') {
+          entregaBtn=`<button class="btn btn-primary" onclick="obrirModalEntrega('${a.id}','${a.comprador_id||''}')">📦 Confirmar entrega</button>`;
         }
         // Botó cancel·lar reserva (comprador o propietari)
-        let cancelBtn = '';
-        if (a.estat_anunci === 'reservat' && user && (user.uid === a.comprador_id || esProp)) {
-          cancelBtn = `<button class="btn btn-outline" onclick="cancellarReserva('${a.id}')">✕ Cancel·lar reserva</button>`;
+        let cancelBtn='';
+        if(a.estat_anunci==='reservat' && user && (user.uid===a.comprador_id||esProp)) {
+          cancelBtn=`<button class="btn btn-outline" onclick="cancellarReserva('${a.id}')">✕ Cancel·lar reserva</button>`;
         }
 
-        content.innerHTML = `
+        content.innerHTML=`
           <div class="detall-card">
-            <div class="detall-img">${(a.imatge && a.imatge[0]) ? `<img src="${a.imatge[0]}" alt="${a.titol}">` : '📦'}</div>
+            <div class="detall-img">${(a.imatge&&a.imatge[0])?`<img src="${a.imatge[0]}" alt="${a.titol}">`:'📦'}</div>
             <div class="detall-body">
               ${estatBanner}
               <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
-                <span class="tag tag-${a.modalitat}">${modLabel[a.modalitat] || a.modalitat}</span>
-                ${a.estat_producte ? `<span class="tag tag-estat">${a.estat_producte}</span>` : ''}
-                ${a.estat_anunci === 'reservat' ? '<span class="tag tag-reservat">Reservat</span>' : ''}
-                ${a.estat_anunci === 'completat' ? '<span class="tag tag-completat">Completat</span>' : ''}
+                <span class="tag tag-${a.modalitat}">${modLabel[a.modalitat]||a.modalitat}</span>
+                ${a.estat_producte?`<span class="tag tag-estat">${a.estat_producte}</span>`:''}
+                ${a.estat_anunci==='reservat'?'<span class="tag tag-reservat">Reservat</span>':''}
+                ${a.estat_anunci==='completat'?'<span class="tag tag-completat">Completat</span>':''}
               </div>
-              <h1 class="detall-title">${a.titol || ''}</h1>
-              <p class="detall-desc">${a.descripcio || ''}</p>
+              <h1 class="detall-title">${a.titol||''}</h1>
+              <p class="detall-desc">${a.descripcio||''}</p>
               <div class="detall-info-row">
                 <div class="detall-info-item"><strong>${puntsLabel}</strong>Preu / Modalitat</div>
-                <div class="detall-info-item"><strong>${a.categoria || '—'}</strong>Categoria</div>
+                <div class="detall-info-item"><strong>${a.categoria||'—'}</strong>Categoria</div>
               </div>
               <div class="detall-user">
                 <div class="avatar-lg" style="width:44px;height:44px;font-size:16px">${iniProp}</div>
@@ -2269,9 +983,9 @@ function eliminarPreview(i) {
                 ${reservarBtn}
                 ${entregaBtn}
                 ${cancelBtn}
-                ${esLogat && !esProp && a.estat_anunci !== 'completat' ? `<button class="btn btn-outline" onclick="iniciarXat('${a.id}','${a.usuari_id}')">✉ Enviar missatge</button>` : ''}
-                ${esLogat && !esProp && a.estat_anunci === 'completat' ? `<button class="btn btn-outline" onclick="obrirModalValoracio('${a.id}','${a.usuari_id}')">⭐ Valorar</button>` : ''}
-                ${esProp && a.estat_anunci === 'disponible' ? `<button class="btn btn-danger btn-sm" onclick="eliminarAnunci('${a.id}')">Eliminar anunci</button>` : ''}
+                ${esLogat&&!esProp&&a.estat_anunci!=='completat'?`<button class="btn btn-outline" onclick="iniciarXat('${a.id}','${a.usuari_id}')">✉ Enviar missatge</button>`:''}
+                ${esLogat&&!esProp&&a.estat_anunci==='completat'?`<button class="btn btn-outline" onclick="obrirModalValoracio('${a.id}','${a.usuari_id}')">⭐ Valorar</button>`:''}
+                ${esProp&&a.estat_anunci==='disponible'?`<button class="btn btn-danger btn-sm" onclick="eliminarAnunci('${a.id}')">Eliminar anunci</button>`:''}
               </div>
               <h3 style="font-size:16px;font-weight:600;margin-bottom:16px">Valoracions (${valsSnap.size})</h3>
               ${valsHtml}
@@ -2279,19 +993,19 @@ function eliminarPreview(i) {
           </div>`;
 
         // Mostrar saldo en viu
-        if (user) {
-          db.collection('usuaris').doc(user.uid).get().then(d => {
-            const el = document.getElementById('saldo-live');
-            if (el) el.textContent = d.exists ? (d.data().punts || 0) : '—';
+        if(user) {
+          db.collection('usuaris').doc(user.uid).get().then(d=>{
+            const el=document.getElementById('saldo-live');
+            if(el) el.textContent=d.exists?(d.data().punts||0):'—';
           });
         }
-      } catch (e) { content.innerHTML = '<p style="color:var(--text-muted)">Error carregant l\'anunci.</p>'; console.error(e); }
+      } catch(e){ content.innerHTML='<p style="color:var(--text-muted)">Error carregant l\'anunci.</p>'; console.error(e); }
     }
 
     async function eliminarAnunci(id) {
-      if (!confirm('Segur que vols eliminar aquest anunci?')) return;
-      try { await db.collection('anuncis').doc(id).update({ estat_anunci: 'completat' }); navigate('explorar'); renderAnuncis(); }
-      catch (e) { alert('Error: ' + e.message); }
+      if(!confirm('Segur que vols eliminar aquest anunci?')) return;
+      try { await db.collection('anuncis').doc(id).update({estat_anunci:'completat'}); navigate('explorar'); renderAnuncis(); }
+      catch(e){ alert('Error: '+e.message); }
     }
 
     // ═══════════════════════════════════════════════════════
@@ -2300,97 +1014,97 @@ function eliminarPreview(i) {
     let compraPendent = null; // guarda dades de la compra pendent de confirmar
 
     async function obrirModalCompra(anunciId, titol, preu, venedorId) {
-      const user = auth.currentUser; if (!user) return navigate('login');
-      compraPendent = { anunciId, titol, preu, venedorId };
+      const user=auth.currentUser; if(!user) return navigate('login');
+      compraPendent={anunciId,titol,preu,venedorId};
 
-      const alertEl = document.getElementById('compra-alert');
+      const alertEl=document.getElementById('compra-alert');
       alertEl.classList.add('hidden');
-      document.getElementById('btn-confirmar-compra').disabled = false;
+      document.getElementById('btn-confirmar-compra').disabled=false;
 
       // Obtenir saldo actual
-      const uDoc = await db.collection('usuaris').doc(user.uid).get();
-      const saldo = uDoc.exists ? (uDoc.data().punts || 0) : 0;
-      const saldoFinal = saldo - preu;
-      const tensSuficients = saldo >= preu;
+      const uDoc=await db.collection('usuaris').doc(user.uid).get();
+      const saldo=uDoc.exists?(uDoc.data().punts||0):0;
+      const saldoFinal=saldo-preu;
+      const tensSuficients=saldo>=preu;
 
-      document.getElementById('compra-resum').innerHTML = `
+      document.getElementById('compra-resum').innerHTML=`
         <div class="modal-compra-row"><span class="label">Producte</span><span class="valor">${titol}</span></div>
         <div class="modal-compra-row"><span class="label">Preu</span><span class="valor negatiu">-${preu} pts</span></div>
         <hr class="modal-compra-divider">
         <div class="modal-compra-row"><span class="label">Saldo actual</span><span class="valor">${saldo} pts</span></div>
-        <div class="modal-compra-row"><span class="label">Saldo després</span><span class="valor ${tensSuficients ? 'final' : 'negatiu'}">${saldoFinal} pts</span></div>
+        <div class="modal-compra-row"><span class="label">Saldo després</span><span class="valor ${tensSuficients?'final':'negatiu'}">${saldoFinal} pts</span></div>
       `;
 
-      if (!tensSuficients) {
-        alertEl.className = 'alert alert-error';
-        alertEl.textContent = `No tens prou EcoPoints. Necessites ${preu} pts però tens ${saldo} pts.`;
+      if(!tensSuficients) {
+        alertEl.className='alert alert-error';
+        alertEl.textContent=`No tens prou EcoPoints. Necessites ${preu} pts però tens ${saldo} pts.`;
         alertEl.classList.remove('hidden');
-        document.getElementById('btn-confirmar-compra').disabled = true;
+        document.getElementById('btn-confirmar-compra').disabled=true;
       }
 
       document.getElementById('modal-compra').classList.remove('hidden');
     }
 
     async function confirmarCompra() {
-      const user = auth.currentUser; if (!user || !compraPendent) return;
-      const { anunciId, titol, preu, venedorId } = compraPendent;
-      const btn = document.getElementById('btn-confirmar-compra');
-      const alertEl = document.getElementById('compra-alert');
-      btn.textContent = 'Processant...'; btn.disabled = true;
+      const user=auth.currentUser; if(!user||!compraPendent) return;
+      const {anunciId,titol,preu,venedorId}=compraPendent;
+      const btn=document.getElementById('btn-confirmar-compra');
+      const alertEl=document.getElementById('compra-alert');
+      btn.textContent='Processant...'; btn.disabled=true;
 
       try {
         // Transacció atòmica: descomptar punts, marcar anunci reservat, notificar venedor
-        const batch = db.batch();
+        const batch=db.batch();
 
         // 1. Descomptar EcoPoints al comprador
-        batch.update(db.collection('usuaris').doc(user.uid), { punts: INC(-preu) });
+        batch.update(db.collection('usuaris').doc(user.uid),{punts:INC(-preu)});
 
         // 2. Marcar anunci com a reservat + guardar qui ha comprat
-        batch.update(db.collection('anuncis').doc(anunciId), {
-          estat_anunci: 'reservat',
-          comprador_id: user.uid,
-          data_reserva: TS()
+        batch.update(db.collection('anuncis').doc(anunciId),{
+          estat_anunci:'reservat',
+          comprador_id:user.uid,
+          data_reserva:TS()
         });
 
         await batch.commit();
 
         // 3. Missatge automàtic al xat notificant la compra
         await db.collection('missatges').add({
-          contingut: `🛒 He comprat "${titol}" per ${preu} EcoPoints. Estem pendents que confirmis l'entrega!`,
-          anunci_referencia: anunciId,
-          id_emissor: user.uid,
-          id_receptor: venedorId,
-          entregat: true, llegit: false,
-          data_enviament: TS(),
-          tipus: 'sistema'
+          contingut:`🛒 He comprat "${titol}" per ${preu} EcoPoints. Estem pendents que confirmis l'entrega!`,
+          anunci_referencia:anunciId,
+          id_emissor:user.uid,
+          id_receptor:venedorId,
+          entregat:true, llegit:false,
+          data_enviament:TS(),
+          tipus:'sistema'
         });
 
         // 4. Registrar la transacció a l'historial
         await db.collection('transaccions').add({
-          usuari_id: user.uid,
-          tipus: 'compra',
-          anunci_id: anunciId,
-          anunci_titol: titol,
-          punts: -preu,
-          contrapart_id: venedorId,
-          data: TS()
+          usuari_id:user.uid,
+          tipus:'compra',
+          anunci_id:anunciId,
+          anunci_titol:titol,
+          punts:-preu,
+          contrapart_id:venedorId,
+          data:TS()
         });
 
         document.getElementById('modal-compra').classList.add('hidden');
-        btn.textContent = '✓ Confirmar compra'; btn.disabled = false;
-        compraPendent = null;
+        btn.textContent='✓ Confirmar compra'; btn.disabled=false;
+        compraPendent=null;
 
         // Actualitzar saldo a la navbar
-        const uDocNou = await db.collection('usuaris').doc(user.uid).get();
-        if (uDocNou.exists) document.getElementById('nav-points').textContent = uDocNou.data().punts || 0;
+        const uDocNou=await db.collection('usuaris').doc(user.uid).get();
+        if(uDocNou.exists) document.getElementById('nav-points').textContent=uDocNou.data().punts||0;
 
         alert(`✅ Compra realitzada! S'han descomptat ${preu} EcoPoints del teu saldo. El venedor ha rebut un missatge.`);
         veureDeta(anunciId); // refrescar detall
-      } catch (e) {
-        alertEl.className = 'alert alert-error';
-        alertEl.textContent = 'Error processant la compra: ' + e.message;
+      } catch(e) {
+        alertEl.className='alert alert-error';
+        alertEl.textContent='Error processant la compra: '+e.message;
         alertEl.classList.remove('hidden');
-        btn.textContent = '✓ Confirmar compra'; btn.disabled = false;
+        btn.textContent='✓ Confirmar compra'; btn.disabled=false;
         console.error(e);
       }
     }
@@ -2399,104 +1113,104 @@ function eliminarPreview(i) {
     //  ★ RESERVAR (intercanvi/donació) ★
     // ═══════════════════════════════════════════════════════
     async function reservarAnunci(anunciId, venedorId) {
-      const user = auth.currentUser; if (!user) return navigate('login');
-      if (!confirm('Vols sol·licitar la reserva d\'aquest anunci? El venedor rebrà un missatge.')) return;
+      const user=auth.currentUser; if(!user) return navigate('login');
+      if(!confirm('Vols sol·licitar la reserva d\'aquest anunci? El venedor rebrà un missatge.')) return;
       try {
-        const snap = await db.collection('anuncis').doc(anunciId).get();
-        const a = snap.data();
+        const snap=await db.collection('anuncis').doc(anunciId).get();
+        const a=snap.data();
         await db.collection('anuncis').doc(anunciId).update({
-          estat_anunci: 'reservat', comprador_id: user.uid, data_reserva: TS()
+          estat_anunci:'reservat', comprador_id:user.uid, data_reserva:TS()
         });
         await db.collection('missatges').add({
-          contingut: `📌 He sol·licitat la reserva de "${a.titol}". Podem quedar per fer l'intercanvi!`,
-          anunci_referencia: anunciId, id_emissor: user.uid, id_receptor: venedorId,
-          entregat: true, llegit: false, data_enviament: TS(), tipus: 'sistema'
+          contingut:`📌 He sol·licitat la reserva de "${a.titol}". Podem quedar per fer l'intercanvi!`,
+          anunci_referencia:anunciId, id_emissor:user.uid, id_receptor:venedorId,
+          entregat:true, llegit:false, data_enviament:TS(), tipus:'sistema'
         });
         alert('✅ Reserva sol·licitada! El venedor ha rebut un missatge.');
         veureDeta(anunciId);
-      } catch (e) { alert('Error: ' + e.message); }
+      } catch(e){ alert('Error: '+e.message); }
     }
 
     // ═══════════════════════════════════════════════════════
     //  ★ CONFIRMAR ENTREGA (propietari) ★
     // ═══════════════════════════════════════════════════════
     function obrirModalEntrega(anunciId, compradorId) {
-      document.getElementById('entrega-anunci-id').value = anunciId;
-      document.getElementById('entrega-comprador-id').value = compradorId;
+      document.getElementById('entrega-anunci-id').value=anunciId;
+      document.getElementById('entrega-comprador-id').value=compradorId;
       document.getElementById('entrega-alert').classList.add('hidden');
-      document.getElementById('btn-confirmar-entrega').disabled = false;
+      document.getElementById('btn-confirmar-entrega').disabled=false;
       document.getElementById('modal-entrega').classList.remove('hidden');
     }
 
     async function confirmarEntrega() {
-      const user = auth.currentUser; if (!user) return;
-      const anunciId = document.getElementById('entrega-anunci-id').value;
-      const compradorId = document.getElementById('entrega-comprador-id').value;
-      const btn = document.getElementById('btn-confirmar-entrega');
-      const alertEl = document.getElementById('entrega-alert');
-      btn.textContent = 'Processant...'; btn.disabled = true;
+      const user=auth.currentUser; if(!user) return;
+      const anunciId=document.getElementById('entrega-anunci-id').value;
+      const compradorId=document.getElementById('entrega-comprador-id').value;
+      const btn=document.getElementById('btn-confirmar-entrega');
+      const alertEl=document.getElementById('entrega-alert');
+      btn.textContent='Processant...'; btn.disabled=true;
 
       try {
-        const anunciDoc = await db.collection('anuncis').doc(anunciId).get();
-        const a = anunciDoc.data();
-        const batch = db.batch();
+        const anunciDoc=await db.collection('anuncis').doc(anunciId).get();
+        const a=anunciDoc.data();
+        const batch=db.batch();
 
         // 1. Marcar anunci com a completat
-        batch.update(db.collection('anuncis').doc(anunciId), {
-          estat_anunci: 'completat', data_completat: TS()
+        batch.update(db.collection('anuncis').doc(anunciId),{
+          estat_anunci:'completat', data_completat:TS()
         });
 
         // 2. Si era modalitat punts: transferir els EcoPoints al venedor
-        if (a.modalitat === 'punts' && a.ecopoints > 0) {
-          batch.update(db.collection('usuaris').doc(user.uid), {
-            punts: INC(a.ecopoints), intercanvis_real: INC(1)
+        if(a.modalitat==='punts' && a.ecopoints>0) {
+          batch.update(db.collection('usuaris').doc(user.uid),{
+            punts:INC(a.ecopoints), intercanvis_real:INC(1)
           });
         } else {
           // Per intercanvi/donació: incrementar comptador d'intercanvis
-          batch.update(db.collection('usuaris').doc(user.uid), { intercanvis_real: INC(1) });
+          batch.update(db.collection('usuaris').doc(user.uid),{intercanvis_real:INC(1)});
         }
 
         // 3. Incrementar intercanvis del comprador
-        if (compradorId) {
-          batch.update(db.collection('usuaris').doc(compradorId), { intercanvis_real: INC(1) });
+        if(compradorId) {
+          batch.update(db.collection('usuaris').doc(compradorId),{intercanvis_real:INC(1)});
         }
 
         await batch.commit();
 
         // 4. Registrar la transacció a l'historial del venedor
-        if (a.modalitat === 'punts' && a.ecopoints > 0) {
+        if(a.modalitat==='punts' && a.ecopoints>0) {
           await db.collection('transaccions').add({
-            usuari_id: user.uid, tipus: 'venda',
-            anunci_id: anunciId, anunci_titol: a.titol || 'Anunci',
-            punts: a.ecopoints, contrapart_id: compradorId, data: TS()
+            usuari_id:user.uid, tipus:'venda',
+            anunci_id:anunciId, anunci_titol:a.titol||'Anunci',
+            punts:a.ecopoints, contrapart_id:compradorId, data:TS()
           });
         }
 
         // 5. Missatge de confirmació al xat
         await db.collection('missatges').add({
-          contingut: `✅ L'entrega ha estat confirmada! L'intercanvi s'ha completat correctament. Gràcies!`,
-          anunci_referencia: anunciId, id_emissor: user.uid, id_receptor: compradorId || user.uid,
-          entregat: true, llegit: false, data_enviament: TS(), tipus: 'sistema'
+          contingut:`✅ L'entrega ha estat confirmada! L'intercanvi s'ha completat correctament. Gràcies!`,
+          anunci_referencia:anunciId, id_emissor:user.uid, id_receptor:compradorId||user.uid,
+          entregat:true, llegit:false, data_enviament:TS(), tipus:'sistema'
         });
 
         document.getElementById('modal-entrega').classList.add('hidden');
-        btn.textContent = '✓ Sí, he entregat'; btn.disabled = false;
+        btn.textContent='✓ Sí, he entregat'; btn.disabled=false;
 
         // Actualitzar punts navbar
-        const uDocNou = await db.collection('usuaris').doc(user.uid).get();
-        if (uDocNou.exists) {
-          document.getElementById('nav-points').textContent = uDocNou.data().punts || 0;
-          document.getElementById('perfil-points').textContent = uDocNou.data().punts || 0;
-          document.getElementById('perfil-intercanvis').textContent = uDocNou.data().intercanvis_real || 0;
+        const uDocNou=await db.collection('usuaris').doc(user.uid).get();
+        if(uDocNou.exists) {
+          document.getElementById('nav-points').textContent=uDocNou.data().punts||0;
+          document.getElementById('perfil-points').textContent=uDocNou.data().punts||0;
+          document.getElementById('perfil-intercanvis').textContent=uDocNou.data().intercanvis_real||0;
         }
 
         alert('✅ Entrega confirmada! L\'intercanvi s\'ha completat.');
         veureDeta(anunciId);
-      } catch (e) {
-        alertEl.className = 'alert alert-error';
-        alertEl.textContent = 'Error: ' + e.message;
+      } catch(e) {
+        alertEl.className='alert alert-error';
+        alertEl.textContent='Error: '+e.message;
         alertEl.classList.remove('hidden');
-        btn.textContent = '✓ Sí, he entregat'; btn.disabled = false;
+        btn.textContent='✓ Sí, he entregat'; btn.disabled=false;
         console.error(e);
       }
     }
@@ -2505,65 +1219,65 @@ function eliminarPreview(i) {
     //  ★ CANCEL·LAR RESERVA ★
     // ═══════════════════════════════════════════════════════
     async function cancellarReserva(anunciId) {
-      const user = auth.currentUser; if (!user) return;
-      if (!confirm('Segur que vols cancel·lar la reserva?')) return;
+      const user=auth.currentUser; if(!user) return;
+      if(!confirm('Segur que vols cancel·lar la reserva?')) return;
       try {
-        const anunciDoc = await db.collection('anuncis').doc(anunciId).get();
-        const a = anunciDoc.data();
-        const batch = db.batch();
+        const anunciDoc=await db.collection('anuncis').doc(anunciId).get();
+        const a=anunciDoc.data();
+        const batch=db.batch();
 
         // Tornar a disponible
-        batch.update(db.collection('anuncis').doc(anunciId), {
-          estat_anunci: 'disponible',
-          comprador_id: firebase.firestore.FieldValue.delete(),
-          data_reserva: firebase.firestore.FieldValue.delete()
+        batch.update(db.collection('anuncis').doc(anunciId),{
+          estat_anunci:'disponible',
+          comprador_id:firebase.firestore.FieldValue.delete(),
+          data_reserva:firebase.firestore.FieldValue.delete()
         });
 
         // Si havia pagat amb punts, tornar-los
-        if (a.modalitat === 'punts' && a.ecopoints > 0 && a.comprador_id) {
-          batch.update(db.collection('usuaris').doc(a.comprador_id), { punts: INC(a.ecopoints) });
+        if(a.modalitat==='punts' && a.ecopoints>0 && a.comprador_id) {
+          batch.update(db.collection('usuaris').doc(a.comprador_id),{punts:INC(a.ecopoints)});
         }
 
         await batch.commit();
 
         // Actualitzar punts si ets el comprador
-        if (a.comprador_id === user.uid) {
-          const uDocNou = await db.collection('usuaris').doc(user.uid).get();
-          if (uDocNou.exists) document.getElementById('nav-points').textContent = uDocNou.data().punts || 0;
+        if(a.comprador_id===user.uid) {
+          const uDocNou=await db.collection('usuaris').doc(user.uid).get();
+          if(uDocNou.exists) document.getElementById('nav-points').textContent=uDocNou.data().punts||0;
         }
 
         alert('La reserva ha estat cancel·lada.');
         veureDeta(anunciId);
-      } catch (e) { alert('Error: ' + e.message); }
+      } catch(e){ alert('Error: '+e.message); }
     }
 
     // ═══════════════════════════════════════════════════════
     //  HISTORIAL TRANSACCIONS
     // ═══════════════════════════════════════════════════════
     async function carregarHistorial() {
-      const user = auth.currentUser; if (!user) return;
-      const grid = document.getElementById('historial-grid');
-      grid.innerHTML = '<div class="loading"><span class="spinner"></span>Carregant...</div>';
+      const user=auth.currentUser; if(!user) return;
+      const grid=document.getElementById('historial-grid');
+      grid.innerHTML='<div class="loading"><span class="spinner"></span>Carregant...</div>';
       try {
-        const snap = await db.collection('transaccions')
-          .where('usuari_id', '==', user.uid)
-          .orderBy('data', 'desc').limit(20).get();
-        if (snap.empty) { grid.innerHTML = '<p style="color:var(--text-muted);font-size:14px">Encara no tens transaccions.</p>'; return; }
-        grid.innerHTML = snap.docs.map(d => {
-          const t = d.data();
-          const esCompra = t.tipus === 'compra';
-          const data = t.data?.toDate?.()?.toLocaleDateString('ca', { day: '2-digit', month: '2-digit', year: 'numeric' }) || '—';
+        const snap=await db.collection('transaccions')
+          .where('usuari_id','==',user.uid)
+          .orderBy('data','desc').limit(20).get();
+        if(snap.empty){ grid.innerHTML='<p style="color:var(--text-muted);font-size:14px">Encara no tens transaccions.</p>'; return; }
+        grid.innerHTML=snap.docs.map(d=>{
+          const t=d.data();
+          const esCompra=t.tipus==='compra';
+          const data=t.data?.toDate?.()?.toLocaleDateString('ca',{day:'2-digit',month:'2-digit',year:'numeric'})||'—';
           return `<div class="compra-item">
-            <div style="font-size:24px">${esCompra ? '🛒' : '💰'}</div>
+            <div style="font-size:24px">${esCompra?'🛒':'💰'}</div>
             <div class="compra-item-info">
-              <div class="compra-item-titol">${esCompra ? 'Compra' : 'Venda'}: ${t.anunci_titol || '—'}</div>
+              <div class="compra-item-titol">${esCompra?'Compra':'Venda'}: ${t.anunci_titol||'—'}</div>
               <div class="compra-item-sub">${data}</div>
             </div>
-            <div class="compra-item-punts ${esCompra ? 'gastat' : 'guanyat'}">${esCompra ? '' : '+'}${t.punts || 0} pts</div>
+            <div class="compra-item-punts ${esCompra?'gastat':'guanyat'}">${esCompra?'':'+'}${t.punts||0} pts</div>
           </div>`;
         }).join('');
-      } catch (e) {
-        grid.innerHTML = '<p style="color:var(--text-muted);font-size:14px">Error carregant historial.</p>';
+      } catch(e){ 
+        grid.innerHTML='<p style="color:var(--text-muted);font-size:14px">Error carregant historial.</p>';
         console.error(e);
       }
     }
@@ -2572,197 +1286,197 @@ function eliminarPreview(i) {
     //  PUBLICAR ANUNCI
     // ═══════════════════════════════════════════════════════
     function obrirModalAnunci() {
-      if (!auth.currentUser) return navigate('login');
+      if(!auth.currentUser) return navigate('login');
       document.getElementById('modal-alert').classList.add('hidden');
       document.getElementById('modal-anunci').classList.remove('hidden');
     }
-// Puja les imatges a ImgBB
-const urls = [];
-for (const file of imatgesSeleccionades) {
-  try { urls.push(await pujarImgBB(file)); } catch(e) { console.warn('Error pujant imatge:', e); }
-}
+
     async function publicarAnunci() {
-      const user = auth.currentUser; if (!user) return navigate('login');
-      const titol = document.getElementById('anunci-titol').value.trim();
-      const desc = document.getElementById('anunci-desc').value.trim();
-      const modalitat = document.getElementById('anunci-modalitat').value;
-      const categoria = document.getElementById('anunci-categoria').value;
-      const punts = parseInt(document.getElementById('anunci-punts').value) || 0;
-      const estatProd = document.getElementById('anunci-estat-prod').value;
-      const alertEl = document.getElementById('modal-alert');
-      const btn = document.getElementById('btn-publicar');
-      if (!titol || !desc) { alertEl.className = 'alert alert-error'; alertEl.textContent = 'El títol i la descripció són obligatoris.'; alertEl.classList.remove('hidden'); return; }
-      if (punts < 0) { alertEl.className = 'alert alert-error'; alertEl.textContent = 'Els ecopoints no poden ser negatius.'; alertEl.classList.remove('hidden'); return; }
-      btn.textContent = 'Publicant...'; btn.disabled = true;
+      const user=auth.currentUser; if(!user) return navigate('login');
+      const titol=document.getElementById('anunci-titol').value.trim();
+      const desc=document.getElementById('anunci-desc').value.trim();
+      const modalitat=document.getElementById('anunci-modalitat').value;
+      const categoria=document.getElementById('anunci-categoria').value;
+      const punts=parseInt(document.getElementById('anunci-punts').value)||0;
+      const estatProd=document.getElementById('anunci-estat-prod').value;
+      const alertEl=document.getElementById('modal-alert');
+      const btn=document.getElementById('btn-publicar');
+      const urls = [];
+      for (const file of imatgesSeleccionades) {
+      try { urls.push(await pujarImgBB(file)); } catch(e) { console.warn('Error pujant imatge:', e); }
+    }
+      if(!titol||!desc){ alertEl.className='alert alert-error'; alertEl.textContent='El títol i la descripció són obligatoris.'; alertEl.classList.remove('hidden'); return; }
+      if(punts<0){ alertEl.className='alert alert-error'; alertEl.textContent='Els ecopoints no poden ser negatius.'; alertEl.classList.remove('hidden'); return; }
+      btn.textContent='Publicant...'; btn.disabled=true;
       try {
         await db.collection('anuncis').add({
-          usuari_id: user.uid, titol, descripcio: desc,
-          imatge: [], ecopoints: punts, estat_anunci: 'disponible',
-          estat_producte: estatProd, data_creacio: TS(), categoria, modalitat
+          usuari_id:user.uid, titol, descripcio:desc,
+          imatge:[], ecopoints:punts, estat_anunci:'disponible',
+          estat_producte:estatProd, data_creacio:TS(), categoria, modalitat
         });
         document.getElementById('modal-anunci').classList.add('hidden');
-        document.getElementById('anunci-titol').value = '';
-        document.getElementById('anunci-desc').value = '';
-        document.getElementById('anunci-punts').value = '0';
+        document.getElementById('anunci-titol').value='';
+        document.getElementById('anunci-desc').value='';
+        document.getElementById('anunci-punts').value='0';
         alertEl.classList.add('hidden');
         renderAnuncis();
-      } catch (e) { alertEl.className = 'alert alert-error'; alertEl.textContent = 'Error: ' + e.message; alertEl.classList.remove('hidden'); }
-      btn.textContent = 'Publicar'; btn.disabled = false;
+      } catch(e){ alertEl.className='alert alert-error'; alertEl.textContent='Error: '+e.message; alertEl.classList.remove('hidden'); }
+      btn.textContent='Publicar'; btn.disabled=false;
     }
 
     // ═══════════════════════════════════════════════════════
     //  ELS MEUS ANUNCIS (perfil)
     // ═══════════════════════════════════════════════════════
     async function carregarMeusAnuncis() {
-      const user = auth.currentUser; if (!user) return;
-      const grid = document.getElementById('meus-anuncis-grid');
-      grid.innerHTML = '<div class="loading" style="grid-column:1/-1"><span class="spinner"></span>Carregant...</div>';
+      const user=auth.currentUser; if(!user) return;
+      const grid=document.getElementById('meus-anuncis-grid');
+      grid.innerHTML='<div class="loading" style="grid-column:1/-1"><span class="spinner"></span>Carregant...</div>';
       try {
-        const snap = await db.collection('anuncis').where('usuari_id', '==', user.uid).orderBy('data_creacio', 'desc').get();
-        if (snap.empty) { grid.innerHTML = '<p style="color:var(--text-muted);font-size:14px;grid-column:1/-1">Encara no has publicat cap anunci.</p>'; return; }
-        const modLabel = { intercanvi: 'Intercanvi', donacio: 'Donació', punts: 'Punts' };
-        grid.innerHTML = snap.docs.map(d => {
-          const a = d.data();
-          const estatClass = a.estat_anunci === 'reservat' ? 'tag-reservat' : a.estat_anunci === 'completat' ? 'tag-completat' : 'tag-estat';
+        const snap=await db.collection('anuncis').where('usuari_id','==',user.uid).orderBy('data_creacio','desc').get();
+        if(snap.empty){ grid.innerHTML='<p style="color:var(--text-muted);font-size:14px;grid-column:1/-1">Encara no has publicat cap anunci.</p>'; return; }
+        const modLabel={intercanvi:'Intercanvi',donacio:'Donació',punts:'Punts'};
+        grid.innerHTML=snap.docs.map(d=>{
+          const a=d.data();
+          const estatClass=a.estat_anunci==='reservat'?'tag-reservat':a.estat_anunci==='completat'?'tag-completat':'tag-estat';
           return `<div class="card" onclick="veureDeta('${d.id}')">
-            <div class="card-img">📦${a.estat_anunci === 'reservat' ? '<div class="card-img-badge">Reservat</div>' : ''}</div>
+            <div class="card-img">📦${a.estat_anunci==='reservat'?'<div class="card-img-badge">Reservat</div>':''}</div>
             <div class="card-body">
               <div style="display:flex;gap:6px;margin-bottom:8px">
-                <span class="tag tag-${a.modalitat}">${modLabel[a.modalitat] || a.modalitat}</span>
+                <span class="tag tag-${a.modalitat}">${modLabel[a.modalitat]||a.modalitat}</span>
                 <span class="tag ${estatClass}">${a.estat_anunci}</span>
               </div>
               <div class="card-title">${a.titol}</div>
               <div class="card-desc">${a.descripcio}</div>
-              ${a.estat_anunci === 'reservat' ? `<div style="margin-top:8px"><button class="btn btn-primary btn-sm" onclick="event.stopPropagation();obrirModalEntrega('${d.id}','${a.comprador_id || ''}')">📦 Confirmar entrega</button></div>` : ''}
+              ${a.estat_anunci==='reservat'?`<div style="margin-top:8px"><button class="btn btn-primary btn-sm" onclick="event.stopPropagation();obrirModalEntrega('${d.id}','${a.comprador_id||''}')">📦 Confirmar entrega</button></div>`:''}
             </div>
           </div>`;
         }).join('');
-      } catch (e) { grid.innerHTML = '<p style="color:var(--text-muted);font-size:14px">Error carregant.</p>'; }
+      } catch(e){ grid.innerHTML='<p style="color:var(--text-muted);font-size:14px">Error carregant.</p>'; }
     }
 
     // ═══════════════════════════════════════════════════════
     //  MISSATGERIA
     // ═══════════════════════════════════════════════════════
-    let chatActual = null, unsubChat = null;
+    let chatActual=null, unsubChat=null;
 
     async function carregarChats() {
-      const user = auth.currentUser; if (!user) return;
-      const listEl = document.getElementById('chat-list-items');
-      listEl.innerHTML = '<div class="loading" style="padding:20px"><span class="spinner"></span>Carregant...</div>';
+      const user=auth.currentUser; if(!user) return;
+      const listEl=document.getElementById('chat-list-items');
+      listEl.innerHTML='<div class="loading" style="padding:20px"><span class="spinner"></span>Carregant...</div>';
       try {
-        const [emisSnap, recSnap] = await Promise.all([
-          db.collection('missatges').where('id_emissor', '==', user.uid).orderBy('data_enviament', 'desc').get(),
-          db.collection('missatges').where('id_receptor', '==', user.uid).orderBy('data_enviament', 'desc').get()
+        const [emisSnap,recSnap]=await Promise.all([
+          db.collection('missatges').where('id_emissor','==',user.uid).orderBy('data_enviament','desc').get(),
+          db.collection('missatges').where('id_receptor','==',user.uid).orderBy('data_enviament','desc').get()
         ]);
-        const convMap = {};
-        [...emisSnap.docs, ...recSnap.docs].forEach(doc => {
-          const d = doc.data();
-          const altreUid = d.id_emissor === user.uid ? d.id_receptor : d.id_emissor;
-          const key = altreUid + '_' + d.anunci_referencia;
-          const ts = d.data_enviament?.toMillis?.() || 0;
-          if (!convMap[key] || ts > convMap[key].ts) convMap[key] = { altreUid, anunciId: d.anunci_referencia, lastMsg: d.contingut, ts, noLlegit: (!d.llegit && d.id_receptor === user.uid) ? 1 : 0 };
+        const convMap={};
+        [...emisSnap.docs,...recSnap.docs].forEach(doc=>{
+          const d=doc.data();
+          const altreUid=d.id_emissor===user.uid?d.id_receptor:d.id_emissor;
+          const key=altreUid+'_'+d.anunci_referencia;
+          const ts=d.data_enviament?.toMillis?.()||0;
+          if(!convMap[key]||ts>convMap[key].ts) convMap[key]={altreUid,anunciId:d.anunci_referencia,lastMsg:d.contingut,ts,noLlegit:(!d.llegit&&d.id_receptor===user.uid)?1:0};
         });
-        const convList = Object.values(convMap).sort((a, b) => b.ts - a.ts);
-        if (!convList.length) { listEl.innerHTML = '<p style="padding:16px;font-size:13px;color:var(--text-muted)">No tens missatges encara.</p>'; return; }
-        listEl.innerHTML = '';
-        for (const conv of convList) {
-          let nom = 'Usuari', ini = '?';
-          try { const uDoc = await db.collection('usuaris').doc(conv.altreUid).get(); if (uDoc.exists) { const ud = uDoc.data(); nom = (ud.nom || '') + ' ' + (ud.cognom || ''); ini = (ud.nom || '?').slice(0, 2).toUpperCase(); } } catch (e) { }
-          const item = document.createElement('div');
-          item.className = 'chat-item';
-          item.innerHTML = `
+        const convList=Object.values(convMap).sort((a,b)=>b.ts-a.ts);
+        if(!convList.length){ listEl.innerHTML='<p style="padding:16px;font-size:13px;color:var(--text-muted)">No tens missatges encara.</p>'; return; }
+        listEl.innerHTML='';
+        for(const conv of convList) {
+          let nom='Usuari',ini='?';
+          try { const uDoc=await db.collection('usuaris').doc(conv.altreUid).get(); if(uDoc.exists){const ud=uDoc.data();nom=(ud.nom||'')+' '+(ud.cognom||'');ini=(ud.nom||'?').slice(0,2).toUpperCase();} } catch(e){}
+          const item=document.createElement('div');
+          item.className='chat-item';
+          item.innerHTML=`
             <div class="avatar-sm">${ini}</div>
             <div class="chat-item-info">
               <div class="chat-item-name">${nom}</div>
-              <div class="chat-item-msg">${conv.lastMsg || ''}</div>
+              <div class="chat-item-msg">${conv.lastMsg||''}</div>
             </div>
-            ${conv.noLlegit ? `<div class="chat-unread">${conv.noLlegit}</div>` : ''}`;
-          item.onclick = () => { document.querySelectorAll('.chat-item').forEach(i => i.classList.remove('active')); item.classList.add('active'); obrirConversacio(conv.altreUid, nom, ini, conv.anunciId); };
+            ${conv.noLlegit?`<div class="chat-unread">${conv.noLlegit}</div>`:''}`;
+          item.onclick=()=>{ document.querySelectorAll('.chat-item').forEach(i=>i.classList.remove('active')); item.classList.add('active'); obrirConversacio(conv.altreUid,nom,ini,conv.anunciId); };
           listEl.appendChild(item);
         }
-      } catch (e) { listEl.innerHTML = '<p style="padding:16px;font-size:13px;color:var(--text-muted)">Error carregant missatges.</p>'; console.error(e); }
+      } catch(e){ listEl.innerHTML='<p style="padding:16px;font-size:13px;color:var(--text-muted)">Error carregant missatges.</p>'; console.error(e); }
     }
 
-    function obrirConversacio(altreUid, nom, ini, anunciId) {
-      const user = auth.currentUser; if (!user) return;
+    function obrirConversacio(altreUid,nom,ini,anunciId) {
+      const user=auth.currentUser; if(!user) return;
       document.getElementById('chat-header').classList.remove('hidden');
       document.getElementById('chat-input-area').classList.remove('hidden');
-      document.getElementById('chat-name').textContent = nom;
-      document.getElementById('chat-avatar').textContent = ini;
-      document.getElementById('chat-anunci').textContent = anunciId || '';
-      chatActual = { altreUid, anunciId };
-      if (unsubChat) unsubChat();
-      const msgsEl = document.getElementById('chat-messages');
-      msgsEl.innerHTML = '<div class="loading"><span class="spinner"></span></div>';
-      unsubChat = db.collection('missatges').where('anunci_referencia', '==', anunciId).orderBy('data_enviament', 'asc').onSnapshot(snap => {
-        const el = document.getElementById('chat-messages');
-        const msgs = snap.docs.map(d => d.data()).filter(d => (d.id_emissor === user.uid && d.id_receptor === altreUid) || (d.id_emissor === altreUid && d.id_receptor === user.uid));
-        if (!msgs.length) { el.innerHTML = '<div class="chat-empty">Comença la conversa!</div>'; return; }
-        el.innerHTML = msgs.map(m => {
-          const sent = m.id_emissor === user.uid;
-          const hora = m.data_enviament?.toDate?.()?.toLocaleTimeString('ca', { hour: '2-digit', minute: '2-digit' }) || '';
-          const isSistema = m.tipus === 'sistema';
-          if (isSistema) return `<div class="msg msg-system"><div class="msg-text">${m.contingut}</div></div>`;
-          return `<div class="msg ${sent ? 'msg-sent' : 'msg-recv'}"><div class="msg-text">${m.contingut}</div><div class="msg-time">${hora}${sent ? (m.llegit ? ' ✓✓' : ' ✓') : ''}</div></div>`;
+      document.getElementById('chat-name').textContent=nom;
+      document.getElementById('chat-avatar').textContent=ini;
+      document.getElementById('chat-anunci').textContent=anunciId||'';
+      chatActual={altreUid,anunciId};
+      if(unsubChat) unsubChat();
+      const msgsEl=document.getElementById('chat-messages');
+      msgsEl.innerHTML='<div class="loading"><span class="spinner"></span></div>';
+      unsubChat=db.collection('missatges').where('anunci_referencia','==',anunciId).orderBy('data_enviament','asc').onSnapshot(snap=>{
+        const el=document.getElementById('chat-messages');
+        const msgs=snap.docs.map(d=>d.data()).filter(d=>(d.id_emissor===user.uid&&d.id_receptor===altreUid)||(d.id_emissor===altreUid&&d.id_receptor===user.uid));
+        if(!msgs.length){ el.innerHTML='<div class="chat-empty">Comença la conversa!</div>'; return; }
+        el.innerHTML=msgs.map(m=>{
+          const sent=m.id_emissor===user.uid;
+          const hora=m.data_enviament?.toDate?.()?.toLocaleTimeString('ca',{hour:'2-digit',minute:'2-digit'})||'';
+          const isSistema=m.tipus==='sistema';
+          if(isSistema) return `<div class="msg msg-system"><div class="msg-text">${m.contingut}</div></div>`;
+          return `<div class="msg ${sent?'msg-sent':'msg-recv'}"><div class="msg-text">${m.contingut}</div><div class="msg-time">${hora}${sent?(m.llegit?' ✓✓':' ✓'):''}</div></div>`;
         }).join('');
-        el.scrollTop = el.scrollHeight;
-        snap.docs.forEach(async doc => { const d = doc.data(); if (d.id_receptor === user.uid && !d.llegit) await doc.ref.update({ llegit: true }); });
+        el.scrollTop=el.scrollHeight;
+        snap.docs.forEach(async doc=>{ const d=doc.data(); if(d.id_receptor===user.uid&&!d.llegit) await doc.ref.update({llegit:true}); });
       });
     }
 
-    async function iniciarXat(anunciId, propietariUid) {
-      const user = auth.currentUser; if (!user) return navigate('login');
-      if (user.uid === propietariUid) return alert('No et pots enviar missatges a tu mateix.');
+    async function iniciarXat(anunciId,propietariUid) {
+      const user=auth.currentUser; if(!user) return navigate('login');
+      if(user.uid===propietariUid) return alert('No et pots enviar missatges a tu mateix.');
       navigate('chats'); await carregarChats();
-      let nom = 'Usuari', ini = '?';
-      try { const uDoc = await db.collection('usuaris').doc(propietariUid).get(); if (uDoc.exists) { const ud = uDoc.data(); nom = (ud.nom || '') + ' ' + (ud.cognom || ''); ini = (ud.nom || '?').slice(0, 2).toUpperCase(); } } catch (e) { }
-      obrirConversacio(propietariUid, nom, ini, anunciId);
+      let nom='Usuari',ini='?';
+      try { const uDoc=await db.collection('usuaris').doc(propietariUid).get(); if(uDoc.exists){const ud=uDoc.data();nom=(ud.nom||'')+' '+(ud.cognom||'');ini=(ud.nom||'?').slice(0,2).toUpperCase();} } catch(e){}
+      obrirConversacio(propietariUid,nom,ini,anunciId);
     }
 
     async function sendMsg() {
-      const user = auth.currentUser;
-      const input = document.getElementById('msg-input');
-      const text = input.value.trim();
-      if (!text || !user || !chatActual) return;
-      input.value = '';
+      const user=auth.currentUser;
+      const input=document.getElementById('msg-input');
+      const text=input.value.trim();
+      if(!text||!user||!chatActual) return;
+      input.value='';
       try {
         await db.collection('missatges').add({
-          contingut: text, anunci_referencia: chatActual.anunciId,
-          id_emissor: user.uid, id_receptor: chatActual.altreUid,
-          entregat: true, llegit: false, data_enviament: TS()
+          contingut:text, anunci_referencia:chatActual.anunciId,
+          id_emissor:user.uid, id_receptor:chatActual.altreUid,
+          entregat:true, llegit:false, data_enviament:TS()
         });
-      } catch (e) { console.error('Error enviant missatge:', e); }
+      } catch(e){ console.error('Error enviant missatge:',e); }
     }
-    document.getElementById('msg-input')?.addEventListener('keydown', e => { if (e.key === 'Enter') sendMsg(); });
+    document.getElementById('msg-input')?.addEventListener('keydown',e=>{ if(e.key==='Enter') sendMsg(); });
 
     // ═══════════════════════════════════════════════════════
     //  VALORACIONS
     // ═══════════════════════════════════════════════════════
-    function obrirModalValoracio(anunciId, valoratUid) {
-      if (!auth.currentUser) return navigate('login');
-      document.getElementById('val-anunci-id').value = anunciId;
-      document.getElementById('val-valorat-id').value = valoratUid;
+    function obrirModalValoracio(anunciId,valoratUid) {
+      if(!auth.currentUser) return navigate('login');
+      document.getElementById('val-anunci-id').value=anunciId;
+      document.getElementById('val-valorat-id').value=valoratUid;
       document.getElementById('val-alert').classList.add('hidden');
       document.getElementById('modal-valoracio').classList.remove('hidden');
     }
 
     async function enviarValoracio() {
-      const user = auth.currentUser;
-      const estrelles = parseInt(document.getElementById('val-estrelles').value) || 0;
-      const comentari = document.getElementById('val-comentari').value.trim();
-      const anunciId = document.getElementById('val-anunci-id').value;
-      const valoratId = document.getElementById('val-valorat-id').value;
-      const alertEl = document.getElementById('val-alert');
-      if (estrelles < 0 || estrelles > 5) { alertEl.className = 'alert alert-error'; alertEl.textContent = 'Les estrelles han de ser entre 0 i 5.'; alertEl.classList.remove('hidden'); return; }
+      const user=auth.currentUser;
+      const estrelles=parseInt(document.getElementById('val-estrelles').value)||0;
+      const comentari=document.getElementById('val-comentari').value.trim();
+      const anunciId=document.getElementById('val-anunci-id').value;
+      const valoratId=document.getElementById('val-valorat-id').value;
+      const alertEl=document.getElementById('val-alert');
+      if(estrelles<0||estrelles>5){ alertEl.className='alert alert-error'; alertEl.textContent='Les estrelles han de ser entre 0 i 5.'; alertEl.classList.remove('hidden'); return; }
       try {
-        await db.collection('valoracions').add({ id_valorat: valoratId, id_redactor: user.uid, comentari: comentari || null, estrelles, id_anunci: anunciId });
-        const vSnap = await db.collection('valoracions').where('id_valorat', '==', valoratId).get();
-        const mitja = (vSnap.docs.reduce((acc, d) => acc + (d.data().estrelles || 0), 0) / vSnap.size).toFixed(1);
-        await db.collection('usuaris').doc(valoratId).update({ valoracio_mitjana: mitja });
+        await db.collection('valoracions').add({id_valorat:valoratId,id_redactor:user.uid,comentari:comentari||null,estrelles,id_anunci:anunciId});
+        const vSnap=await db.collection('valoracions').where('id_valorat','==',valoratId).get();
+        const mitja=(vSnap.docs.reduce((acc,d)=>acc+(d.data().estrelles||0),0)/vSnap.size).toFixed(1);
+        await db.collection('usuaris').doc(valoratId).update({valoracio_mitjana:mitja});
         document.getElementById('modal-valoracio').classList.add('hidden');
         alert('Valoració enviada!');
         veureDeta(anunciId);
-      } catch (e) { alertEl.className = 'alert alert-error'; alertEl.textContent = 'Error: ' + e.message; alertEl.classList.remove('hidden'); }
+      } catch(e){ alertEl.className='alert alert-error'; alertEl.textContent='Error: '+e.message; alertEl.classList.remove('hidden'); }
     }
 
     // ═══════════════════════════════════════════════════════
@@ -2771,20 +1485,84 @@ for (const file of imatgesSeleccionades) {
     emailjs.init('kiFREBpYUFWgQaOAz');
 
     function enviarContacte() {
-      const nom = document.getElementById('c-nom').value.trim();
-      const email = document.getElementById('c-email').value.trim();
-      const assumpte = document.getElementById('c-assumpte').value;
-      const missatge = document.getElementById('c-missatge').value.trim();
-      const alertEl = document.getElementById('contacte-alert');
-      const btn = document.getElementById('btn-contacte');
-      if (!nom || !email || !missatge) { alertEl.className = 'alert alert-error'; alertEl.textContent = 'Omple tots els camps.'; alertEl.classList.remove('hidden'); return; }
-      btn.textContent = 'Enviant...'; btn.disabled = true;
-      emailjs.send('service_drvu5mg', 'template_qtkds4p', { name: nom, email, title: assumpte, message: missatge })
-        .then(() => { alertEl.className = 'alert alert-success'; alertEl.textContent = 'Missatge enviat correctament! ✅'; alertEl.classList.remove('hidden'); document.getElementById('c-nom').value = ''; document.getElementById('c-email').value = ''; document.getElementById('c-missatge').value = ''; btn.textContent = 'Enviar missatge'; btn.disabled = false; })
-        .catch(err => { console.error(err); alertEl.className = 'alert alert-error'; alertEl.textContent = 'Error enviant. Torna-ho a intentar.'; alertEl.classList.remove('hidden'); btn.textContent = 'Enviar missatge'; btn.disabled = false; });
+      const nom=document.getElementById('c-nom').value.trim();
+      const email=document.getElementById('c-email').value.trim();
+      const assumpte=document.getElementById('c-assumpte').value;
+      const missatge=document.getElementById('c-missatge').value.trim();
+      const alertEl=document.getElementById('contacte-alert');
+      const btn=document.getElementById('btn-contacte');
+      if(!nom||!email||!missatge){ alertEl.className='alert alert-error'; alertEl.textContent='Omple tots els camps.'; alertEl.classList.remove('hidden'); return; }
+      btn.textContent='Enviant...'; btn.disabled=true;
+      emailjs.send('service_drvu5mg','template_qtkds4p',{name:nom,email,title:assumpte,message:missatge})
+        .then(()=>{ alertEl.className='alert alert-success'; alertEl.textContent='Missatge enviat correctament! ✅'; alertEl.classList.remove('hidden'); document.getElementById('c-nom').value=''; document.getElementById('c-email').value=''; document.getElementById('c-missatge').value=''; btn.textContent='Enviar missatge'; btn.disabled=false; })
+        .catch(err=>{ console.error(err); alertEl.className='alert alert-error'; alertEl.textContent='Error enviant. Torna-ho a intentar.'; alertEl.classList.remove('hidden'); btn.textContent='Enviar missatge'; btn.disabled=false; });
+    }
+    // ═══ IMGBB ═══
+    const IMGBB_KEY = '944935afc5f7c9c0edc61c6eb5782e12';
+
+    async function pujarImgBB(file) {
+      if (file.size > 5 * 1024 * 1024) throw new Error('La imatge no pot superar 5MB.');
+      const fd = new FormData();
+      fd.append('image', file);
+      const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, { method: 'POST', body: fd });
+      const data = await res.json();
+      if (!data.success) throw new Error('Error pujant imatge: ' + (data.error?.message || 'desconegut'));
+      return data.data.url;
+    }
+
+    async function pujarFotoPerfil(input) {
+      const user = auth.currentUser;
+      const file = input.files[0];
+      if (!file || !user) return;
+      const alertEl = document.getElementById('perfil-alert');
+      alertEl.className = 'alert alert-info';
+      alertEl.textContent = 'Pujant foto...';
+      alertEl.classList.remove('hidden');
+      try {
+        const url = await pujarImgBB(file);
+        await db.collection('usuaris').doc(user.uid).update({ foto: url });
+        const avatar = document.getElementById('perfil-avatar');
+        avatar.innerHTML = `<img src="${url}" alt="foto perfil">`;
+        const navAvatar = document.getElementById('nav-avatar-btn');
+        navAvatar.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+        alertEl.className = 'alert alert-success';
+        alertEl.textContent = 'Foto actualitzada!';
+        setTimeout(() => alertEl.classList.add('hidden'), 3000);
+      } catch(e) {
+        alertEl.className = 'alert alert-error';
+        alertEl.textContent = 'Error: ' + e.message;
+      }
+    }
+
+    let imatgesSeleccionades = [];
+
+    function previewImatges(input) {
+      imatgesSeleccionades = [...input.files].slice(0, 5);
+      const grid = document.getElementById('preview-grid');
+      grid.innerHTML = '';
+      imatgesSeleccionades.forEach((file, i) => {
+        const url = URL.createObjectURL(file);
+        grid.innerHTML += `
+          <div class="img-preview-item" id="preview-${i}">
+            <img src="${url}" alt="preview">
+            <button class="remove-img" onclick="eliminarPreview(${i})">✕</button>
+          </div>`;
+      });
+    }
+
+    function eliminarPreview(i) {
+      imatgesSeleccionades.splice(i, 1);
+      document.getElementById('preview-grid').innerHTML = '';
+      imatgesSeleccionades.forEach((file, j) => {
+        const url = URL.createObjectURL(file);
+        document.getElementById('preview-grid').innerHTML += `
+          <div class="img-preview-item" id="preview-${j}">
+            <img src="${url}" alt="preview">
+            <button class="remove-img" onclick="eliminarPreview(${j})">✕</button>
+          </div>`;
+      });
     }
     carregarEstadistiques();
   </script>
 </body>
-
 </html>
