@@ -133,27 +133,51 @@ function doLogin() {
     auth.signInWithEmailAndPassword(email, pass).catch(e => showAlert(tradError(e.code)));
 }
 
-function doRegister() {
+async function doRegister() {
     const nom = document.getElementById('regNom').value.trim();
     const cognom = document.getElementById('regCognom').value.trim();
     const localitat = document.getElementById('regLocalitat').value.trim();
     const telefon = document.getElementById('regTelefon').value.trim();
     const email = document.getElementById('regEmail').value.trim();
     const pass = document.getElementById('regPass').value;
-    if (!email || !pass || !nom || !cognom || !localitat) return showAlert('Omple tots els camps obligatoris (*).');
-    if (pass.length < 6) return showAlert('La contrasenya ha de tenir mínim 6 caràcters.');
-    if (telefon && !/^\d{9}$/.test(telefon)) return showAlert('El telèfon ha de tenir exactament 9 dígits.');
-    auth.createUserWithEmailAndPassword(email, pass)
-        .then(cred => Promise.all([
+
+    // Validacions bàsiques
+    if (!email || !pass || !nom || !cognom || !localitat)
+        return showAlert('Omple tots els camps obligatoris (*).');
+    if (pass.length < 6)
+        return showAlert('La contrasenya ha de tenir mínim 6 caràcters.');
+    if (telefon && !/^\d{9}$/.test(telefon))
+        return showAlert('El telèfon ha de tenir exactament 9 dígits.');
+
+    // ✅ NOU: Comprovar telèfon duplicat a Firestore
+    if (telefon) {
+        try {
+            const telSnap = await db.collection('usuaris')
+                .where('telefon', '==', telefon)
+                .limit(1)
+                .get();
+            if (!telSnap.empty)
+                return showAlert('Aquest telèfon ja està registrat a Zelva.');
+        } catch (e) {
+            return showAlert('Error comprovant el telèfon. Torna-ho a intentar.');
+        }
+    }
+
+    // ✅ Crear el compte (l'email duplicat ja el gestiona Firebase Auth)
+    try {
+        const cred = await auth.createUserWithEmailAndPassword(email, pass);
+        await Promise.all([
             db.collection('usuaris').doc(cred.user.uid).set({
                 nom, cognom, localitat, telefon: telefon || null, foto: '',
-                data_creacio: TS(), punts: 200, // 100 pts de benvinguda!
+                data_creacio: TS(), punts: 200,
                 intercanvis_real: 0, valoracio_mitjana: null
             }),
             cred.user.updateProfile({ displayName: nom })
-        ]))
-        .then(() => showAlert('Compte creat! Tens 200 EcoPoints de benvinguda 🎉', 'success'))
-        .catch(e => showAlert(tradError(e.code)));
+        ]);
+        showAlert('Compte creat! Tens 200 EcoPoints de benvinguda 🎉', 'success');
+    } catch (e) {
+        showAlert(tradError(e.code));
+    }
 }
 
 function doGoogleLogin() {
