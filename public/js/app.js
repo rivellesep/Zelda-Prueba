@@ -1,6 +1,3 @@
-// ═══════════════════════════════════════════════════════
-//  FIREBASE INIT
-// ═══════════════════════════════════════════════════════
 firebase.initializeApp({
     apiKey: "AIzaSyD5nxim_X1c0cVXRji8-k4CkMSDPDH7v0k",
     authDomain: "zelva-c6143.firebaseapp.com",
@@ -15,9 +12,6 @@ const TS = () => firebase.firestore.FieldValue.serverTimestamp();
 const INC = n => firebase.firestore.FieldValue.increment(n);
 let historialNavegacio = ['explorar'];
 
-// ═══════════════════════════════════════════════════════
-//  NAVEGACIÓ
-// ═══════════════════════════════════════════════════════
 const PAGES = ['landing', 'login', 'explorar', 'perfil', 'chats', 'contacte', 'detall', 'perfil-public'];
 
 function navigate(page, guardar = true) {
@@ -43,25 +37,21 @@ function tornar() {
     navigate(anterior, false);
 }
 
-// ═══════════════════════════════════════════════════════
-//  AUTH STATE 
-// ═══════════════════════════════════════════════════════
 auth.onAuthStateChanged(user => {
     if (user) {
 
-        // UI logat
         document.getElementById('navbar').classList.remove('hidden');
         document.getElementById('navbar-guest').classList.add('hidden');
         document.getElementById('footer').classList.remove('hidden');
 
-      
+
         db.collection('usuaris').doc(user.uid).onSnapshot(doc => {
             if (doc.exists) {
                 const d = doc.data();
 
                 const ini = (d.nom || user.email || '?').slice(0, 2).toUpperCase();
 
-                // Avatar
+      
                 const avatarEl = document.getElementById('perfil-avatar');
                 const navAvatarEl = document.getElementById('nav-avatar-btn');
                 if (!avatarEl.querySelector('img')) {
@@ -69,22 +59,21 @@ auth.onAuthStateChanged(user => {
                     avatarEl.textContent = ini;
                 }
 
-                // Nom i email
                 document.getElementById('perfil-nom').textContent =
                     (d.nom || '') + ' ' + (d.cognom || '');
                 document.getElementById('perfil-email').textContent = user.email;
 
-             
-                document.getElementById('nav-points').textContent = d.punts || 0;
-                document.getElementById('perfil-points').textContent = d.punts || 0;
 
-                // Altres dades
+              const disponibles = (d.punts || 0) - (d.punts_bloquejats || 0);
+document.getElementById('nav-points').textContent = disponibles;
+document.getElementById('perfil-points').textContent = disponibles;
+
                 document.getElementById('perfil-intercanvis').textContent =
                     d.intercanvis_real || 0;
                 document.getElementById('perfil-valoracio').textContent =
                     d.valoracio_mitjana || '—';
 
-                // Inputs
+                
                 document.getElementById('perfil-input-nom').value = d.nom || '';
                 document.getElementById('perfil-input-cognom').value = d.cognom || '';
                 if (d.foto) {
@@ -93,7 +82,7 @@ auth.onAuthStateChanged(user => {
                 }
             }
         });
-        // Badge missatges no llegits
+        
         db.collection('missatges')
             .where('id_receptor', '==', user.uid)
             .where('llegit', '==', false)
@@ -113,8 +102,6 @@ auth.onAuthStateChanged(user => {
         navigate('explorar', false);
 
     } else {
-
-        // UI no logat
         document.getElementById('navbar').classList.add('hidden');
         document.getElementById('navbar-guest').classList.remove('hidden');
         document.getElementById('footer').classList.add('hidden');
@@ -123,9 +110,6 @@ auth.onAuthStateChanged(user => {
         navigate('landing', false);
     }
 });
-// ═══════════════════════════════════════════════════════
-//  AUTH FUNCIONS
-// ═══════════════════════════════════════════════════════
 function switchTab(tab) {
     document.getElementById('tab-login').classList.toggle('active', tab === 'login');
     document.getElementById('tab-register').classList.toggle('active', tab === 'register');
@@ -164,15 +148,11 @@ async function doRegister() {
         return showAlert('El telèfon ha de tenir exactament 9 dígits.');
 
     try {
-        // ❌ Antes de crear la cuenta, revisar en la colección de teléfonos
         if (telefon) {
             const snap = await db.collection('telefonosRegistrados').doc(telefon).get();
             if (snap.exists) return showAlert('Aquest número de telèfon ja està registrat.');
         }
 
-        const cred = await auth.createUserWithEmailAndPassword(email, pass);
-
-        // Guardar usuario
         await db.collection('usuaris').doc(cred.user.uid).set({
             nom, cognom, localitat, telefon: telefon || null, foto: '',
             data_creacio: TS(), punts: 200,
@@ -180,7 +160,6 @@ async function doRegister() {
         });
         await cred.user.updateProfile({ displayName: nom });
 
-        // Guardar teléfono en colección separada
         if (telefon) {
             await db.collection('telefonosRegistrados').doc(telefon).set({
                 uid: cred.user.uid,
@@ -235,9 +214,6 @@ function tradError(code) {
     }
 }
 
-// ═══════════════════════════════════════════════════════
-//  GUARDAR PERFIL
-// ═══════════════════════════════════════════════════════
 async function guardarPerfil() {
     const user = auth.currentUser; if (!user) return;
     const nom = document.getElementById('perfil-input-nom').value.trim();
@@ -260,9 +236,7 @@ async function guardarPerfil() {
     } catch (e) { alertEl.className = 'alert alert-error'; alertEl.textContent = 'Error: ' + e.message; alertEl.classList.remove('hidden'); }
 }
 
-// ═══════════════════════════════════════════════════════
-//  ANUNCIS
-// ═══════════════════════════════════════════════════════
+
 let filtreActiu = 'tots', cercaActiva = '', totsAnuncis = [];
 
 async function renderAnuncis() {
@@ -275,7 +249,7 @@ async function renderAnuncis() {
         await Promise.all(uids.map(async uid => {
             try {
                 const uDoc = await db.collection('usuaris').doc(uid).get();
-                if (uDoc.exists) { const ud = uDoc.data(); totsAnuncis = totsAnuncis.map(a => a.usuari_id === uid ? { ...a, _nom: ud.nom, _loc: ud.localitat, _ini: (ud.nom || '?').slice(0, 2).toUpperCase() } : a); }
+                if (uDoc.exists) { const ud = uDoc.data(); totsAnuncis = totsAnuncis.map(a => a.usuari_id === uid ? { ...a, _nom: ud.nom, _loc: ud.localitat, _ini: (ud.nom || '?').slice(0, 2).toUpperCase(), _foto: ud.foto || '' } : a); }
             } catch (e) { }
         }));
         mostrarAnuncis();
@@ -309,7 +283,7 @@ function mostrarAnuncis() {
             <div class="card-desc">${a.descripcio || ''}</div>
             <div class="card-footer">
               <div style="display:flex;align-items:center;gap:6px">
-                <div class="avatar-sm">${a._ini || '?'}</div>
+                <div class="avatar-sm">${a._foto ? `<img src="${a._foto}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">` : (a._ini || '?')}</div>
                 <span style="font-size:12px;color:var(--text-muted)">${a._nom || 'Usuari'}</span>
               </div>
               <span class="card-points">${getPuntsLabel(a)}</span>
@@ -328,12 +302,10 @@ document.querySelectorAll('.filter-chip').forEach(chip => {
     });
 });
 
-// ═══════════════════════════════════════════════════════
-//  DETALL ANUNCI
-// ═══════════════════════════════════════════════════════
+
 async function veureDeta(anunciId) {
     const actual = PAGES.find(p => !document.getElementById('page-' + p)?.classList.contains('hidden'));
-if (actual && actual !== 'detall') historialNavegacio.push(actual);
+    if (actual && actual !== 'detall') historialNavegacio.push(actual);
     navigate('detall', false);
     const content = document.getElementById('detall-content');
     content.innerHTML = '<div class="loading"><span class="spinner"></span>Carregant...</div>';
@@ -352,7 +324,7 @@ if (actual && actual !== 'detall') historialNavegacio.push(actual);
             if (user.uid === a.comprador_id || user.uid === a.usuari_id) {
                 potValorar = true;
             }
-        } //valoracions prova   
+        }
 
         let nomProp = 'Usuari', locProp = '', iniProp = '?';
         try {
@@ -360,7 +332,6 @@ if (actual && actual !== 'detall') historialNavegacio.push(actual);
             if (uDoc.exists) { const ud = uDoc.data(); nomProp = (ud.nom || '') + ' ' + (ud.cognom || ''); locProp = ud.localitat || ''; iniProp = ud.foto ? `<img src="${ud.foto}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">` : (ud.nom || '?').slice(0, 2).toUpperCase(); }
         } catch (e) { }
 
-        // Comprova si l'usuari actual ha comprat aquest anunci (estat reservat)
         let yaHaComprat = false;
         if (user && a.comprador_id === user.uid) yaHaComprat = true;
 
@@ -372,12 +343,10 @@ if (actual && actual !== 'detall') historialNavegacio.push(actual);
         const esLogat = !!user;
         const puntsLabel = a.modalitat === 'punts' ? (a.ecopoints || 0) + ' pts' : 'Intercanvi';
 
-        // Banner d'estat si reservat o completat
         let estatBanner = '';
         if (a.estat_anunci === 'reservat') estatBanner = `<div class="estat-banner estat-banner-reservat">⏳ Aquest anunci està reservat i pendent de confirmació d'entrega.</div>`;
         if (a.estat_anunci === 'completat') estatBanner = `<div class="estat-banner estat-banner-completat">✅ Aquest intercanvi s'ha completat correctament.</div>`;
 
-        // Botó de compra amb EcoPoints (només si modalitat=punts, disponible, i no és el propietari)
         let compraBox = '';
         if (a.modalitat === 'punts' && a.estat_anunci === 'disponible' && esLogat && !esProp) {
             compraBox = `
@@ -397,17 +366,14 @@ if (actual && actual !== 'detall') historialNavegacio.push(actual);
               </div>
             </div>`;
         }
-        // Botó reservar (per intercanvi)
         let reservarBtn = '';
         if (a.modalitat === 'intercanvi' && a.estat_anunci === 'disponible' && esLogat && !esProp) {
             reservarBtn = `<button class="btn btn-warning" onclick="seleccionarOferta('${a.id}','${a.usuari_id}')">🔁 Proposar intercanvi</button>`;
         }
-        // Botó confirmar entrega (propietari, anunci reservat)
         let entregaBtn = '';
         if (esProp && a.estat_anunci === 'reservat') {
             entregaBtn = `<button class="btn btn-primary" onclick="obrirModalEntrega('${a.id}','${a.comprador_id || ''}')">📦 Confirmar entrega</button>`;
         }
-        // Botó cancel·lar reserva (comprador o propietari)
         let cancelBtn = '';
         if (a.estat_anunci === 'reservat' && user && (user.uid === a.comprador_id || esProp)) {
             cancelBtn = `<button class="btn btn-outline" onclick="cancellarReserva('${a.id}')">✕ Cancel·lar reserva</button>`;
@@ -464,13 +430,16 @@ ${potValorar
             </div>
           </div>`;
 
-        // Mostrar saldo en viu
-        if (user) {
-            db.collection('usuaris').doc(user.uid).get().then(d => {
-                const el = document.getElementById('saldo-live');
-                if (el) el.textContent = d.exists ? (d.data().punts || 0) : '—';
-            });
+       if (user) {
+    db.collection('usuaris').doc(user.uid).get().then(d => {
+        const el = document.getElementById('saldo-live');
+        if (el) {
+            const data = d.exists ? d.data() : {};
+            const disponibles = (data.punts || 0) - (data.punts_bloquejats || 0);
+            el.textContent = disponibles;
         }
+    });
+}
     } catch (e) { content.innerHTML = '<p style="color:var(--text-muted)">Error carregant l\'anunci.</p>'; console.error(e); }
 }
 
@@ -484,11 +453,6 @@ async function eliminarAnunci(id) {
     catch (e) { alert('Error: ' + e.message); }
 }
 
-// ═══════════════════════════════════════════════════════
-//  SISTEMA DE COMPRA AMB ECOPOINTS 
-// ═══════════════════════════════════════════════════════
-let compraPendent = null; // guarda dades de la compra pendent de confirmar
-
 async function obrirModalCompra(anunciId, titol, preu, venedorId) {
     const user = auth.currentUser; if (!user) return navigate('login');
     compraPendent = { anunciId, titol, preu, venedorId };
@@ -497,23 +461,27 @@ async function obrirModalCompra(anunciId, titol, preu, venedorId) {
     alertEl.classList.add('hidden');
     document.getElementById('btn-confirmar-compra').disabled = false;
 
-    // Obtenir saldo actual
     const uDoc = await db.collection('usuaris').doc(user.uid).get();
-    const saldo = uDoc.exists ? (uDoc.data().punts || 0) : 0;
-    const saldoFinal = saldo - preu;
-    const tensSuficients = saldo >= preu;
+    const d = uDoc.exists ? uDoc.data() : {};
+    const saldo = d.punts || 0;
+    const bloquejats = d.punts_bloquejats || 0;
+    const disponibles = saldo - bloquejats;
+    const saldoFinal = disponibles - preu;
+    const tensSuficients = disponibles >= preu;
 
     document.getElementById('compra-resum').innerHTML = `
         <div class="modal-compra-row"><span class="label">Producte</span><span class="valor">${titol}</span></div>
         <div class="modal-compra-row"><span class="label">Preu</span><span class="valor negatiu">-${preu} pts</span></div>
         <hr class="modal-compra-divider">
-        <div class="modal-compra-row"><span class="label">Saldo actual</span><span class="valor">${saldo} pts</span></div>
+        <div class="modal-compra-row"><span class="label">Saldo total</span><span class="valor">${saldo} pts</span></div>
+        ${bloquejats > 0 ? `<div class="modal-compra-row"><span class="label">Punts bloquejats</span><span class="valor negatiu">-${bloquejats} pts</span></div>` : ''}
+        <div class="modal-compra-row"><span class="label">Saldo disponible</span><span class="valor">${disponibles} pts</span></div>
         <div class="modal-compra-row"><span class="label">Saldo després</span><span class="valor ${tensSuficients ? 'final' : 'negatiu'}">${saldoFinal} pts</span></div>
-      `;
+    `;
 
     if (!tensSuficients) {
         alertEl.className = 'alert alert-error';
-        alertEl.textContent = `No tens prou EcoPoints. Necessites ${preu} pts però tens ${saldo} pts.`;
+        alertEl.textContent = `No tens prou EcoPoints disponibles. Necessites ${preu} pts però tens ${disponibles} pts disponibles (${bloquejats > 0 ? `${bloquejats} bloquejats en altres compres pendents` : ''}).`;
         alertEl.classList.remove('hidden');
         document.getElementById('btn-confirmar-compra').disabled = true;
     }
@@ -529,12 +497,12 @@ async function confirmarCompra() {
     btn.textContent = 'Processant...'; btn.disabled = true;
 
     try {
-        // Transacció atòmica: descomptar punts, marcar anunci reservat, notificar venedor
         const batch = db.batch();
 
+        batch.update(db.collection('usuaris').doc(user.uid), {
+            punts_bloquejats: INC(preu)
+        });
 
-
-        // 2. Marcar anunci com a reservat + guardar qui ha comprat
         batch.update(db.collection('anuncis').doc(anunciId), {
             estat_anunci: 'reservat',
             comprador_id: user.uid,
@@ -543,7 +511,6 @@ async function confirmarCompra() {
 
         await batch.commit();
 
-        // 3. Missatge automàtic al xat notificant la compra
         await db.collection('missatges').add({
             contingut: `🛒 He comprat "${titol}" per ${preu} EcoPoints. Estem pendents que confirmis l'entrega!`,
             anunci_referencia: anunciId,
@@ -554,10 +521,10 @@ async function confirmarCompra() {
             tipus: 'sistema'
         });
 
-        // 4. Registrar la transacció a l'historial
         await db.collection('transaccions').add({
             usuari_id: user.uid,
             tipus: 'compra',
+            estat: 'pendent',
             anunci_id: anunciId,
             anunci_titol: titol,
             punts: -preu,
@@ -569,12 +536,15 @@ async function confirmarCompra() {
         btn.textContent = '✓ Confirmar compra'; btn.disabled = false;
         compraPendent = null;
 
-        // Actualitzar saldo a la navbar
         const uDocNou = await db.collection('usuaris').doc(user.uid).get();
-        if (uDocNou.exists) document.getElementById('nav-points').textContent = uDocNou.data().punts || 0;
+        if (uDocNou.exists) {
+            const d = uDocNou.data();
+            const disponibles = (d.punts || 0) - (d.punts_bloquejats || 0);
+            document.getElementById('nav-points').textContent = disponibles;
+        }
 
-        alert(`✅ Compra realitzada! S'han descomptat ${preu} EcoPoints del teu saldo. El venedor ha rebut un missatge.`);
-        veureDeta(anunciId); // refrescar detall
+        alert(`✅ Compra reservada! Els ${preu} EcoPoints quedaran bloquejats fins que el venedor confirmi l'entrega.`);
+        veureDeta(anunciId);
     } catch (e) {
         alertEl.className = 'alert alert-error';
         alertEl.textContent = 'Error processant la compra: ' + e.message;
@@ -584,9 +554,7 @@ async function confirmarCompra() {
     }
 }
 let ofertaContext = null;
-// ═══════════════════════════════════════════════════════
-//  RESERVAR (intercanvi) 
-// ═══════════════════════════════════════════════════════
+
 async function seleccionarOferta(anunciId, venedorId) {
     const user = auth.currentUser;
     if (!user) return navigate('login');
@@ -644,7 +612,6 @@ function triarOferta(ofertaId, ofertaTitol) {
         confirmBtn = document.createElement('button');
         confirmBtn.id = 'btn-confirmar-oferta';
         confirmBtn.className = 'btn btn-primary';
-        // ✅ Inserir al div d'accions, ABANS del botó Cancel·lar
         const accions = document.getElementById('oferta-accions');
         accions.prepend(confirmBtn);
     }
@@ -716,9 +683,7 @@ async function crearIntercanvi(anunciId, venedorId, ofertaId, ofertaTitol) {
     alert('📨 Proposta enviada!');
 }
 
-// ═══════════════════════════════════════════════════════
-//  ★ CONFIRMAR ENTREGA (propietari) ★
-// ═══════════════════════════════════════════════════════
+
 function obrirModalEntrega(anunciId, compradorId) {
     document.getElementById('entrega-anunci-id').value = anunciId;
     document.getElementById('entrega-comprador-id').value = compradorId;
@@ -740,33 +705,35 @@ async function confirmarEntrega() {
         const a = anunciDoc.data();
         const batch = db.batch();
 
-        // 1. Marcar anunci com a completat
         batch.update(db.collection('anuncis').doc(anunciId), {
             estat_anunci: 'completat', data_completat: TS()
         });
 
-        // 2. Si era modalitat punts: transferir els EcoPoints al venedor
         if (a.modalitat === 'punts' && a.ecopoints > 0) {
             batch.update(db.collection('usuaris').doc(user.uid), {
-                punts: INC(a.ecopoints), intercanvis_real: INC(1)
+                punts: INC(a.ecopoints),
+                intercanvis_real: INC(1)
             });
-            // Descomptar els punts al comprador ara
             if (compradorId) {
-                batch.update(db.collection('usuaris').doc(compradorId), { punts: INC(-a.ecopoints) });
+                batch.update(db.collection('usuaris').doc(compradorId), {
+                    punts: INC(-a.ecopoints),
+                    punts_bloquejats: INC(-a.ecopoints)
+                });
             }
         } else {
-            // Per intercanvi: incrementar comptador d'intercanvis
-            batch.update(db.collection('usuaris').doc(user.uid), { intercanvis_real: INC(1) });
+            batch.update(db.collection('usuaris').doc(user.uid), {
+                intercanvis_real: INC(1)
+            });
         }
 
-        // 3. Incrementar intercanvis del comprador
         if (compradorId) {
-            batch.update(db.collection('usuaris').doc(compradorId), { intercanvis_real: INC(1) });
+            batch.update(db.collection('usuaris').doc(compradorId), {
+                intercanvis_real: INC(1)
+            });
         }
 
         await batch.commit();
 
-        // 4. Registrar la transacció a l'historial del venedor
         if (a.modalitat === 'punts' && a.ecopoints > 0) {
             await db.collection('transaccions').add({
                 usuari_id: user.uid, tipus: 'venda',
@@ -775,22 +742,23 @@ async function confirmarEntrega() {
             });
         }
 
-        // 5. Missatge de confirmació al xat
         await db.collection('missatges').add({
             contingut: `L'entrega ha estat confirmada! L'intercanvi s'ha completat correctament. Gràcies!`,
-            anunci_referencia: anunciId, id_emissor: user.uid, id_receptor: compradorId || user.uid,
+            anunci_referencia: anunciId, id_emissor: user.uid,
+            id_receptor: compradorId || user.uid,
             entregat: true, llegit: false, data_enviament: TS(), tipus: 'sistema'
         });
 
         document.getElementById('modal-entrega').classList.add('hidden');
         btn.textContent = '✓ Sí, he entregat'; btn.disabled = false;
 
-        // Actualitzar punts navbar
         const uDocNou = await db.collection('usuaris').doc(user.uid).get();
         if (uDocNou.exists) {
-            document.getElementById('nav-points').textContent = uDocNou.data().punts || 0;
-            document.getElementById('perfil-points').textContent = uDocNou.data().punts || 0;
-            document.getElementById('perfil-intercanvis').textContent = uDocNou.data().intercanvis_real || 0;
+            const d = uDocNou.data();
+            const disponibles = (d.punts || 0) - (d.punts_bloquejats || 0);
+            document.getElementById('nav-points').textContent = disponibles;
+            document.getElementById('perfil-points').textContent = disponibles;
+            document.getElementById('perfil-intercanvis').textContent = d.intercanvis_real || 0;
         }
 
         alert('Entrega confirmada! L\'intercanvi s\'ha completat.');
@@ -804,9 +772,6 @@ async function confirmarEntrega() {
     }
 }
 
-// ═══════════════════════════════════════════════════════
-//   CANCEL·LAR RESERVA 
-// ═══════════════════════════════════════════════════════
 async function cancellarReserva(anunciId) {
     const user = auth.currentUser; if (!user) return;
     if (!confirm('Segur que vols cancel·lar la reserva?')) return;
@@ -815,19 +780,27 @@ async function cancellarReserva(anunciId) {
         const a = anunciDoc.data();
         const batch = db.batch();
 
-        // Tornar a disponible
         batch.update(db.collection('anuncis').doc(anunciId), {
             estat_anunci: 'disponible',
             comprador_id: firebase.firestore.FieldValue.delete(),
             data_reserva: firebase.firestore.FieldValue.delete()
         });
 
+        if (a.modalitat === 'punts' && a.ecopoints > 0 && a.comprador_id) {
+            batch.update(db.collection('usuaris').doc(a.comprador_id), {
+                punts_bloquejats: INC(-a.ecopoints)
+            });
+        }
+
         await batch.commit();
 
-        // Actualitzar punts si ets el comprador
         if (a.comprador_id === user.uid) {
             const uDocNou = await db.collection('usuaris').doc(user.uid).get();
-            if (uDocNou.exists) document.getElementById('nav-points').textContent = uDocNou.data().punts || 0;
+            if (uDocNou.exists) {
+                const d = uDocNou.data();
+                const disponibles = (d.punts || 0) - (d.punts_bloquejats || 0);
+                document.getElementById('nav-points').textContent = disponibles;
+            }
         }
 
         alert('La reserva ha estat cancel·lada.');
@@ -835,9 +808,6 @@ async function cancellarReserva(anunciId) {
     } catch (e) { alert('Error: ' + e.message); }
 }
 
-// ═══════════════════════════════════════════════════════
-//  HISTORIAL TRANSACCIONS
-// ═══════════════════════════════════════════════════════
 async function carregarHistorial() {
     const user = auth.currentUser; if (!user) return;
     const grid = document.getElementById('historial-grid');
@@ -845,40 +815,98 @@ async function carregarHistorial() {
     try {
         const snap = await db.collection('transaccions')
             .where('usuari_id', '==', user.uid)
-            .orderBy('data', 'desc').limit(20).get();
-        if (snap.empty) { grid.innerHTML = '<p style="color:var(--text-muted);font-size:14px">Encara no tens transaccions.</p>'; return; }
-        grid.innerHTML = snap.docs.map(d => {
-            const t = d.data();
-          const esCompra = t.tipus === 'compra';
-const esIntercanvi = t.tipus === 'intercanvi_acceptat';
+            .orderBy('data', 'desc').limit(50).get();
 
-const emoji = esCompra ? '🛒' : esIntercanvi ? '🔁' : '💰';
-const label = esCompra ? 'Compra' : esIntercanvi ? 'Intercanvi' : 'Venda';
-const colorClass = esCompra ? 'gastat' : esIntercanvi ? 'neutre' : 'guanyat'; 
-const puntsText = esCompra 
-    ? `${t.punts || 0} pts` 
-    : esIntercanvi 
-        ? '—' 
-        : `+${t.punts || 0} pts`;
-            const data = t.data?.toDate?.()?.toLocaleDateString('ca', { day: '2-digit', month: '2-digit', year: 'numeric' }) || '—';
-            return `<div class="compra-item">
-    <div style="font-size:24px">${emoji}</div>
-    <div class="compra-item-info">
-        <div class="compra-item-titol">${label}: ${t.anunci_titol || '—'}</div>
-        <div class="compra-item-sub">${data}</div>
-    </div>
-    <div class="compra-item-punts ${colorClass}">${puntsText}</div>
-</div>`;
-        }).join('');
+        if (snap.empty) {
+            grid.innerHTML = '<p style="color:var(--text-muted);font-size:14px">Encara no tens transaccions.</p>';
+            return;
+        }
+
+        const transaccions = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const uids = [...new Set(transaccions.map(t => t.contrapart_id).filter(Boolean))];
+        const nomsMap = {};
+        await Promise.all(uids.map(async uid => {
+            try {
+                const uDoc = await db.collection('usuaris').doc(uid).get();
+                if (uDoc.exists) {
+                    const ud = uDoc.data();
+                    nomsMap[uid] = (ud.nom || '') + ' ' + (ud.cognom || '').trim();
+                }
+            } catch (e) {}
+        }));
+
+        const totalGuanyat = transaccions.filter(t => t.tipus === 'venda').reduce((acc, t) => acc + (t.punts || 0), 0);
+        const totalGastat = transaccions.filter(t => t.tipus === 'compra').reduce((acc, t) => acc + Math.abs(t.punts || 0), 0);
+        const totalIntercanvis = transaccions.filter(t => t.tipus === 'intercanvi_acceptat').length;
+
+        const resumHtml = `
+            <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+                <div style="flex:1;min-width:120px;background:rgba(76,175,80,0.1);border:1px solid rgba(76,175,80,0.2);border-radius:10px;padding:12px;text-align:center">
+                    <div style="font-size:20px;font-weight:700;color:#4CAF50">+${totalGuanyat}</div>
+                    <div style="font-size:12px;color:var(--text-muted)">pts guanyats</div>
+                </div>
+                <div style="flex:1;min-width:120px;background:rgba(229,57,53,0.1);border:1px solid rgba(229,57,53,0.2);border-radius:10px;padding:12px;text-align:center">
+                    <div style="font-size:20px;font-weight:700;color:#e53935">-${totalGastat}</div>
+                    <div style="font-size:12px;color:var(--text-muted)">pts gastats</div>
+                </div>
+                <div style="flex:1;min-width:120px;background:rgba(33,150,243,0.1);border:1px solid rgba(33,150,243,0.2);border-radius:10px;padding:12px;text-align:center">
+                    <div style="font-size:20px;font-weight:700;color:#2196F3">${totalIntercanvis}</div>
+                    <div style="font-size:12px;color:var(--text-muted)">intercanvis</div>
+                </div>
+            </div>`;
+
+        const filtreHtml = `
+            <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap" id="historial-filtres">
+                <div class="filter-chip active" data-hfil="tots" onclick="filtrarHistorial(this,'tots')">Tots</div>
+                <div class="filter-chip" data-hfil="compra" onclick="filtrarHistorial(this,'compra')">🛒 Compres</div>
+                <div class="filter-chip" data-hfil="venda" onclick="filtrarHistorial(this,'venda')">💰 Vendes</div>
+                <div class="filter-chip" data-hfil="intercanvi_acceptat" onclick="filtrarHistorial(this,'intercanvi_acceptat')">🔁 Intercanvis</div>
+            </div>`;
+const itemsHtml = transaccions.map(t => {
+    const esCompra = t.tipus === 'compra';
+    const esIntercanvi = t.tipus === 'intercanvi_acceptat';
+    const emoji = esCompra ? '🛒' : esIntercanvi ? '🔁' : '💰';
+    const label = esCompra ? 'Compra' : esIntercanvi ? 'Intercanvi cedit' : 'Venda';
+    const colorClass = esCompra ? 'gastat' : esIntercanvi ? 'neutre' : 'guanyat';
+    const puntsText = esCompra ? `-${Math.abs(t.punts || 0)} pts` : esIntercanvi ? '—' : `+${t.punts || 0} pts`;
+    const data = t.data?.toDate?.()?.toLocaleDateString('ca', { day: '2-digit', month: '2-digit', year: 'numeric' }) || '—';
+    const contrapartNom = t.contrapart_id ? (nomsMap[t.contrapart_id] || 'Usuari desconegut') : null;
+    const contrapartHtml = contrapartNom
+        ? `<div style="font-size:11px;color:var(--text-muted);margin-top:2px">👤 ${esCompra ? 'Venut per' : esIntercanvi ? 'Amb' : 'Comprat per'}: <strong>${contrapartNom}</strong></div>`
+        : '';
+    const obtingutHtml = (esIntercanvi && t.anunci_obtingut_titol)
+        ? `<div style="font-size:11px;color:#4CAF50;margin-top:2px">📦 A canvi de: <strong>${t.anunci_obtingut_titol}</strong></div>`
+        : '';
+             return `<div class="compra-item" data-htipus="${t.tipus}">
+        <div style="font-size:24px">${emoji}</div>
+        <div class="compra-item-info" style="flex:1;min-width:0">
+            <div class="compra-item-titol" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${label}: ${t.anunci_titol || '—'}</div>
+            <div class="compra-item-sub">${data}</div>
+            ${contrapartHtml}
+            ${obtingutHtml}
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">
+            <div class="compra-item-punts ${colorClass}">${puntsText}</div>
+            ${t.anunci_id ? `<button class="btn btn-outline btn-sm" style="font-size:11px;padding:2px 8px" onclick="veureDeta('${t.anunci_id}')">Veure anunci</button>` : ''}
+        </div>
+    </div>`;
+}).join('');
+
+        grid.innerHTML = resumHtml + filtreHtml + `<div id="historial-items">${itemsHtml}</div>`;
+
     } catch (e) {
         grid.innerHTML = '<p style="color:var(--text-muted);font-size:14px">Error carregant historial.</p>';
         console.error(e);
     }
 }
 
-// ═══════════════════════════════════════════════════════
-//  PUBLICAR ANUNCI
-// ═══════════════════════════════════════════════════════
+function filtrarHistorial(el, tipus) {
+    document.querySelectorAll('#historial-filtres .filter-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    document.querySelectorAll('#historial-items .compra-item').forEach(item => {
+        item.style.display = (tipus === 'tots' || item.dataset.htipus === tipus) ? 'flex' : 'none';
+    });
+}
 function obrirModalAnunci() {
     if (!auth.currentUser) return navigate('login');
     document.getElementById('modal-alert').classList.add('hidden');
@@ -926,9 +954,6 @@ async function publicarAnunci() {
     btn.textContent = 'Publicar'; btn.disabled = false;
 }
 
-// ═══════════════════════════════════════════════════════
-//  ELS MEUS ANUNCIS (perfil)
-// ═══════════════════════════════════════════════════════
 async function carregarMeusAnuncis() {
     const user = auth.currentUser; if (!user) return;
     const grid = document.getElementById('meus-anuncis-grid');
@@ -956,9 +981,6 @@ async function carregarMeusAnuncis() {
     } catch (e) { grid.innerHTML = '<p style="color:var(--text-muted);font-size:14px">Error carregant.</p>'; }
 }
 
-// ═══════════════════════════════════════════════════════
-//  ELIMINAR CHAT
-// ═══════════════════════════════════════════════════════
 async function eliminarChat(altreUid, anunciId) {
     const user = auth.currentUser; if (!user) return;
     if (!confirm('Segur que vols eliminar aquesta conversa? Els missatges desapareixeran només per a tu.')) return;
@@ -984,7 +1006,6 @@ async function eliminarChat(altreUid, anunciId) {
         });
         await batch.commit();
 
-        // Tancar la conversa oberta si era aquesta
         if (chatActual?.altreUid === altreUid && chatActual?.anunciId === anunciId) {
             if (unsubChat) unsubChat();
             chatActual = null;
@@ -997,9 +1018,6 @@ async function eliminarChat(altreUid, anunciId) {
     } catch (e) { alert('Error eliminant el xat: ' + e.message); console.error(e); }
 }
 
-// ═══════════════════════════════════════════════════════
-//  MISSATGERIA
-// ═══════════════════════════════════════════════════════
 let chatActual = null, unsubChat = null;
 
 async function carregarChats() {
@@ -1017,7 +1035,7 @@ async function carregarChats() {
             const altreUid = d.id_emissor === user.uid ? d.id_receptor : d.id_emissor;
             const key = altreUid;
             const ts = d.data_enviament?.toMillis?.() || 0;
-            if (d[`eliminat_per_${user.uid}`]) return; // ← afegeix aquesta línia abans
+            if (d[`eliminat_per_${user.uid}`]) return;
             if (!convMap[key] || ts > convMap[key].ts) convMap[key] = { altreUid, anunciId: d.anunci_referencia, lastMsg: d.contingut, ts, noLlegit: (!d.llegit && d.id_receptor === user.uid) ? 1 : 0 };
         });
         const convList = Object.values(convMap).sort((a, b) => b.ts - a.ts);
@@ -1057,9 +1075,9 @@ function obrirConversacio(altreUid, nom, ini, anunciId) {
     const user = auth.currentUser; if (!user) return;
     document.getElementById('chat-header').classList.remove('hidden');
     document.getElementById('chat-input-area').classList.remove('hidden');
-    document.getElementById('chat-name').textContent = nom;
+    document.getElementById('chat-name').innerHTML = `<span style="cursor:pointer" onclick="veurePerfil('${altreUid}')">${nom}</span>`;
     document.getElementById('chat-avatar').innerHTML = ini;
-    document.getElementById('chat-anunci').textContent = anunciId || '';
+    document.getElementById('chat-anunci').textContent = '';
     chatActual = { altreUid, anunciId };
     if (unsubChat) unsubChat();
     const msgsEl = document.getElementById('chat-messages');
@@ -1075,12 +1093,10 @@ function obrirConversacio(altreUid, nom, ini, anunciId) {
         el.innerHTML = msgs.map(m => {
             const sent = m.id_emissor === user.uid;
             const hora = m.data_enviament?.toDate?.()?.toLocaleTimeString('ca', { hour: '2-digit', minute: '2-digit' }) || '';
-            const isSistema = m.tipus === 'sistema';
             if (m.tipus === 'proposta') {
                 const esMeu = m.id_receptor === user.uid;
                 const estat = m.proposta_estat || 'pendent';
                 const estatLabel = estat === 'acceptada' ? '✅ Acceptada' : estat === 'rebutjada' ? '❌ Rebutjada' : '⏳ Pendent';
-
                 return `
     <div class="msg msg-system">
         <div class="msg-text">${m.contingut}</div>
@@ -1101,47 +1117,59 @@ function obrirConversacio(altreUid, nom, ini, anunciId) {
         }
     });
 }
+
 async function acceptarProposta(anunciId, ofertaId, compradorId) {
     const user = auth.currentUser;
 
-   
-    const anunciDoc = await db.collection('anuncis').doc(anunciId).get();
-    const a = anunciDoc.data();
+    const [anunciDoc, ofertaDoc] = await Promise.all([
+        db.collection('anuncis').doc(anunciId).get(),
+        db.collection('anuncis').doc(ofertaId).get()
+    ]);
 
-  
-    await db.collection('anuncis').doc(anunciId).update({
+    const a = anunciDoc.data();
+    const oferta = ofertaDoc.exists ? ofertaDoc.data() : null;
+    const ofertaTitol = oferta ? oferta.titol : 'Anunci';
+
+    const batch = db.batch();
+
+    batch.update(db.collection('anuncis').doc(anunciId), {
         estat_anunci: 'reservat',
         comprador_id: compradorId,
         oferta_acceptada: ofertaId
     });
 
-   
-    const ofertaDoc = await db.collection('anuncis').doc(ofertaId).get();
-    const ofertaTitol = ofertaDoc.exists ? ofertaDoc.data().titol : 'Anunci';
+    batch.update(db.collection('anuncis').doc(ofertaId), {
+        estat_anunci: 'completat',
+        comprador_id: user.uid,
+        data_completat: TS()
+    });
 
-   
+    await batch.commit();
+
     await db.collection('transaccions').add({
         usuari_id: user.uid,
         tipus: 'intercanvi_acceptat',
         anunci_id: anunciId,
         anunci_titol: a.titol || 'Anunci',
+        anunci_obtingut_id: ofertaId,
+        anunci_obtingut_titol: ofertaTitol,
         punts: 0,
         contrapart_id: compradorId,
         data: TS()
     });
 
-    
     await db.collection('transaccions').add({
         usuari_id: compradorId,
         tipus: 'intercanvi_acceptat',
-        anunci_id: anunciId,
+        anunci_id: ofertaId,
         anunci_titol: ofertaTitol,
+        anunci_obtingut_id: anunciId,
+        anunci_obtingut_titol: a.titol || 'Anunci',
         punts: 0,
         contrapart_id: user.uid,
         data: TS()
     });
 
- 
     await db.collection('missatges').add({
         contingut: '✅ Proposta acceptada! Parleu pel xat per quedar.',
         anunci_referencia: anunciId,
@@ -1153,6 +1181,7 @@ async function acceptarProposta(anunciId, ofertaId, compradorId) {
     });
 
     alert('Intercanvi acceptat!');
+    veureDeta(anunciId);
 }
 async function rebutjarProposta(anunciId, ofertaId, compradorId) {
     const user = auth.currentUser;
@@ -1232,9 +1261,6 @@ if (msgInput) {
     });
 }
 
-// ═══════════════════════════════════════════════════════
-//  VALORACIONS
-// ═══════════════════════════════════════════════════════
 function obrirModalValoracio(anunciId, valoratUid) {
     if (!auth.currentUser) return navigate('login');
     document.getElementById('val-anunci-id').value = anunciId;
@@ -1261,7 +1287,6 @@ async function enviarValoracio() {
     }
 
     try {
-        // Evitar duplicados
         const existing = await db.collection('valoracions')
             .where('id_anunci', '==', anunciId)
             .where('id_redactor', '==', user.uid)
@@ -1272,7 +1297,6 @@ async function enviarValoracio() {
             return;
         }
 
-        // Guardar valoración
         await db.collection('valoracions').add({
             id_valorat: valoratId,
             id_redactor: user.uid,
@@ -1282,7 +1306,6 @@ async function enviarValoracio() {
             data: TS()
         });
 
-        // Actualizar media
         const vSnap = await db.collection('valoracions')
             .where('id_valorat', '==', valoratId)
             .get();
@@ -1308,9 +1331,6 @@ async function enviarValoracio() {
     }
 }
 
-// ═══════════════════════════════════════════════════════
-//  EMAILJS — CONTACTE
-// ═══════════════════════════════════════════════════════
 emailjs.init('kiFREBpYUFWgQaOAz');
 
 function enviarContacte() {
@@ -1326,7 +1346,6 @@ function enviarContacte() {
         .then(() => { alertEl.className = 'alert alert-success'; alertEl.textContent = 'Missatge enviat correctament! ✅'; alertEl.classList.remove('hidden'); document.getElementById('c-nom').value = ''; document.getElementById('c-email').value = ''; document.getElementById('c-missatge').value = ''; btn.textContent = 'Enviar missatge'; btn.disabled = false; })
         .catch(err => { console.error(err); alertEl.className = 'alert alert-error'; alertEl.textContent = 'Error enviant. Torna-ho a intentar.'; alertEl.classList.remove('hidden'); btn.textContent = 'Enviar missatge'; btn.disabled = false; });
 }
-// ═══ IMGBB ═══
 const IMGBB_KEY = '944935afc5f7c9c0edc61c6eb5782e12';
 
 async function pujarImgBB(file) {
@@ -1411,7 +1430,7 @@ function eliminarPreviewModal(i) {
 
 async function veurePerfil(uid) {
     const actual = PAGES.find(p => !document.getElementById('page-' + p)?.classList.contains('hidden'));
-if (actual && actual !== 'perfil-public') historialNavegacio.push(actual);
+    if (actual && actual !== 'perfil-public') historialNavegacio.push(actual);
     navigate('perfil-public', false);
     const content = document.getElementById('perfil-public-content');
     content.innerHTML = '<div class="loading"><span class="spinner"></span>Carregant...</div>';
@@ -1440,7 +1459,7 @@ if (actual && actual !== 'perfil-public') historialNavegacio.push(actual);
                 </div>
             </div>
         </div>
-        ${auth.currentUser && auth.currentUser.uid !== uid ? `<button class="btn btn-outline" style="margin-top:12px" onclick="iniciarXatDirecte('${uid}')">✉ Enviar missatge</button>` : ''}
+        ${auth.currentUser && auth.currentUser.uid !== uid ? `<button class="btn btn-outline" style="margin-top:12px;margin-bottom:16px" onclick="iniciarXatDirecte('${uid}')">✉ Enviar missatge</button>` : ''}
         <div class="perfil-form-card">
             <h3>Anuncis actius</h3>
             <div class="grid-3">${anuncisHtml}</div>
@@ -1577,9 +1596,7 @@ function navegarAPerfil() {
     if (actual && actual !== 'perfil') historialNavegacio.push(actual);
     navigate('perfil', false);
 }
-// ═══════════════════════════════════════════════════════
-//  MODE ECO
-// ═══════════════════════════════════════════════════════
+
 function toggleEco(checkbox) {
     const root = document.documentElement;
     if (checkbox.checked) {
