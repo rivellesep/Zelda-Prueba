@@ -273,7 +273,7 @@ async function renderAnuncis() {
 
 function mostrarAnuncis() {
     const grid = document.getElementById('anuncis-grid'); if (!grid) return;
-    const modLabel = { intercanvi: 'Intercanvi', donacio: 'Donació', punts: 'Punts' };
+    const modLabel = { intercanvi: 'Intercanvi', punts: 'Punts' };
     let llista = [...totsAnuncis];
     if (filtreActiu !== 'tots') llista = llista.filter(a => a.categoria === filtreActiu || a.modalitat === filtreActiu);
     if (cercaActiva) { const q = cercaActiva.toLowerCase(); llista = llista.filter(a => (a.titol || '').toLowerCase().includes(q) || (a.descripcio || '').toLowerCase().includes(q)); }
@@ -328,7 +328,7 @@ async function veureDeta(anunciId) {
         ]);
         if (!anunciDoc.exists) { content.innerHTML = '<p>Anunci no trobat.</p>'; return; }
         const a = { id: anunciDoc.id, ...anunciDoc.data() };
-        const modLabel = { intercanvi: 'Intercanvi', donacio: 'Donació', punts: 'Punts' };
+        const modLabel = { intercanvi: 'Intercanvi', punts: 'Punts' };
         const user = auth.currentUser;
 
         let nomProp = 'Usuari', locProp = '', iniProp = '?';
@@ -347,7 +347,7 @@ async function veureDeta(anunciId) {
 
         const esProp = user && user.uid === a.usuari_id;
         const esLogat = !!user;
-        const puntsLabel = a.modalitat === 'punts' ? (a.ecopoints || 0) + ' pts' : a.modalitat === 'donacio' ? 'Gratis' : 'Intercanvi';
+        const puntsLabel = a.modalitat === 'punts' ? (a.ecopoints || 0) + ' pts' : 'Intercanvi';
 
         // Banner d'estat si reservat o completat
         let estatBanner = '';
@@ -374,9 +374,9 @@ async function veureDeta(anunciId) {
               </div>
             </div>`;
         }
-        // Botó reservar (per intercanvi/donació)
+        // Botó reservar (per intercanvi)
         let reservarBtn = '';
-        if ((a.modalitat === 'intercanvi' || a.modalitat === 'donacio') && a.estat_anunci === 'disponible' && esLogat && !esProp) {
+        if (a.modalitat === 'intercanvi' && a.estat_anunci === 'disponible' && esLogat && !esProp) {
             reservarBtn = `<button class="btn btn-warning" onclick="reservarAnunci('${a.id}','${a.usuari_id}')">📌 Sol·licitar reserva</button>`;
         }
         // Botó confirmar entrega (propietari, anunci reservat)
@@ -542,7 +542,7 @@ async function confirmarCompra() {
 }
 
 // ═══════════════════════════════════════════════════════
-//  ★ RESERVAR (intercanvi/donació) ★
+//  ★ RESERVAR (intercanvi) ★
 // ═══════════════════════════════════════════════════════
 async function reservarAnunci(anunciId, venedorId) {
     const user = auth.currentUser; if (!user) return navigate('login');
@@ -602,7 +602,7 @@ async function confirmarEntrega() {
                 batch.update(db.collection('usuaris').doc(compradorId), { punts: INC(-a.ecopoints) });
             }
         } else {
-            // Per intercanvi/donació: incrementar comptador d'intercanvis
+            // Per intercanvi: incrementar comptador d'intercanvis
             batch.update(db.collection('usuaris').doc(user.uid), { intercanvis_real: INC(1) });
         }
 
@@ -768,7 +768,7 @@ async function carregarMeusAnuncis() {
     try {
         const snap = await db.collection('anuncis').where('usuari_id', '==', user.uid).orderBy('data_creacio', 'desc').get();
         if (snap.empty) { grid.innerHTML = '<p style="color:var(--text-muted);font-size:14px;grid-column:1/-1">Encara no has publicat cap anunci.</p>'; return; }
-        const modLabel = { intercanvi: 'Intercanvi', donacio: 'Donació', punts: 'Punts' };
+        const modLabel = { intercanvi: 'Intercanvi', punts: 'Punts' };
         grid.innerHTML = snap.docs.map(d => {
             const a = d.data();
             const estatClass = a.estat_anunci === 'reservat' ? 'tag-reservat' : a.estat_anunci === 'completat' ? 'tag-completat' : 'tag-estat';
