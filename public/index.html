@@ -37,7 +37,12 @@
       </div>
       <div class="nav-avatar" id="nav-avatar-btn" onclick="navigate('perfil')">?</div>
     </div>
-    <button class="btn-eco" id="btn-eco" onclick="toggleEco()">🌿 Eco</button>
+    <label class="eco-switch" title="Mode Eco">
+  <input type="checkbox" id="eco-toggle" onchange="toggleEco(this)">
+  <span class="eco-slider">
+    <span class="eco-icon">🌿</span>
+  </span>
+</label>
   </nav>
 
   <!-- NAV guest -->

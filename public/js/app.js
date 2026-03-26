@@ -54,7 +54,7 @@ auth.onAuthStateChanged(user => {
         document.getElementById('navbar-guest').classList.add('hidden');
         document.getElementById('footer').classList.remove('hidden');
 
-        // 🔥 LISTENER EN TEMPS REAL (PUNTS I PERFIL)
+      
         db.collection('usuaris').doc(user.uid).onSnapshot(doc => {
             if (doc.exists) {
                 const d = doc.data();
@@ -74,7 +74,7 @@ auth.onAuthStateChanged(user => {
                     (d.nom || '') + ' ' + (d.cognom || '');
                 document.getElementById('perfil-email').textContent = user.email;
 
-                // ✅ PUNTS (AIXÒ ÉS EL QUE VOLIES)
+             
                 document.getElementById('nav-points').textContent = d.punts || 0;
                 document.getElementById('perfil-points').textContent = d.punts || 0;
 
@@ -156,7 +156,7 @@ async function doRegister() {
     const email = document.getElementById('regEmail').value.trim();
     const pass = document.getElementById('regPass').value;
 
-    // Validacions bàsiques
+   
     if (!email || !pass || !nom || !cognom || !localitat)
         return showAlert('Omple tots els camps obligatoris (*).');
     if (pass.length < 6)
@@ -164,21 +164,10 @@ async function doRegister() {
     if (telefon && !/^\d{9}$/.test(telefon))
         return showAlert('El telèfon ha de tenir exactament 9 dígits.');
 
-    // ✅ NOU: Comprovar telèfon duplicat a Firestore
-    if (telefon) {
-        try {
-            const telSnap = await db.collection('usuaris')
-                .where('telefon', '==', telefon)
-                .limit(1)
-                .get();
-            if (!telSnap.empty)
-                return showAlert('Aquest telèfon ja està registrat a Zelva.');
-        } catch (e) {
-            return showAlert('Error comprovant el telèfon. Torna-ho a intentar.');
-        }
-    }
+ 
 
-    // ✅ Crear el compte (l'email duplicat ja el gestiona Firebase Auth)
+
+
     try {
         const cred = await auth.createUserWithEmailAndPassword(email, pass);
         await Promise.all([
@@ -486,7 +475,7 @@ async function eliminarAnunci(id) {
 }
 
 // ═══════════════════════════════════════════════════════
-//  ★ SISTEMA DE COMPRA AMB ECOPOINTS ★
+//  SISTEMA DE COMPRA AMB ECOPOINTS 
 // ═══════════════════════════════════════════════════════
 let compraPendent = null; // guarda dades de la compra pendent de confirmar
 
@@ -586,7 +575,7 @@ async function confirmarCompra() {
 }
 let ofertaContext = null;
 // ═══════════════════════════════════════════════════════
-//  ★ RESERVAR (intercanvi) ★
+//  RESERVAR (intercanvi) 
 // ═══════════════════════════════════════════════════════
 async function seleccionarOferta(anunciId, venedorId) {
     const user = auth.currentUser;
@@ -778,7 +767,7 @@ async function confirmarEntrega() {
 
         // 5. Missatge de confirmació al xat
         await db.collection('missatges').add({
-            contingut: `✅ L'entrega ha estat confirmada! L'intercanvi s'ha completat correctament. Gràcies!`,
+            contingut: `L'entrega ha estat confirmada! L'intercanvi s'ha completat correctament. Gràcies!`,
             anunci_referencia: anunciId, id_emissor: user.uid, id_receptor: compradorId || user.uid,
             entregat: true, llegit: false, data_enviament: TS(), tipus: 'sistema'
         });
@@ -794,7 +783,7 @@ async function confirmarEntrega() {
             document.getElementById('perfil-intercanvis').textContent = uDocNou.data().intercanvis_real || 0;
         }
 
-        alert('✅ Entrega confirmada! L\'intercanvi s\'ha completat.');
+        alert('Entrega confirmada! L\'intercanvi s\'ha completat.');
         veureDeta(anunciId);
     } catch (e) {
         alertEl.className = 'alert alert-error';
@@ -806,7 +795,7 @@ async function confirmarEntrega() {
 }
 
 // ═══════════════════════════════════════════════════════
-//  ★ CANCEL·LAR RESERVA ★
+//   CANCEL·LAR RESERVA 
 // ═══════════════════════════════════════════════════════
 async function cancellarReserva(anunciId) {
     const user = auth.currentUser; if (!user) return;
@@ -1581,18 +1570,21 @@ function navegarAPerfil() {
 // ═══════════════════════════════════════════════════════
 //  MODE ECO
 // ═══════════════════════════════════════════════════════
-function toggleEco() {
-    const isEco = document.body.classList.toggle('modo-eco');
-    const btn = document.getElementById('btn-eco');
-    btn.textContent = isEco ? '☀️ Eco' : '🌿 Eco';
-    localStorage.setItem('modoEco', isEco);
+function toggleEco(checkbox) {
+    const root = document.documentElement;
+    if (checkbox.checked) {
+        root.setAttribute('data-theme', 'eco');
+        localStorage.setItem('modoEco', 'true');
+    } else {
+        root.removeAttribute('data-theme');
+        localStorage.setItem('modoEco', 'false');
+    }
 }
 
-// Recuperar preferència en carregar
 (function () {
     if (localStorage.getItem('modoEco') === 'true') {
-        document.body.classList.add('modo-eco');
-        const btn = document.getElementById('btn-eco');
-        if (btn) btn.textContent = '☀️ Eco';
+        document.documentElement.setAttribute('data-theme', 'eco');
+        const toggle = document.getElementById('eco-toggle');
+        if (toggle) toggle.checked = true;
     }
 })();
