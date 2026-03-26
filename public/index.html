@@ -16,8 +16,10 @@
   <!-- NAV logat -->
   <nav id="navbar" class="hidden">
     <div class="logo" onclick="navigate('explorar')">
-      <img src="./images/logo_title.png" width="100">
-    </div>
+  <img src="./images/logo_title.png" width="100" class="logo-dark">
+  
+  <img src="./images/logo_title_dark.png" width="100" class="logo-light">
+</div>
     <ul class="nav-links">
       <li><a onclick="navigate('explorar')" id="nav-explorar">Explorar</a></li>
       <li style="position:relative">
@@ -48,9 +50,11 @@
 
   <!-- NAV guest -->
   <nav id="navbar-guest">
-    <div class="logo" onclick="navigate('landing')">
-      <img src="./images/logo_title.png" width="100">
-    </div>
+    <div class="logo" onclick="navigate('explorar')">
+  <img src="./images/logo_title.png" width="100" class="logo-dark">
+  
+  <img src="./images/logo_title_dark.png" width="100" class="logo-light">
+</div>
     <div class="nav-right">
       <button class="btn btn-outline btn-sm" onclick="navigate('login')">Entrar</button>
       <button class="btn btn-primary btn-sm" onclick="navigate('login')">Registrar-se</button>
@@ -67,8 +71,7 @@
       <div class="landing-actions">
         <button class="btn btn-primary" onclick="navigate('login')" style="padding:12px 28px;font-size:15px">Comença
           ara</button>
-        <button class="btn btn-outline" onclick="navigate('login')" style="padding:12px 24px;font-size:15px">Veure
-          anuncis</button>
+      
       </div>
       <div class="landing-stats">
         <div>

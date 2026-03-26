@@ -40,7 +40,7 @@ body {
   padding: 0 24px;
 }
 
-/* NAV */
+
 nav {
   background: var(--surface);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
@@ -136,7 +136,7 @@ nav {
   border-color: #4CAF50;
 }
 
-/* BUTTONS */
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -204,7 +204,7 @@ nav {
   cursor: not-allowed;
 }
 
-/* FORMS */
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -248,7 +248,6 @@ select option {
   background: var(--surface2);
 }
 
-/* ALERTS */
 .alert {
   padding: 12px 16px;
   border-radius: var(--radius);
@@ -281,7 +280,7 @@ select option {
   border-left: 3px solid var(--green-dark);
 }
 
-/* TAGS */
+
 .tag {
   display: inline-block;
   font-size: 11px;
@@ -322,7 +321,6 @@ select option {
   color: #A5D6A7;
 }
 
-/* CARDS */
 .card {
   background: var(--surface);
   border-radius: var(--radius-lg);
@@ -404,7 +402,7 @@ select option {
   color: #4CAF50;
 }
 
-/* AVATARS */
+
 .avatar-sm {
   width: 22px;
   height: 22px;
@@ -456,7 +454,6 @@ select option {
   border-radius: 50%;
 }
 
-/* FOOTER */
 footer {
   background: var(--surface);
   border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -516,7 +513,7 @@ footer {
   gap: 8px;
 }
 
-/* LAYOUT GRIDS */
+
 .grid-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -529,7 +526,6 @@ footer {
   gap: 16px;
 }
 
-/* LANDING */
 #page-landing {
   min-height: calc(100vh - 60px);
   display: flex;
@@ -602,7 +598,7 @@ footer {
   margin-top: 2px;
 }
 
-/* LOGIN */
+
 #page-login {
   display: flex;
   align-items: center;
@@ -687,7 +683,7 @@ footer {
   color: #4CAF50;
 }
 
-/* EXPLORAR */
+
 #page-explorar {
   padding: 32px 0 80px;
 }
@@ -745,7 +741,7 @@ footer {
   margin-bottom: 16px;
 }
 
-/* DETALL */
+
 #page-detall {
   padding: 40px 0;
 }
@@ -836,7 +832,7 @@ footer {
   margin-bottom: 28px;
 }
 
-/* CAIXA DE COMPRA */
+
 .compra-box {
   background: var(--surface2);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -879,7 +875,7 @@ footer {
   gap: 10px;
 }
 
-/* ESTAT ANUNCI BANNER */
+
 .estat-banner {
   padding: 14px 18px;
   border-radius: var(--radius);
@@ -903,7 +899,7 @@ footer {
   border: 1px solid rgba(56, 142, 60, 0.3);
 }
 
-/* HISTORIAL COMPRES */
+
 .compra-item {
   background: var(--surface2);
   border-radius: var(--radius);
@@ -942,7 +938,7 @@ footer {
   color: #A5D6A7;
 }
 
-/* VALORACIÓ */
+
 .valoracio-card {
   background: var(--surface2);
   border-radius: var(--radius);
@@ -955,7 +951,7 @@ footer {
   font-size: 16px;
 }
 
-/* PERFIL */
+
 #page-perfil {
   padding: 40px 0;
 }
@@ -1015,7 +1011,7 @@ footer {
   margin-bottom: 20px;
 }
 
-/* CHATS */
+
 #page-chats {
   padding: 32px 0;
 }
@@ -1187,7 +1183,7 @@ footer {
   font-size: 14px;
 }
 
-/* CONTACTE */
+
 #page-contacte {
   padding: 60px 0;
 }
@@ -1215,7 +1211,7 @@ footer {
   padding: 28px;
 }
 
-/* MODAL */
+
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -1244,7 +1240,7 @@ footer {
   margin-bottom: 20px;
 }
 
-/* MODAL COMPRA */
+
 .modal-compra-icon {
   font-size: 48px;
   text-align: center;
@@ -1297,7 +1293,7 @@ footer {
   margin: 4px 0;
 }
 
-/* UTILS MISC */
+
 .loading {
   text-align: center;
   padding: 40px;
@@ -1348,7 +1344,7 @@ footer {
   transform: scale(1.05);
 }
 
-/* IMAGES PREVIEW */
+
 .img-preview-grid {
   display: flex;
   gap: 8px;
@@ -1383,11 +1379,7 @@ footer {
   cursor: pointer;
 }
 
-/* =========================================================
-   CLASSES EXTRAIDES DEL HTML STATIC (Noves classes útils)
-   ========================================================= */
 
-/* Colors de Text */
 .text-brand-green {
   color: #4CAF50;
 }
@@ -1407,7 +1399,7 @@ footer {
   margin-top: 6px;
 }
 
-/* Marges i Paddings */
+
 .pt-32 {
   padding-top: 32px;
 }
@@ -1428,7 +1420,7 @@ footer {
   margin-top: 8px;
 }
 
-/* Botons Hero */
+
 .btn-hero-primary {
   padding: 12px 28px;
   font-size: 15px;
@@ -1439,7 +1431,6 @@ footer {
   font-size: 15px;
 }
 
-/* Disposició Genèrica */
 .text-center {
   text-align: center;
 }
@@ -1461,7 +1452,7 @@ footer {
   flex-wrap: wrap;
 }
 
-/* Components Específics Més Nets */
+
 .auth-logo-box {
   text-align: center;
   margin-bottom: 28px;
@@ -1480,7 +1471,7 @@ footer {
   margin-bottom: 20px;
 }
 
-/* Identificadors únics prèviament en línia */
+
 #foto-perfil-input {
   display: none;
 }
@@ -1501,7 +1492,7 @@ footer {
   max-height: 120px;
 }
 
-/* RESPONSIVE */
+
 @media(max-width:768px) {
   .nav-links {
     display: none;
@@ -1554,7 +1545,7 @@ footer {
 .chat-item:hover .btn-delete-chat {
   opacity: 1;
 }
-/* ── MODE ECO (dia clar) ── */
+
 [data-theme="eco"] {
   --bg: #f0f4f0;
   --surface: #ffffff;
@@ -1611,7 +1602,7 @@ footer {
   color: var(--text);
 }
 
-/* ── INTERRUPTOR ECO ── */
+
 .eco-switch {
   position: relative;
   display: inline-flex;
@@ -1632,22 +1623,19 @@ footer {
   background: var(--surface2);
   border: 1px;
 }
-/* ═══════════════════════════════════════════════════════
-   ── INTERRUPTOR ECO (ESTILO MÓVIL PÍLDORA) ──
-   ═══════════════════════════════════════════════════════ */
+
 
 .eco-switch {
   position: relative;
   display: inline-flex;
   align-items: center;
   cursor: pointer;
-  /* Eliminamos padding/margin extra para que el cursor no falle */
+
   padding: 0;
   margin: 0;
   vertical-align: middle;
 }
 
-/* Ocultamos el checkbox de forma accesible (sigue siendo funcional) */
 .eco-switch input {
   opacity: 0;
   width: 0;
@@ -1655,51 +1643,62 @@ footer {
   position: absolute;
 }
 
-/* ── EL DESLIZADOR (LA PÍLDORA DE FONDO) ── */
 .eco-slider {
-  position: relative; /* Importante para posicionar el círculo dentro */
+  position: relative;
   display: inline-block;
   width: 50px;
   height: 26px;
-  /* Color Rojo OFF (puedes usar var(--error) de tu tema eco si prefieres) */
+
   background-color: #EF5350; 
-  border-radius: 13px; /* Forma de píldora perfecta (la mitad de la altura) */
-  transition: background-color 0.3s ease; /* Transición suave de color al encender */
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); /* Efecto de profundidad sutil */
+  border-radius: 13px; 
+  transition: background-color 0.3s ease; 
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); 
 }
 
-/* ── EL CÍRCULO (EL KNOB/BOTÓN MÓVIL) ── */
+
 .eco-knob {
   position: absolute;
-  /* Centramos verticalmente el círculo */
-  top: 2px; /* Margen superior de 2px (calculado: (26-22)/2) */
-  left: 2px; /* Margen izquierdo de 2px */
-  width: 22px; /* Tamaño del círculo (un poco más pequeño que la píldora) */
+
+  top: 2px; 
+  left: 2px; 
+  width: 22px; 
   height: 22px;
-  background-color: #FFFFFF; /* Círculo blanco */
-  border-radius: 50%; /* Círculo perfecto */
-  transition: transform 0.3s ease-in-out; /* Transición suave del movimiento */
-  /* Sombra para el relieve del círculo (¡clave para el look móvil!) */
+  background-color: #FFFFFF; 
+  border-radius: 50%; 
+  transition: transform 0.3s ease-in-out; 
+
   box-shadow: 0 2px 5px rgba(0,0,0,0.25);
 }
 
-/* ═══════════════════════════════════════════════════════
-   LÓGICA DE ESTADOS Y TRANSICIÓN (LA MAGIA)
-   ═══════════════════════════════════════════════════════ */
 
-/* Cuando el checkbox oculto está MARCADO (:checked) */
-
-/* 1. Cambiamos el color de fondo de la píldora */
 .eco-switch input:checked + .eco-slider {
-  /* Color Verde ON (puedes usar var(--success) de tu tema eco si prefieres) */
+
   background-color: #2ECC71;
 }
 
-/* 2. Desplazamos el círculo hacia la derecha */
 .eco-switch input:checked + .eco-slider .eco-knob {
-  /* Movemos el círculo 24px a la derecha. 
-     (Píldora: 50px. Círculo: 22px. Margen: 2px. 
-     Desplazamiento total final: 50 - 22 - 2 = 26px de posición. 
-     Como partimos de 2px, nos movemos 24px.) */
+
   transform: translateX(24px); 
+}
+
+/* ═══════════════════════════════════════════════════════
+   ── INTERCAMBIO DE LOGO (OSCURO / ECO) ──
+   ═══════════════════════════════════════════════════════ */
+
+/* 1. Por defecto (Modo Oscuro): Ocultamos el logo claro */
+.logo .logo-light {
+  display: none;
+}
+
+.logo .logo-dark {
+  display: block; /* Muestra el logo original */
+}
+
+/* 2. Cuando el Modo Eco está activo: Invertimos la visibilidad */
+[data-theme="eco"] .logo .logo-dark {
+  display: none; /* Oculta el logo original */
+}
+
+[data-theme="eco"] .logo .logo-light {
+  display: block; /* Muestra el logo para fondos claros */
 }
